@@ -1,23 +1,34 @@
-## Sumário
+# 📊 Monitoramento de Gastos Públicos
+Projeto desenvolvido para a disciplina Métodos de Desenvolvimento de Software da Universidade de Brasília, no segundo semestre de 2024.
+## 🗂️ Sumário
+- [📜 Descrição do Projeto](#descrição-do-projeto)
+- [✔️ Funcionalidades](#funcionalidades)
+- [💻 Tecnologias Utilizadas](#tecnologias-utilizadas)
+- [📋 Estrutura do Projeto](#estrutura-do-projeto)
+- [🚀 Como Executar o Projeto](#como-executar-o-projeto)
+- [📚 Documentação](#documentação)
+- [👥 Colaboradores](#colaboradores)
 
-- [Sobre o Projeto](#sobre-o-projeto)
-- [equipe](#equipe)
+## 📜 Descrição do Projeto
+*Monitoramento de Gastos Públicos* é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas municipais 🌟
 
-# Sobre o Projeto
 
-**Monitoramento de Gastos Públicos** é um projeto da matéria Métodos de Desenvolvimento de Software, o qual visa identificar padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas municipais.
+## ✔️ Funcionalidades
+-
 
-## Como executar o projeto
+## 💻 Tecnologias Utilizadas
+-
 
-### Pre-requisitos
+## 📋 Estrutura do Projeto
+-
 
-clone o repositório do projeto:
+## 🚀 Como Executar o Projeto
+-
 
-```bash
-git clone https://github.com/unb-mds/2024-2-Squad06.git
-```
+## 📚 Documentação
+A documentação completa do projeto pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/tree/Documents).
 
-## Equipe
+## 👥 Colaboradores
 
 <center>
 <table style="margin-left: auto; margin-right: auto;">
