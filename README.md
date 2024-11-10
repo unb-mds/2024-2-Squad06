@@ -1,32 +1,36 @@
 # 📊 Monitoramento de Gastos Públicos
 Projeto desenvolvido para a disciplina Métodos de Desenvolvimento de Software da Universidade de Brasília, no segundo semestre de 2024.
 ## 🗂️ Sumário
-- [📜 Descrição do Projeto](#descrição-do-projeto)
-- [✔️ Funcionalidades](#funcionalidades)
-- [💻 Tecnologias Utilizadas](#tecnologias-utilizadas)
-- [📋 Estrutura do Projeto](#estrutura-do-projeto)
-- [🚀 Como Executar o Projeto](#como-executar-o-projeto)
-- [📚 Documentação](#documentação)
-- [👥 Colaboradores](#colaboradores)
+- [📜 Descrição do Projeto](#-descrição-do-projeto)
+- [✔️ Funcionalidades](#-funcionalidades)
+- [💻 🛠️ Ferramentas Utilizadas](#️-ferramentas-utilizadas)
+- [📋 Estrutura do Projeto](#-estrutura-do-projeto)
+- [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
+- [📚 Documentação](#-documentação)
+- [👥 Colaboradores](#-colaboradores)
 
 ## 📜 Descrição do Projeto
-*Monitoramento de Gastos Públicos* é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas municipais 🌟
+*Monitoramento de Gastos Públicos* é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas de Belo Horizonte, MG. 🌟
 
 
 ## ✔️ Funcionalidades
 -
 
-## 💻 Tecnologias Utilizadas
--
+## 🛠️ Ferramentas Utilizadas
 
+- **HTML e CSS**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
+- **Python**: Linguagem de programação utilizada para o desenvolvimento de scripts e automações, além de integração com outras partes do projeto.
+- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de municípios, como o de Minas Gerais, facilitando o acesso a informações sobre gastos públicos municipais.
 ## 📋 Estrutura do Projeto
+
 -
 
 ## 🚀 Como Executar o Projeto
--
+
+- 
 
 ## 📚 Documentação
-A documentação completa do projeto pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/tree/Documents).
+A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).
 
 ## 👥 Colaboradores
 
