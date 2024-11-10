@@ -3,7 +3,7 @@ Projeto desenvolvido para a disciplina Métodos de Desenvolvimento de Software d
 ## 🗂️ Sumário
 - [📜 Descrição do Projeto](#-descrição-do-projeto)
 - [✔️ Funcionalidades](#-funcionalidades)
-- [💻 🛠️ Ferramentas Utilizadas](#️-ferramentas-utilizadas)
+- [🛠️ Ferramentas Utilizadas](#️-ferramentas-utilizadas)
 - [📋 Estrutura do Projeto](#-estrutura-do-projeto)
 - [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
 - [📚 Documentação](#-documentação)
