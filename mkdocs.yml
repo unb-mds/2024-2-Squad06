@@ -1,0 +1,45 @@
+site_name: Docs - Monitoramento de Gastos Públicos
+repo_url: https://github.com/unb-mds/2024-2-Squad06
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - content.code.copyZ
+  palette: 
+    - scheme: light
+      primary: "amber"
+      toggle:
+        icon: material/weather-night
+        name: Modo escuro
+
+    - scheme: slate
+      primary: "amber"
+      toggle:
+        icon: material/weather-sunny
+        name: Modo claro
+  icon:
+    repo: fontawesome/brands/github
+
+markdown_extensions:
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences
+
+nav:
+  - Home: index.md
+  - Visão do Produto: visao-produto.md
+  - Materiais de Estudo: materiais-estudo.md
+  - Sprints:
+    - Sprint 0:
+      - Planejamento: "Atas de Reunião/Sprint-0/ata(28-10-2024).md"
+      - Conhecimento: "Atas de Reunião/Sprint-0/ata(01-11-2024 ).md"
+    - Sprint 1:
+      - Retrospectiva: "Atas de Reunião/Sprint-1/ata(03-11-2024 ).md"
+
+  - Arquitetura: arquitetura.md
