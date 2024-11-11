@@ -16,7 +16,7 @@ hide:
 
 ## Sobre
 
-O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, no qual será fornecido uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas municipais.
+O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, no qual será fornecido uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas municipais de Belo Horizonte (MG).
 
 ## Equipe
 
