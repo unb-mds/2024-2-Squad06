@@ -1,5 +1,5 @@
 # 📊 Monitoramento de Gastos Públicos
-Projeto desenvolvido para a disciplina Métodos de Desenvolvimento de Software da Universidade de Brasília, no segundo semestre de 2024.
+Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de Software na Universidade de Brasília (UnB) durante o segundo semestre de 2024
 ## 🗂️ Sumário
 - [📜 Descrição do Projeto](#-descrição-do-projeto)
 - [✔️ Funcionalidades](#-funcionalidades)
@@ -7,30 +7,78 @@ Projeto desenvolvido para a disciplina Métodos de Desenvolvimento de Software d
 - [📋 Estrutura do Projeto](#-estrutura-do-projeto)
 - [🚀 Como Executar o Projeto](#-como-executar-o-projeto)
 - [📚 Documentação](#-documentação)
+- [🤝 Como Contribuir](#-como-contribuir)
 - [👥 Colaboradores](#-colaboradores)
+- [📍 Licença](#-licença)
 
 ## 📜 Descrição do Projeto
-*Monitoramento de Gastos Públicos* é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos,fornecedores recorrentes e possíveis irregularidades nas contas de Belo Horizonte, MG. 🌟
+*Monitoramento de Gastos Públicos* é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas dos municípios do estado de Alagoas.
 
 
 ## ✔️ Funcionalidades
--
+
+Esta seção será atualizada com uma lista das principais funcionalidades do projeto em breve.
 
 ## 🛠️ Ferramentas Utilizadas
 
 - **HTML e CSS**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
-- **Python**: Linguagem de programação utilizada para o desenvolvimento de scripts e automações, além de integração com outras partes do projeto.
-- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de municípios, como o de Minas Gerais, facilitando o acesso a informações sobre gastos públicos municipais.
+- **Python**: Linguagem de programação utilizada para o desenvolvimento do backend e automações.
+- **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
+- **React**: Biblioteca JavaScript utilizada para o desenvolvimento do frontend, oferecendo uma interface dinâmica e responsiva.
+- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais dos municípios do estado de Alagoas, facilitando o acesso a informações sobre gastos públicos municipais.
+
 ## 📋 Estrutura do Projeto
 
--
+Estrutura detalhada será adicionada em breve.
 
 ## 🚀 Como Executar o Projeto
 
-- 
+Instruções detalhadas de execução serão adicionadas em breve.
 
 ## 📚 Documentação
 A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).
+
+## 🤝 Como Contribuir
+
+Se você deseja colaborar com o projeto, siga as etapas abaixo:
+
+1. **Faça um fork deste repositório** clicando no botão "Fork" no canto superior direito da página.
+
+2. **Clone o repositório forkado** para a sua máquina:
+   ```bash
+   git clone https://github.com/unb-mds/2024-2-Squad06
+   ```
+
+3. **Crie uma branch** para realizar suas alterações:
+   ```bash
+   git checkout -b minha-feature
+   ```
+
+4. Faça as alterações desejadas no código e adicione os arquivos modificados ao controle de versão:
+   ```bash
+   git add .
+   ```
+
+5. Realize o commit das suas alterações:
+   ```bash
+   git commit -m "Descrição clara da feature ou correção"
+   ```
+
+6. Envie as alterações para o seu fork:
+   ```bash
+   git push origin minha-feature
+   ```
+
+7. **Abra um Pull Request** no repositório original.
+
+### Regras para Colaboração
+- Certifique-se de seguir as convenções de estilo do código adotadas no projeto.
+- Adicione comentários claros para facilitar o entendimento do código.
+- Teste suas alterações localmente antes de abrir o Pull Request.
+- Inclua uma descrição detalhada no Pull Request, explicando as mudanças realizadas.
+
+Caso tenha dúvidas, entre em contato com a equipe do projeto por meio das [issues](https://github.com/unb-mds/2024-2-Squad06/issues).
+
 
 ## 👥 Colaboradores
 
@@ -75,3 +123,8 @@ A documentação completa do projeto pode ser acessada [neste link](https://unb-
         </td>
 </table>
 </center>
+
+## 📍 Licença
+
+Este projeto está licenciado sob a [Licença MIT](https://github.com/unb-mds/2024-2-Squad06/blob/main/LICENSE).
+
