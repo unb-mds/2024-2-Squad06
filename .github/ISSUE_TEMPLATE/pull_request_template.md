@@ -1,6 +1,11 @@
+---
 name: "🔄 Pull Request"
 about: "Solicitação de merge de alterações para o repositório principal"
 title: "[PR] "
+labels: []
+assignees: []
+
+---
 
 ## Descrição
 Explique as alterações realizadas neste Pull Request. Inclua o propósito, o problema que resolve ou a funcionalidade que adiciona.
