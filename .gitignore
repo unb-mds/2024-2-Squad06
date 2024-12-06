@@ -1,1 +1,6 @@
 client/node_modules
+.venv/
+
+server/db.sqlite3
+server/*/migrations/*.py
+server/*/migrations/__init__.py
