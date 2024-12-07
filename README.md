@@ -32,7 +32,69 @@ Esta seção será atualizada com uma lista das principais funcionalidades do pr
 
 ## 📋 Estrutura do Projeto
 
-Estrutura detalhada será adicionada em breve.
+```
+root/
+├──  client/
+│   ├──  node_modules/
+│   ├──  public/
+│   ├──  src/
+│   │   ├── components/
+│   │   │   ├── Componentes do projeto
+│   │   ├── hooks/
+│   │   │   ├── Hooks personalizados do projeto
+│   │   ├── pages/
+│   │   │   ├── Páginas do projeto
+│   │   ├── services/
+│   │   │   ├── serviços para comunicação do front com o back
+│   │   ├── App.css
+│   │   ├── App.tsx
+│   │   ├── index.css
+│   │   ├── index.tsx
+│   │   ├── setupTests.ts
+│   │   └── react-app-env.d.ts
+│   ├── tailwind.config.js
+│   ├── tsconfig.json
+│   ├── package.json
+│   └── README.md
+├──  server/
+│   ├── apps/
+│   │   ├── gastos_publicos/
+│   │   │   ├── controllers/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── example_controller.py
+│   │   │   ├── middlewares/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── example_middleware.py
+│   │   │   ├── migrations/
+│   │   │   │   ├── __init__.py
+│   │   │   ├── routes/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── example_routes.py
+│   │   │   ├── services/
+│   │   │   │   ├── __init__.py
+│   │   │   │   └── example_service.py
+│   │   │   ├── utils/
+│   │   │   │   ├── __init__.py
+│   │   │   │   ├── admin.py
+│   │   │   │   ├── apps.py
+│   │   │   │   ├── models.py
+│   │   │   │   ├── tests.py
+│   │   │   │   └── views.py
+│   │   │   └── __init__.py
+│   │   ├── server/
+│   │   ├── __init__.py
+│   │   ├── asgi.py
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── .env
+│   ├── manage.py
+│   ├── README.md
+│   └── requirements.txt
+├── .gitignore
+└── README.md
+
+```
 
 ## 🚀 Como Executar o Projeto
 
