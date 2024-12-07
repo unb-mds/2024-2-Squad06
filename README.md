@@ -58,9 +58,19 @@ Estrutura detalhada será adicionada em breve.
 
 1. Navegue para a pasta `server/`, usando o comando:
    ```
-   cd server/
+        cd server/
    ```
-2. Siga o passo a passo do [README](/server/README.md) do back
+2. Crie um arquivo `.env` na pasta `server/`, com os seguintes valores:
+
+   ```.env
+       DB_NAME=nome_do_banco
+       DB_USER=usuario
+       DB_PASSWORD=senha
+       DB_HOST=localhost
+       DB_PORT=3306
+   ```
+
+3. Siga o passo a passo do [README](/server/README.md) do back
 
 ## 📚 Documentação
 
