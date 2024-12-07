@@ -1,6 +1,49 @@
-client/node_modules
-.venv/
+# Frontend
+# dependencies
+client/node_modules/
+client/.pnp/
+client/.pnp.js
 
+# testing
+client/coverage/
+
+# production
+client/build/
+
+# misc
+client/.DS_Store
+client/.env.local
+client/.env.development.local
+client/.env.test.local
+client/.env.production.local
+
+client/npm-debug.log*
+client/yarn-debug.log*
+client/yarn-error.log*
+
+# Backend
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Environment variables
 server/.env
-server/*/migrations/*.py
-server/*/migrations/__init__.py
+
+# Compiled Python files
+server/**/*.pyc
+server/**/__pycache__/
+
+# Django migrations (except __init__.py)
+server/*/migrations/[!__init__]*.py
+server/*/migrations/[!__init__]*.pyc
+
+# Miscellaneous
+*.log
+*.sqlite3
+*.swp
+*.swo
+
+# IDE files
+.vscode/
+.idea/
