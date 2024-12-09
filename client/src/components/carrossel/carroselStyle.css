@@ -1,0 +1,94 @@
+/*contêiner do carrossel */
+.carrossel-container {
+  position: relative;
+  justify-content: center;
+  padding: 1rem;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 15rem;
+  width: 60rem;
+}
+
+
+/* Estilo para as setas de navegação */
+.carousel-control-prev, 
+.carousel-control-next {
+  position: absolute;
+  bottom: 0.5rem; 
+  top: auto;   
+  z-index: 10;  
+}
+
+.carousel-control-prev {
+  left: 0rem;
+}
+
+.carousel-control-next {
+  right: 0rem;
+}
+
+
+
+/* Estilo para o contêiner da imagem e texto */
+.carousel-item-container {
+  position: relative;
+  width: 60rem;
+  height: 20rem;
+}
+
+/*barra inferior*/
+.carousel-item-container::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 15%; 
+  background-color: #112632;
+}
+
+/* imagem */
+.carousel-item-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Estilo para o texto titulo sobre a imagem */
+.carousel-item-text {
+  position: absolute;
+  font-family:Serif;
+  bottom: 10rem; 
+  left: 1rem;   
+  color: white; 
+  background-color: rgba(0, 0, 0, 0.5); 
+  padding: 1rem;
+  font-size: 1.5rem; 
+  font-weight: bold; 
+  max-width: 80%; 
+  word-wrap: break-word; 
+}
+/*corpo do texto*/
+.carousel-item-body{
+  position: absolute;
+  font-family:Serif;
+  bottom: 4rem; 
+  left: 1rem;  
+  color: rgb(0, 0, 0); 
+  padding: 1rem;
+  font-size: 0.8rem; 
+  max-width: 80%;
+  word-wrap: break-word; 
+  
+}
+/*cor*/
+.carousel-item-transcicao{
+  content: "";
+  position: absolute;
+  bottom: 2rem;
+  left: 0;
+  width: 100%;
+  height: 100%; 
+  background: linear-gradient(to top, rgb(255, 255, 255) 30%, rgba(52, 152, 219, 0) 100%);
+  opacity: 1; /* Controla a opacidade da sobreposição */
+}
