@@ -1,0 +1,44 @@
+.Gastos {
+    display: flex;                
+    flex-direction: column;       
+    justify-content: left;      
+    align-items: center;          
+    padding: 0 1.25rem;           
+    text-align: left;             
+    background-color: #f9f9f9;   
+}
+  
+.Gastos h1 {
+    font-size: 2.5rem;            
+    margin-bottom: 1.25rem;       
+    text-align: center;
+}
+  
+.Gastos p {
+    font-size: 1.2rem;            
+    line-height: 1.6;             
+    margin-bottom: 0.9375rem;     
+    max-width: 50rem;             
+    width: 100%;                  
+}
+
+.Gastos ul {
+    list-style-type: disc;        
+    margin-left: 0;             
+    padding-left: 0;             
+    font-size: 1.2rem;            
+    line-height: 1.6;            
+    text-align: left;             
+    width: 50%;                    
+    margin: 0 auto;
+    margin-bottom: 1rem; 
+    justify-content: left;           
+}
+
+.Gastos ul li {
+    margin-bottom: 0.9375rem;     
+    color: black;                  
+    font-size: 1.2rem;            
+    line-height: 1.6;  
+    width: 100%;         
+}

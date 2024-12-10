@@ -1,10 +1,9 @@
 .SobreNos {
     display: flex;               
     flex-direction: column;      
-    justify-content: center;    
+    justify-content: left;    
     align-items: center;         
     padding: 0 1.25rem;          /* Substituído 20px por 1.25rem */
-    min-height: 100vh;            
     text-align: left;           
     background-color: #f9f9f9;    
   }
