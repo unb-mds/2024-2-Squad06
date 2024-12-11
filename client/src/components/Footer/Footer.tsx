@@ -10,7 +10,7 @@ return (
         <div id="title_footer">Gastos Públicos</div>
     </div>
     <ul className="navigation__footer">
-        <li><a className="navigation__footerLink" href="" target="_blank" rel="noopener noreferrer">Gastos</a></li>
+        <li><a className="navigation__footerLink" href="/Gastos" target="_blank" rel="noopener noreferrer">Gastos</a></li>
         <li><a className="navigation__footerLink" href="" target="_blank" rel="noopener noreferrer">Monitoramento</a></li>
         <li><a className="navigation__footerLink" href="/SobreProjeto" target="_blank" rel="noopener noreferrer">Sobre o projeto</a></li>
         <li><a className="navigation__footerLink" href="/SobreNos" target="_blank" rel="noopener noreferrer">Sobre nós</a></li>

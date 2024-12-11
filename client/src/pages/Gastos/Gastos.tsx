@@ -5,6 +5,8 @@ import './Gastos.css';
 
 function Gastos() {
     return (
+      <div>
+        <Header/>
         <div className="Gastos">
           <div>
             <h1>O que são Gastos públicos ?</h1>
@@ -24,6 +26,8 @@ function Gastos() {
             </ul>
           </div>
         </div>
+        <Footer/>
+      </div>
     );
   }
 
