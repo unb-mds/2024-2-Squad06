@@ -1,22 +1,26 @@
-/*contêiner do carrossel */
+/* contêiner do carrossel */
 .carrossel-container {
   position: relative;
   justify-content: center;
   padding: 1rem;
   margin-top: 0;
   margin-bottom: 0;
-  margin-left: 15rem;
-  width: 60rem;
+  margin-left: auto;   
+  margin-right: auto;  
+  width: 90%;          
+  max-width: 60rem;    
 }
+
 
 
 /* Estilo para as setas de navegação */
 .carousel-control-prev, 
 .carousel-control-next {
   position: absolute;
-  bottom: 0.5rem; 
-  top: auto;   
-  z-index: 10;  
+  bottom: 0.5rem;
+  top: auto;
+  z-index: 10;
+  font-size: 2rem;  
 }
 
 .carousel-control-prev {
@@ -32,20 +36,21 @@
 /* Estilo para o contêiner da imagem e texto */
 .carousel-item-container {
   position: relative;
-  width: 60rem;
-  height: 20rem;
+  width: 100%;  
+  height: 40vh;  
 }
 
-/*barra inferior*/
+/* Barra inferior */
 .carousel-item-container::after {
   content: "";
   position: absolute;
   bottom: 0;
   left: 0;
   width: 100%;
-  height: 15%; 
+  height: 15%;
   background-color: #112632;
 }
+
 
 /* imagem */
 .carousel-item-image {
@@ -54,33 +59,34 @@
   object-fit: cover;
 }
 
-/* Estilo para o texto titulo sobre a imagem */
+/* Estilo para o texto título sobre a imagem */
 .carousel-item-text {
   position: absolute;
-  font-family:Serif;
-  bottom: 10rem; 
-  left: 1rem;   
-  color: white; 
-  background-color: rgba(0, 0, 0, 0.5); 
+  font-family: Serif;
+  bottom: 50%;
+  left: 1rem;
+  color: white;
+  background-color: rgba(0, 0, 0, 0.5);
   padding: 1rem;
-  font-size: 1.5rem; 
-  font-weight: bold; 
-  max-width: 80%; 
-  word-wrap: break-word; 
-}
-/*corpo do texto*/
-.carousel-item-body{
-  position: absolute;
-  font-family:Serif;
-  bottom: 4rem; 
-  left: 1rem;  
-  color: rgb(0, 0, 0); 
-  padding: 1rem;
-  font-size: 0.8rem; 
+  font-size: 2vw;  
+  font-weight: bold;
   max-width: 80%;
-  word-wrap: break-word; 
-  
+  word-wrap: break-word;
 }
+
+/* Corpo do texto */
+.carousel-item-body {
+  position: absolute;
+  font-family: Serif;
+  bottom: 15%;
+  left: 1rem;
+  color: rgb(0, 0, 0);
+  padding: 1rem;
+  font-size: 1vw;  /* Tamanho da fonte adaptativo */
+  max-width: 80%;
+  word-wrap: break-word;
+}
+
 /*cor*/
 .carousel-item-transcicao{
   content: "";
@@ -91,4 +97,34 @@
   height: 100%; 
   background: linear-gradient(to top, rgb(255, 255, 255) 30%, rgba(52, 152, 219, 0) 100%);
   opacity: 1; /* Controla a opacidade da sobreposição */
+}
+
+@media (max-width: 50rem) {
+  .carrossel-container {
+    width: 100%;  
+    margin-left: 0;
+    margin-right: 0;
+  }
+
+  .carousel-item-container {
+    height: 30vh;  
+  }
+
+  .carousel-item-text {
+    font-size: 4vw; 
+    bottom: 50%;
+  }
+
+  .carousel-item-body {
+    font-size: 2vw;  
+    bottom: 10%;
+  }
+  .carousel-control-prev, 
+.carousel-control-next {
+  position: absolute;
+  bottom: 0.1rem;
+  top: auto;
+  z-index: 10;
+  font-size: 1rem; 
+}
 }
