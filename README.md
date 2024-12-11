@@ -16,7 +16,7 @@ Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de S
 
 ## 📜 Descrição do Projeto
 
-_Monitoramento de Gastos Públicos_ é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas dos municípios do estado de Alagoas.
+_Monitoramento de Gastos Públicos_ é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas do município de Maceió
 
 ## ✔️ Funcionalidades
 
@@ -28,7 +28,7 @@ Esta seção será atualizada com uma lista das principais funcionalidades do pr
 - **Python**: Linguagem de programação utilizada para o desenvolvimento do backend e automações.
 - **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
 - **React com Typescript**: Biblioteca JavaScript, com suporte a typescript, utilizada para o desenvolvimento do frontend, oferecendo uma interface dinâmica e responsiva.
-- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais dos municípios do estado de Alagoas, facilitando o acesso a informações sobre gastos públicos municipais.
+- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de Maceió, AL, facilitando o acesso a informações sobre gastos públicos municipais.
 
 ## 📋 Estrutura do Projeto
 
