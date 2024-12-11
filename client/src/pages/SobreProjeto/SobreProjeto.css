@@ -1,0 +1,28 @@
+.SobreProjeto {
+    display: flex;                /* Ativa o Flexbox */
+    flex-direction: column;       /* Organiza os itens na direção vertical */
+    justify-content: left;      /* Centraliza o conteúdo verticalmente */
+    align-items: center;          /* Centraliza o conteúdo horizontalmente */
+    padding: 0 1.25rem; 
+    text-align: left;          /* Substituído 20px por 1.25rem */
+    min-height: 100vh;            /* Garante que a altura mínima ocupe toda a tela */
+    text-align: left;             /* Alinha o texto à esquerda */
+    background-color: #f9f9f9;    /* Cor de fundo (opcional) */
+}
+  
+.SobreProjeto h1 {
+    font-size: 2.5rem;            /* Tamanho do título */
+    margin-bottom: 1.25rem;       /* Substituído 20px por 1.25rem */
+}
+  
+.SobreProjeto p {
+    font-size: 1.2rem;            /* Tamanho do texto */
+    line-height: 1.6;             /* Espaçamento entre as linhas do parágrafo */
+    margin-bottom: 0.9375rem;     /* Substituído 15px por 0.9375rem */
+    max-width: 50rem;             /* Substituído 800px por 50rem (considerando 1rem = 16px) */
+    width: 100%;                  /* Ocupa 100% da largura disponível */
+}
+
+.Band-Alagoas {
+    padding: 1.25rem;             /* Substituído 20px por 1.25rem */
+}
