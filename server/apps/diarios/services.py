@@ -3,6 +3,9 @@ import re
 import os
 import json
 from datetime import datetime, timedelta
+from .models import Diario
+from decouple import config
+import mysql.connector
 
 BASE_URL = "https://queridodiario.ok.org.br/api"
 DOWNLOAD_DIR = "diarios_download"
@@ -65,15 +68,15 @@ def processar_diarios(diarios):
                 valores = extrair_valores(conteudo)
                 
             valor_final = sum(converter_para_float(v) for v in valores)
-            valor_final_string = f"R$ {valor_final:.2f}"
             
             resultados.append({
                 "date": diario["date"],
                 "url": diario["url"],
+                "excerpts": diario.get("excerpts"),
                 "edition": diario.get("edition"),
+                "is_extra_edition": diario.get("is_extra_edition"),
                 "txt_url": diario.get("txt_url"),
                 "valor_final": valor_final,
-                "soma_valores_string": valor_final_string
             })
         except Exception as e:
             print(f"Erro ao processar diário: {e}")
@@ -89,8 +92,31 @@ def limpar_pasta(pasta):
                 os.remove(caminho_arquivo)
         except Exception as e:
             print(f"Erro ao apagar arquivo {caminho_arquivo}: {e}")
+            
+from .models import Diario
+
+def salvar_resultados_no_banco(resultados):
+    diarios_a_inserir = []
+    for resultado in resultados:
+        # Verifica se o diário já existe no banco de dados com base no campo txt_url
+        if not Diario.objects.filter(txt_url=resultado["txt_url"]).exists():
+            diarios_a_inserir.append(Diario(
+                date=resultado["date"],
+                url=resultado["url"],
+                edition=resultado["edition"],
+                txt_url=resultado["txt_url"],
+                valor_final=resultado["valor_final"],
+                is_extra_edition=resultado.get("is_extra_edition", False),
+            ))
+    
+    # Insere todos os registros de uma vez
+    if diarios_a_inserir:
+        Diario.objects.bulk_create(diarios_a_inserir)
+
+
 
 if __name__ == "__main__":
+    #teste para ver as funcionalidades
     query = ["licitacao", "contratacao"]
     
     try:
