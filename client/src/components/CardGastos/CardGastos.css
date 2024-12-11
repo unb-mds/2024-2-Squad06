@@ -3,10 +3,11 @@
     border-radius: none;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     padding: 1.25rem;
-    max-width: 25%; /* A largura agora é 100% da tela */
+    max-width: 30%; /* A largura agora é 30% da tela */
     width: 100%;
     text-align: center;
-    max-height: 20rem;
+    max-height: 25%; /* A altura agora é 25% da tela */
+    margin: 1.25rem 0;
 }
 
 .title_box {

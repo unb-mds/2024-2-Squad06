@@ -9,7 +9,7 @@
   display: flex;
   justify-content: center;
   flex-direction: row; 
-  column-gap: 5rem;  
+  column-gap: 8.5rem;  /*Aumento do Gap*/ 
   align-items: center;
   padding-top: 2rem;
 }
@@ -58,6 +58,7 @@
   padding: 0;
   margin: 0;
 }
+
 
 .navigation__footer a {
   color: white;

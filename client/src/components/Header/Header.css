@@ -2,7 +2,7 @@ header {
   background-color: #116FBB;
   display: flex;
   align-items: center;
-  column-gap: 2rem;  
+  column-gap: 8.5rem;  /*Aumento do Gap*/
   width: 100%;
   padding-top: 0.0625rem;  
   padding-bottom: 0.125rem; 

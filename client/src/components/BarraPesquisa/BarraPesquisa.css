@@ -1,115 +1,54 @@
 .search-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    margin: 1.25rem 0; 
-  }
-  
-  #barraPesquisa {
-    width: 60vw;
-    padding: 0.625rem 0;
-    font-size: 1rem;
-    border: none;
-    border-radius: 0; 
-    outline: none; 
-    box-shadow: inset 0 -0.125rem 0 0 #363636;
-    margin-right: 1.25rem;
-    }
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  margin: 1.25rem 0; 
+}
 
-    #botaoPesquisa {
-        background-color: #116FBB;
-        color: white;
-        border: none;
-        border-radius: 1.5625rem;
-        padding: 0.75vw 4vw; 
-        font-size: 1rem;
-        cursor: pointer;
-        height: 2.5rem;
-        transition: 0.5s;
-    }
-
-    
-    #botaoPesquisa:hover {
-        background-color: #112632; /* Cor do fundo no hover */
-        transition: 0.5s;
-    }
-  
-  .lupa {
-    width: 1.5rem;
-    height: 1.5rem;
-    margin-right: 1rem;
+#barraPesquisa {
+  width: 60vw;
+  padding: 0.625rem 0;
+  font-size: 1rem;
+  border: none;
+  border-radius: 0; 
+  outline: none; 
+  box-shadow: inset 0 -0.125rem 0 0 #363636;
+  margin-right: 1.25rem;
   }
 
-  .filtro {
-    width: 2.1rem;
-    height: 2.1rem;
-    margin-left: 1rem;
-  }
-  
-  @media (max-width: 580px){
-    .lupa {
-      display: none; /* Esconde a lupa em telas pequenas */
-    }
-  } /* Estilo do contêiner da pesquisa */
-  .search-container {
-      display: flex;
-      flex-direction: row;
-      justify-content: center;
-      align-items: center;
-      margin: 1.25rem 0; /* Margem acima e abaixo do contêiner */
-    }
-    
-    /* Estilo do campo de entrada */
-    #barraPesquisa {
-      width: 60vw;
-      padding: 10px 0;
-      font-size: 16px;
-      border: none;
-      border-radius: 0; /* Bordas arredondadas */
-      outline: none; /* Remove a borda de foco */
-      transition: box-shadow 0.3s ease; /* Transição suave */
-      box-shadow: inset 0 -2px 0 0 #363636;
-      margin-right: 20px; 
-    }
-    
-    /* Efeito de foco do campo de pesquisa */
-    #barraPesquisa:focus {
-      box-shadow: inset 0 -2px 0 0 #363636;
-    }
-    
-    /* Estilo do botão de pesquisa */
-    #botaoPesquisa {
+  #botaoPesquisa {
       background-color: #116FBB;
       color: white;
       border: none;
-      border-radius: 25px; /* Bordas arredondadas */
-      padding: 0.75vw 4vw; /* Aumentei o padding interno usando rem */
-      font-size: 1rem; /* Tamanho da fonte igual ao da barra de pesquisa */
+      border-radius: 1.5625rem;
+      padding: 0.75vw 4vw; 
+      font-size: 1rem;
       cursor: pointer;
-      height: 40px;
+      height: 2.5rem;
       transition: 0.5s;
-    }
-    
-    #botaoPesquisa:hover {
-      background-color: #116FBB; /* Cor do fundo no hover */
-      filter: brightness(0.8); /* Reduz o brilho para criar um efeito acinzentado */
-    }
-    
-    .lupa {
-      width: 1.5rem;
-      height: 1.5rem;
-      margin-right: 1rem;
-    }
+  }
+
   
-    .filtro {
-      width: 2.1rem;
-      height: 2.1rem;
-      margin-left: 1rem;
-    }
-    
-    @media (max-width: 580px){
-      .lupa {
-        display: none; /* Esconde a lupa em telas pequenas */
-      }
-    } 
+  #botaoPesquisa:hover {
+      background-color: #112632; /* Cor do fundo no hover */
+      transition: 0.5s;
+  }
+
+.lupa {
+  width: 1.5rem;
+  height: 1.5rem;
+  margin-right: 1rem;
+}
+
+.filtro {
+  width: 2.1rem;
+  height: 2.1rem;
+  margin-left: 1rem;
+}
+
+@media (max-width: 580px){
+  .lupa {
+    display: none; 
+  }
+} 
