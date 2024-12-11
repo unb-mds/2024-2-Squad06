@@ -1,28 +1,29 @@
 .SobreProjeto {
-    display: flex;                /* Ativa o Flexbox */
-    flex-direction: column;       /* Organiza os itens na direção vertical */
-    justify-content: left;      /* Centraliza o conteúdo verticalmente */
-    align-items: center;          /* Centraliza o conteúdo horizontalmente */
+    display: flex;                
+    flex-direction: column;       
+    justify-content: left;     
+    align-items: center;          
     padding: 0 1.25rem; 
-    text-align: left;          /* Substituído 20px por 1.25rem */
-    min-height: 100vh;            /* Garante que a altura mínima ocupe toda a tela */
-    text-align: left;             /* Alinha o texto à esquerda */
-    background-color: #f9f9f9;    /* Cor de fundo (opcional) */
+    text-align: left;          
+    min-height: 100vh;            
+    text-align: left;             
+    background-color: white;   
+    margin: 20px 0;
 }
   
 .SobreProjeto h1 {
-    font-size: 2.5rem;            /* Tamanho do título */
-    margin-bottom: 1.25rem;       /* Substituído 20px por 1.25rem */
+    font-size: 2.5rem;            
+    margin-bottom: 1.25rem;       
 }
   
 .SobreProjeto p {
-    font-size: 1.2rem;            /* Tamanho do texto */
-    line-height: 1.6;             /* Espaçamento entre as linhas do parágrafo */
-    margin-bottom: 0.9375rem;     /* Substituído 15px por 0.9375rem */
-    max-width: 50rem;             /* Substituído 800px por 50rem (considerando 1rem = 16px) */
-    width: 100%;                  /* Ocupa 100% da largura disponível */
+    font-size: 1.2rem;            
+    line-height: 1.6;            
+    margin-bottom: 0.9375rem;     
+    max-width: 50rem;             
+    width: 100%;                  
 }
 
 .Band-Alagoas {
-    padding: 1.25rem;             /* Substituído 20px por 1.25rem */
+    padding: 1.25rem;             
 }

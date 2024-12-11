@@ -5,7 +5,8 @@
     align-items: center;         
     padding: 0 1.25rem;          /* Substituído 20px por 1.25rem */
     text-align: left;           
-    background-color: #f9f9f9;    
+    background-color: white;   
+    margin: 20px 0;    
   }
   
   .SobreNos h1 {
