@@ -1,7 +1,6 @@
 import React from 'react';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
-import Bandeira from '../assets/BandAlagoas.png';
+import Header from '../../components/Header/Header';
+import Footer from '../../components/Footer/Footer';
 import './SobreProjeto.css';
 
 function SobreProjeto() {
@@ -27,13 +26,9 @@ function SobreProjeto() {
             <p>
                 Nosso objetivo é contribuir para o fortalecimento da cidadania ativa e do controle social, proporcionando maior transparência e compreensão sobre a alocação dos recursos públicos no estado de Alagoas.
             </p>
-            <img src={Bandeira} className='Band-Alagoas' alt='Bandeira Alagoas' />
-            
-
+            <img src='/assets/BandAlagoas.png' className='Band-Alagoas' alt='Bandeira Alagoas' />
         </div>
-
         <Footer />
-
       </div>
     );
   }
