@@ -57,7 +57,7 @@
     background-color: #ddd;
     margin: 0 0 1.25rem 0;
 }
-@media (max-width: 63rem) {
+@media (max-width: 1008px) {
     .content-block {
             max-width: 21.875rem;
             width: 100%;
