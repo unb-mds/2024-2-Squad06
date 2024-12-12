@@ -1,31 +1,78 @@
 .App-footer {
-    background-color: #112632;
-    color: white; 
-    text-align: center;  
-    padding: 20px 0;  
-    position: relative;
-    bottom: 0;
-    width: 100%;
+  background-color: #112632;
+  color: white;
+  text-align: center;
+  padding: 1.25rem 0;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: row; 
+  column-gap: 8.5rem;  
+  align-items: center;
+  padding-top: 2rem;
+}
+
+@media (max-width: 860px) {
+  .App-footer {
+    flex-direction: column;  
+    justify-content: center;  
+    align-items: center; 
+  }
+
+  .navigation__footer {
+    flex-direction: column;  
+    row-gap: 1rem; 
+    padding: 0;
+  }
+
+  .logo-container {
+    margin-bottom: 0rem;  
     display: flex;
-    justify-content:center;
-    flex-direction: row;
-    column-gap: 32px;  
-    align-items: center;
-  }  
+    justify-content: center; 
+    align-items: center; 
+  }
+
+  .Unb-logo {
+    max-width: 4rem;
+    align-self: center;  
+  }
+}
+
+
+#title_footer {
+  font-family: var(--main-font);
+  font-size: 1rem;
+  color: white;
+  font-weight: bold;
+  margin: 0;
+}
 
 .navigation__footer {
-    display: flex;
-    align-items: center;
-    column-gap: 48px;
-    list-style: none;
-    color: white;
+  display: flex;
+  align-items: center;
+  column-gap: 3rem;
+  list-style: none;
+  color: white;
+  padding: 0;
+  margin: 0;
 }
+
 
 .navigation__footer a {
-  color: white;  
-  text-decoration: none; 
+  color: white;
+  text-decoration: none;
 }
 
-.Unb-logo{
-  max-width: 90px;
+.Unb-logo {
+  max-width: 5.625rem;
+}
+
+.linha {
+  width: 100%;
+  border-bottom: 0.1875rem solid white;
+  position: absolute;  
+  top: 1.25rem;  
+  z-index: 10; 
 }
