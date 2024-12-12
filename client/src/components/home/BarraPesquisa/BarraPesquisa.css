@@ -31,7 +31,7 @@
 
   
   #botaoPesquisa:hover {
-      background-color: #112632; /* Cor do fundo no hover */
+      background-color: #112632; 
       transition: 0.5s;
   }
 
