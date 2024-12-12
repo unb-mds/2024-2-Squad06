@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import BarraPesquisa from '../../components/BarraPesquisa/BarraPesquisa';
+import BarraPesquisa from '../../components/home/BarraPesquisa/BarraPesquisa';
 import CardGasto from '../../components/CardGastos/CardGastos'
 import Carrossel from '../../components/carrossel/carrosel';
 import './Home.css';
