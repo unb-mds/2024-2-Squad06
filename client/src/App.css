@@ -2,17 +2,17 @@ header {
   background-color: #116FBB;
   display: flex;
   align-items: center;
-  column-gap: 32px;  
+  column-gap: 2rem;  
   width: 100%;
-  padding-top: 1px;
-  padding-bottom: 2px;
+  padding-top: 0.0625rem;
+  padding-bottom: 0.125rem;
   flex-direction: row;
   justify-content: center; 
 }
 
 #title {
   font-family: var(--main-font);
-  font-size: 46px;
+  font-size: 2.875rem;
   color: white;
   margin: 0;
 }
@@ -20,7 +20,7 @@ header {
 .navigation {
   display: flex;
   align-items: center;
-  column-gap: 48px;
+  column-gap: 3rem;
   list-style: none;
   color: white;
 }
@@ -31,21 +31,20 @@ header {
 
 .navigation__link {
   color: white;
-  font-size: 14px;
-  font-weight: bold;  /* Altere para 'bold' ou '700' para deixar o texto em negrito */
-  letter-spacing: 2px;
+  font-size: 0.875rem;
+  font-weight: bold;  
+  letter-spacing: 0.125rem;
   text-transform: uppercase;
   position: relative;
 }
-
 
 .navigation__link::after {
   content: '';
   position: absolute;
   left: 0;
-  bottom: -2px;
+  bottom: -0.125rem;
   width: 70%;
-  height: 1px;
+  height: 0.0625rem;
   background: white;
   transform: scaleX(0);
   transform-origin: right;
@@ -59,12 +58,12 @@ header {
 }
 
 .App-logo {
-  max-width: 90px;
+  max-width: 5.625rem;
   margin-bottom: 0;
 }
 
 .unb {
-  max-width: 90px;
+  max-width: 5.625rem;
   margin-bottom: 0;
   display: block;
   margin-left: auto;

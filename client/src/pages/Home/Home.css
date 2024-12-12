@@ -7,7 +7,7 @@
     margin: 1vw 9vw;              
 }
 
-@media (max-width: 1008px) {
+@media (max-width: 63rem) {
     .Cards {
         flex-direction: column;  
         justify-content: flex-start; 

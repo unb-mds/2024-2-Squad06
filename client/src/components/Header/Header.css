@@ -2,7 +2,7 @@ header {
   background-color: #116FBB;
   display: flex;
   align-items: center;
-  column-gap: 8.5rem;  /*Aumento do Gap*/
+  column-gap: 8.5rem;  
   width: 100%;
   padding-top: 0.0625rem;  
   padding-bottom: 0.125rem; 
@@ -10,7 +10,7 @@ header {
   justify-content: center;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 53.75rem) {
   header {
     flex-direction: column; 
     align-items: center;  

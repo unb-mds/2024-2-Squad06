@@ -9,12 +9,12 @@
   display: flex;
   justify-content: center;
   flex-direction: row; 
-  column-gap: 8.5rem;  /*Aumento do Gap*/ 
+  column-gap: 8.5rem;  
   align-items: center;
   padding-top: 2rem;
 }
 
-@media (max-width: 860px) {
+@media (max-width: 53.75rem) {
   .App-footer {
     flex-direction: column;  
     justify-content: center;  
@@ -71,8 +71,8 @@
 
 .linha {
   width: 100%;
-  border-bottom: 3px solid white;
-  position: absolute;  /* Coloca a linha fora do fluxo normal de layout */
-  top: 1.25rem;  /* Mover a linha para baixo, equivalente a 20px (1.25rem) */
-  z-index: 10;  /* Garante que a linha fique acima dos outros elementos */
+  border-bottom: 0.1875rem solid white;
+  position: absolute;  
+  top: 1.25rem;  
+  z-index: 10; 
 }

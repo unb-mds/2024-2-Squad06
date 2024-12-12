@@ -3,32 +3,32 @@
     flex-direction: column;      
     justify-content: left;    
     align-items: center;         
-    padding: 0 1.25rem;          /* Substituído 20px por 1.25rem */
+    padding: 0 1.25rem;          
     text-align: left;           
     background-color: white;   
-    margin: 20px 0;    
+    margin: 1.25rem 0;    
   }
   
   .SobreNos h1 {
-    font-size: 2.5rem;            /* Permaneceu como está, já está em rem */
-    margin-bottom: 1.25rem;       /* Substituído 20px por 1.25rem */
-    text-align: center;           /* Centraliza o texto horizontalmente */
+    font-size: 2.5rem;            
+    margin-bottom: 1.25rem;       
+    text-align: center;           
   }
   
   .SobreNos p {
-    font-size: 1.2rem;            /* Permaneceu como está, já está em rem */
+    font-size: 1.2rem;            
     line-height: 1.6;             
-    margin-bottom: 0.9375rem;     /* Substituído 15px por 0.9375rem */
-    max-width: 50rem;             /* Substituído 800px por 50rem (assumindo base de 16px) */
+    margin-bottom: 0.9375rem;     
+    max-width: 50rem;             
     width: 100%;                 
   }
   
   #AboutFCTE {
-    display: block;               /* Faz a imagem se comportar como um bloco */
-    margin-left: auto;            /* Ajusta a margem esquerda automaticamente */
-    margin-right: auto;           /* Ajusta a margem direita automaticamente */
-    width: 60%;                   /* Define a largura da imagem, ajustável conforme necessário */
-    max-width: 100%;              /* Garante que a imagem não ultrapasse o tamanho do contêiner */
+    display: block;               
+    margin-left: auto;            
+    margin-right: auto;           
+    width: 60%;                   
+    max-width: 100%;              
     padding: 1.25rem; 
   }
   

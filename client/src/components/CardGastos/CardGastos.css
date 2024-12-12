@@ -3,10 +3,10 @@
     border-radius: none;
     box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
     padding: 1.25rem;
-    max-width: 30%; /* A largura agora é 30% da tela */
+    max-width: 30%;
     width: 100%;
     text-align: center;
-    max-height: 25%; /* A altura agora é 25% da tela */
+    max-height: 25%;
     margin: 1.25rem 0;
 }
 
@@ -57,7 +57,7 @@
     background-color: #ddd;
     margin: 0 0 1.25rem 0;
 }
-@media (max-width: 1008px) {
+@media (max-width: 63rem) {
     .content-block {
             max-width: 21.875rem;
             width: 100%;

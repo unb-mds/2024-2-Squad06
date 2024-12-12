@@ -1,4 +1,3 @@
-/* contêiner do carrossel */
 .carrossel-container {
   position: relative;
   justify-content: center;
@@ -13,7 +12,6 @@
 
 
 
-/* Estilo para as setas de navegação */
 .carousel-control-prev, 
 .carousel-control-next {
   position: absolute;
@@ -33,14 +31,12 @@
 
 
 
-/* Estilo para o contêiner da imagem e texto */
 .carousel-item-container {
   position: relative;
   width: 100%;  
   height: 40vh;  
 }
 
-/* Barra inferior */
 .carousel-item-container::after {
   content: "";
   position: absolute;
@@ -52,14 +48,12 @@
 }
 
 
-/* imagem */
 .carousel-item-image {
   width: 100%;
   height: 100%;
   object-fit: cover;
 }
 
-/* Estilo para o texto título sobre a imagem */
 .carousel-item-text {
   position: absolute;
   font-family: var(--main-font);
@@ -74,7 +68,6 @@
   word-wrap: break-word;
 }
 
-/* Corpo do texto */
 .carousel-item-body {
   position: absolute;
   font-family: var(--main-font);
@@ -82,12 +75,11 @@
   left: 1rem;
   color: rgb(0, 0, 0);
   padding: 1rem;
-  font-size: 1vw;  /* Tamanho da fonte adaptativo */
+  font-size: 1vw;
   max-width: 80%;
   word-wrap: break-word;
 }
 
-/*cor*/
 .carousel-item-transcicao{
   content: "";
   position: absolute;
@@ -96,7 +88,7 @@
   width: 100%;
   height: 100%; 
   background: linear-gradient(to top, rgb(255, 255, 255) 30%, rgba(52, 152, 219, 0) 100%);
-  opacity: 1; /* Controla a opacidade da sobreposição */
+  opacity: 1;
 }
 
 @media (max-width: 50rem) {
