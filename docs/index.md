@@ -25,7 +25,7 @@ hide:
 
 ## Sobre
 
-O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, que visa fornecer uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas dos municípios do estado de Alagoas.
+O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, que visa fornecer uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas dos municípios do município de Maceió.
 
 ## Equipe
 
