@@ -11,7 +11,7 @@ header {
 }
 
 #title {
-  font-family: 'Season_Prime', sans-serif;
+  font-family: var(--main-font);
   font-size: 46px;
   color: white;
   margin: 0;

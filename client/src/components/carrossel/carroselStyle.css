@@ -62,7 +62,7 @@
 /* Estilo para o texto título sobre a imagem */
 .carousel-item-text {
   position: absolute;
-  font-family: Serif;
+  font-family: var(--main-font);
   bottom: 50%;
   left: 1rem;
   color: white;
@@ -77,7 +77,7 @@
 /* Corpo do texto */
 .carousel-item-body {
   position: absolute;
-  font-family: Serif;
+  font-family: var(--main-font);
   bottom: 15%;
   left: 1rem;
   color: rgb(0, 0, 0);

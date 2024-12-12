@@ -43,7 +43,7 @@ header {
 
 #title a{
   text-decoration: none;
-  font-family: 'Season_Prime', sans-serif;
+  font-family: var(--main-font);
   font-size: 2rem;  
   color: white;
   margin: 0;
