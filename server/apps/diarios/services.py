@@ -103,6 +103,7 @@ def salvar_resultados_no_banco(resultados):
             diarios_a_inserir.append(Diario(
                 date=resultado["date"],
                 url=resultado["url"],
+                excerpts=resultado.get("excerpts"),
                 edition=resultado["edition"],
                 txt_url=resultado["txt_url"],
                 valor_final=resultado["valor_final"],
@@ -112,6 +113,11 @@ def salvar_resultados_no_banco(resultados):
     # Insere todos os registros de uma vez
     if diarios_a_inserir:
         Diario.objects.bulk_create(diarios_a_inserir)
+        
+def get_dados_salvos():
+    return list(Diario.objects.values(
+        "date", "url","excerpts", "edition", "is_extra_edition", "txt_url", "valor_final"
+    ))
 
 
 
@@ -131,7 +137,7 @@ if __name__ == "__main__":
             diarios = buscar_diarios_maceio(query, published_since, published_until)
             resultados.extend(processar_diarios(diarios))
             
-            data_inicial += timedelta(days=31)
+            data_inicial += timedelta(days=10)
         
         salvar_resultados(resultados, "resultados.json")
         

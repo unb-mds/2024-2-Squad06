@@ -1,6 +1,6 @@
 from django.http import JsonResponse
 from datetime import datetime, timedelta
-from .services import buscar_diarios_maceio, processar_diarios, salvar_resultados_no_banco
+from .services import buscar_diarios_maceio, processar_diarios, salvar_resultados_no_banco, get_dados_salvos
 
 def buscar_diarios(request):
     query = request.GET.get("query", "licitação,contratação")
@@ -18,10 +18,17 @@ def buscar_diarios(request):
             diarios = buscar_diarios_maceio(query, published_since, published_until)
             resultados.extend(processar_diarios(diarios))
             
-            data_inicial += timedelta(days=15)  # Avança para o próximo mês
+            data_inicial += timedelta(days=10)  # Avança para o próximo mês
         
         salvar_resultados_no_banco(resultados)
         
-        return JsonResponse({"valores_encontrados": resultados})
+        return JsonResponse({"dados": resultados})
+    except Exception as e:
+        return JsonResponse({"erro": str(e)}, status=500)
+    
+def getGazettes(request):
+    try:
+        dados = get_dados_salvos()
+        return JsonResponse({"dados": dados})
     except Exception as e:
         return JsonResponse({"erro": str(e)}, status=500)
