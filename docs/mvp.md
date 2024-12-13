@@ -3,52 +3,28 @@ hide:
   - navigation
 ---
 
-# MVP
 
-## Introdução
-Na reunião realizada em 15/11/2024, foram definidas as principais funcionalidades para a release 1 do nosso projeto, com foco na criação de um **MVP (Produto Mínimo Viável)** que ofereça um caminho claro para o desenvolvimento das features essenciais. Durante a reunião, destacamos a importância de criar histórias de usuário detalhadas, que servirão como base para orientar a implementação das funcionalidades prioritárias. Esse processo visa garantir que as principais features sejam alavancadas de forma eficaz, permitindo uma entrega inicial que atenda às necessidades essenciais dos usuários e facilite o progresso contínuo do projeto.
-
-## Funcionalidades
-As funcionalidades inicialmente selecionadas para o projeto são:
-
-- **Busca detalhada**: Permite a pesquisa precisa de informações sobre despesas, contratos, e datas, facilitando a análise de dados específicos.
-- **Análise de infrações**: Identifica possíveis irregularidades ou desvios nos gastos públicos, ajudando na detecção de fraudes ou mau uso de recursos.
-- **Análise de áreas**: Fornece uma visão detalhada sobre a alocação de recursos em diferentes setores ou regiões, auxiliando no monitoramento da distribuição de verbas.
-- **Cadastro do usuário**: Permite que os usuários se registrem e gerenciem suas informações.
-
-## Esforço e Prioridades
-A seguir, serão apresentadas as prioridades e o esforço necessário para o desenvolvimento das funcionalidades escolhidas, com o objetivo de garantir um progresso organizado e eficiente no projeto:
-
-### Esforço
-- **Fácil**: Cadastro do usuário
-- **Médio**: Busca detalhada e Análise de áreas
-- **Difícil**: Análise de infrações
-  
-### Prioridades
-- **Baixa**: Cadastro do usuário
-- **Média**: Análise de infrações e Análise de áreas
-- **Máxima**: Busca detalhada
-
-## User Stories
+# User Stories
 A partir de pesquisas e estudos de negócio realizados pela equipe, foi elaborado o seguinte documento contendo os requisitos do projeto, bem como seus critérios de aceitação e pontos de Sprint.
 
-| Épico                    | User Stories | Critério de aceitação                                                                                      | Pontos |
-|--------------------------|--------------|------------------------------------------------------------------------------------------------------------|--------|
-| *Acesso à dados gerais* | *US-01*    | Como usuário, quero entender o que são gastos públicos e licitações, para que eu possa compreender melhor os dados apresentados. <br> • Definir onde as explicações serão apresentadas (página inicial, seção de ajuda, tooltips). <br> • Garantir que a linguagem seja acessível a usuários leigos.  | 7      |
-|                          | *US-02*    | Como usuário, quero visualizar uma lista atualizada dos gastos do município, para que eu saiba quais despesas foram realizadas recentemente. <br> • Especificar o comportamento em caso de atrasos ou ausência de atualizações. <br> • Garantir que a data da última atualização seja visível para o usuário. <br> • Os dados devem ser atualizados de 1 em 1 semana. | 10     |
-|                          | *US-03*    | Como usuário, quero acessar uma interface simples e intuitiva, para que eu possa visualizar os gastos públicos sem dificuldades. <br> • A interface deve apresentar, no máximo, 3 níveis de navegação, com textos de cabeçalho claros e ícones intuitivos. <br> • O layout deve ser responsivo e funcional em dispositivos com telas. | 9      |
-| *Filtragem da pesquisa* | *US-04*    | Como usuário, quero poder filtrar os fornecedores por recorrência e valor, para que eu identifique padrões de gasto. <br> • Especificar o formato de apresentação dos filtros (ex.: sliders, checkboxes). <br> • Incluir instruções claras para usuários ao aplicar múltiplos filtros. | 9      |
-|                          | *US-05*    | Como usuário, quero uma barra de busca com filtros por categoria de gastos, para que eu encontre rapidamente as informações sobre a área que eu pesquisar. <br> • Detalhar a experiência do usuário ao utilizar o menu suspenso (ex.: número de categorias visíveis por vez). <br> • Garantir que o sistema retorne resultados relevantes rapidamente. | 8      |
-|                          | *US-06*    | Como usuário, quero visualizar os contratos organizados por categorias, para que eu veja como os recursos estão distribuídos. <br> • Especificar se o resumo numérico inclui valores totais e quantidade de contratos. <br> • Detalhar como o campo de busca adicional será integrado às categorias. | 8      |
-| *Identificação de irregularidades* | *US-07*    | Como usuário, quero visualizar gastos públicos que apresentem irregularidades, para que eu possa identificar possíveis problemas e acompanhá-los. <br> • Definir critérios claros para identificar irregularidades (ex.: limite percentual, atraso de pagamento). <br> • Garantir que os alertas visuais tenham contraste suficiente para acessibilidade. | 10     |
-|                          | *US-08*    | Como usuário, quero acessar uma seção dedicada a despesas suspeitas, para que eu veja facilmente onde podem haver falhas ou má gestão. <br> • Indicar o layout da seção de despesas suspeitas (ex.: lista paginada ou infinita). <br> • Especificar a ordem padrão dos itens (por gravidade ou por data). | 10     |
-|                          | *US-09*    | Como usuário, quero acessar uma página de "Despesas Suspeitas", para que eu possa ver facilmente onde podem haver falhas ou má gestão. <br> • A página deve exibir uma lista de despesas suspeitas com destaque visual. <br> • As despesas suspeitas devem ser organizadas por gravidade ou data. <br> • A página deve permitir filtros e pesquisa rápida. <br> • A descrição do motivo da suspeita deve ser visível. |        |
-| *Representação gráfica* | *US-10*    | Como usuário, quero receber alertas sobre irregularidades detectadas, para que eu me mantenha informado sobre desvios ou gastos atípicos. <br> • Definir como e quando as notificações em tempo real serão enviadas (ex.: imediatamente após detectar irregularidade). <br> • Permitir que o usuário escolha o método de notificação preferido (e-mail ou painel). | 3      |
-|                          | *US-12*    | Como usuário, quero acessar gráficos interativos que mostram padrões de despesas e contratos, para que eu compreenda melhor os dados apresentados. <br> • Definir os tipos de gráficos interativos (barras, pizza, etc.). <br> • Garantir que os filtros aplicados aos gráficos atualizem os dados dinamicamente. | 5      |
-|                          | *US-13*    | Como usuário, quero gráficos de fornecedores recorrentes, para que eu possa identificar padrões de contratação. <br> • O gráfico deve exibir claramente os fornecedores recorrentes, destacando aqueles com maior frequência de contratação. <br> • O gráfico deve ser interativo, permitindo ao usuário clicar para obter mais informações sobre os fornecedores. | 4      |
+| Épico                    | User Stories                                                                                                    | Critério de aceitação                                                                                                                                                         | Pontos |
+|--------------------------|----------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------|
+| *Acesso à dados gerais* | *US-01*: Como usuário, quero entender o que são gastos públicos e licitações, para que eu possa compreender melhor os dados apresentados.           | • Definir onde as explicações serão apresentadas (página inicial, seção de ajuda, tooltips). <br> • Garantir que a linguagem seja acessível a usuários leigos.              | 7      |
+|                          | *US-02*: Como usuário, quero visualizar uma lista atualizada dos gastos do município, para que eu saiba quais despesas foram realizadas recentemente. | • Especificar o comportamento em caso de atrasos ou ausência de atualizações. <br> • Garantir que a data da última atualização seja visível para o usuário. <br> • Os dados devem ser atualizados de 1 em 1 semana. | 10     |
+|                          | *US-03*: Como usuário, quero acessar uma interface simples e intuitiva, para que eu possa visualizar os gastos públicos sem dificuldades.        | • A interface deve apresentar, no máximo, 3 níveis de navegação, com textos de cabeçalho claros e ícones intuitivos. <br> • O layout deve ser responsivo e funcional em dispositivos com telas.                   | 9      |
+| *Filtragem da pesquisa* | *US-04*: Como usuário, quero poder filtrar os fornecedores por recorrência e valor, para que eu identifique padrões de gasto.                     | • Especificar o formato de apresentação dos filtros (ex.: sliders, checkboxes). <br> • Incluir instruções claras para usuários ao aplicar múltiplos filtros.                | 9      |
+|                          | *US-05*: Como usuário, quero uma barra de busca com filtros por categoria de gastos, para que eu encontre rapidamente as informações sobre a área que eu pesquisar. | • Detalhar a experiência do usuário ao utilizar o menu suspenso (ex.: número de categorias visíveis por vez). <br> • Garantir que o sistema retorne resultados relevantes rapidamente.                           | 8      |
+|                          | *US-06*: Como usuário, quero visualizar os contratos organizados por categorias, para que eu veja como os recursos estão distribuídos.           | • Especificar se o resumo numérico inclui valores totais e quantidade de contratos. <br> • Detalhar como o campo de busca adicional será integrado às categorias.          | 8      |
+| *Identificação de irregularidades* | *US-07*: Como usuário, quero visualizar gastos públicos que apresentem irregularidades, para que eu possa identificar possíveis problemas e acompanhá-los. | • Definir critérios claros para identificar irregularidades (ex.: limite percentual, atraso de pagamento). <br> • Garantir que os alertas visuais tenham contraste suficiente para acessibilidade.             | 10     |
+|                          | *US-08*: Como usuário, quero acessar uma seção dedicada a despesas suspeitas, para que eu veja facilmente onde podem haver falhas ou má gestão. | • Indicar o layout da seção de despesas suspeitas (ex.: lista paginada ou infinita). <br> • Especificar a ordem padrão dos itens (por gravidade ou por data).              | 10     |
+|                          | *US-09*: Como usuário, quero acessar uma página de "Despesas Suspeitas", para que eu possa ver facilmente onde podem haver falhas ou má gestão. | • A página deve exibir uma lista de despesas suspeitas com destaque visual. <br> • As despesas suspeitas devem ser organizadas por gravidade ou data. <br> • A página deve permitir filtros e pesquisa rápida. <br> • A descrição do motivo da suspeita deve ser visível. |        |
+| *Representação gráfica* | *US-10*: Como usuário, quero receber alertas sobre irregularidades detectadas, para que eu me mantenha informado sobre desvios ou gastos atípicos. | • Definir como e quando as notificações em tempo real serão enviadas (ex.: imediatamente após detectar irregularidade). <br> • Permitir que o usuário escolha o método de notificação preferido (e-mail ou painel). | 3      |
+|                          | *US-12*: Como usuário, quero acessar gráficos interativos que mostram padrões de despesas e contratos, para que eu compreenda melhor os dados apresentados. | • Definir os tipos de gráficos interativos (barras, pizza, etc.). <br> • Garantir que os filtros aplicados aos gráficos atualizem os dados dinamicamente.                  | 5      |
+|                          | *US-13*: Como usuário, quero gráficos de fornecedores recorrentes, para que eu possa identificar padrões de contratação.                        | • O gráfico deve exibir claramente os fornecedores recorrentes, destacando aqueles com maior frequência de contratação. <br> • O gráfico deve ser interativo, permitindo ao usuário clicar para obter mais informações sobre os fornecedores. | 4      |
 
 
-## Story Map e Mínimo Produto Viável (MVP):
+
+# Story Map e Mínimo Produto Viável (MVP):
 Com base nos requisitos levantados, definimos dois MVPs para o projeto, priorizando entregas que
 gerem valor rapidamente para os usuários. 
 
