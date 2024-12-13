@@ -1,0 +1,27 @@
+.SobreProjeto {
+    display: flex;                
+    flex-direction: column;       
+    justify-content: left;     
+    align-items: center;          
+    padding: 0 1.25rem; 
+    text-align: left;          
+    background-color: white;   
+    margin: 1.25rem 0;
+}
+  
+.SobreProjeto h1 {
+    font-size: 2.5rem;            
+    margin-bottom: 1.25rem;       
+}
+  
+.SobreProjeto p {
+    font-size: 1.2rem;            
+    line-height: 1.6;            
+    margin-bottom: 0.9375rem;     
+    max-width: 50rem;             
+    width: 100%;                  
+}
+
+.Band-Alagoas {
+    padding: 1.25rem;             
+}

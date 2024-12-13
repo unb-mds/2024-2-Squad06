@@ -1,0 +1,18 @@
+.Cards {
+    display: flex;               
+    justify-content: space-between; 
+    align-items: flex-start;        
+    gap: 2vw;                   
+    flex-wrap: wrap;             
+    margin: 1vw 9vw;              
+}
+
+@media (max-width: 1008px) {
+    .Cards {
+        flex-direction: column;  
+        justify-content: flex-start; 
+        margin: 4rem 0;           
+        justify-content: center;    
+        align-items: center;  
+    }
+  }
