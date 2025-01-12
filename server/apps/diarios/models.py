@@ -11,7 +11,25 @@ class Diario(models.Model):
     
     @classmethod
     def get_valores_salvos(cls):
-        #método para retornar os valores salvos
-        return list(cls.objects.values(
-            "date", "url", "excerpts", "edition", "is_extra_edition", "txt_url", "valor_final"
-        ))
+        # método para retornar os valores salvos
+        diarios = cls.objects.all()
+        resultados = []
+        for diario in diarios:
+            fornecedores = diario.fornecedores.all().values("nome", "cnpj", "ocorrencias")
+            resultados.append({
+                "date": diario.date,
+                "url": diario.url,
+                "excerpts": diario.excerpts,
+                "edition": diario.edition,
+                "is_extra_edition": diario.is_extra_edition,
+                "txt_url": diario.txt_url,
+                "valor_final": diario.valor_final,
+                "fornecedores": list(fornecedores)
+            })
+        return resultados
+
+class Fornecedor(models.Model):
+    nome = models.CharField(max_length=255)
+    cnpj = models.CharField(max_length=18)
+    ocorrencias = models.IntegerField()
+    diario = models.ForeignKey(Diario, related_name='fornecedores', on_delete=models.CASCADE)
