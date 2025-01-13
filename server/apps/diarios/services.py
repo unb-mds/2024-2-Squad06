@@ -57,12 +57,12 @@ def salvar_resultados(resultados, nome_arquivo="resultados.json"):
 
 def extrair_fornecedores(texto):
     """Extrai fornecedores das licitações a partir do texto."""
-    padrao_fornecedores = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*(.*)', re.IGNORECASE)
-    padrao_cnpj = re.compile(r'cnpj\s*[:\-]?\s*([\d\.\-\/]+)', re.IGNORECASE)
-    
+    padrao_fornecedores = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
+    padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+
     fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '', 'ocorrencias': 0})
-    
     linhas = texto.split('\n')
+
     for i, linha in enumerate(linhas):
         match_fornecedor = padrao_fornecedores.search(linha)
         if match_fornecedor:
@@ -72,7 +72,7 @@ def extrair_fornecedores(texto):
             for j in range(i+1, min(i+5, len(linhas))):
                 match_cnpj = padrao_cnpj.search(linhas[j])
                 if match_cnpj:
-                    cnpj = match_cnpj.group(1).strip()
+                    cnpj = match_cnpj.group(0).strip()
                     break
             if not cnpj:
                 cnpj = "/"

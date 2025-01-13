@@ -1,6 +1,7 @@
 from django.http import JsonResponse
-from datetime import datetime, timedelta, today
+from datetime import datetime, timedelta
 from .services import buscar_diarios_maceio, processar_diarios, get_dados_salvos
+
 
 def buscar_diarios(request):
     query = request.GET.get("query", "licitação,contratação")
