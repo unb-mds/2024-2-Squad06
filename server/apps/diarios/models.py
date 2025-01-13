@@ -31,5 +31,4 @@ class Diario(models.Model):
 class Fornecedor(models.Model):
     nome = models.CharField(max_length=255)
     cnpj = models.CharField(max_length=18)
-    ocorrencias = models.IntegerField()
     diario = models.ForeignKey(Diario, related_name='fornecedores', on_delete=models.CASCADE)

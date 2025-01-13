@@ -60,7 +60,7 @@ def extrair_fornecedores(texto):
     padrao_fornecedores = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
     padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
 
-    fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '', 'ocorrencias': 0})
+    fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
     linhas = texto.split('\n')
 
     for i, linha in enumerate(linhas):
@@ -78,7 +78,6 @@ def extrair_fornecedores(texto):
                 cnpj = "/"
             fornecedores[cnpj]['nome'] = nome
             fornecedores[cnpj]['cnpj'] = cnpj
-            fornecedores[cnpj]['ocorrencias'] += 1
     
     return fornecedores
 
@@ -110,7 +109,6 @@ def processar_diarios(diarios):
                 Fornecedor.objects.create(
                     nome=dados['nome'],
                     cnpj=dados['cnpj'],
-                    ocorrencias=dados['ocorrencias'],
                     diario=diario_obj
                 )
             
@@ -166,7 +164,6 @@ def salvar_resultados_no_banco(resultados):
                 fornecedores_a_inserir.append(Fornecedor(
                     nome=fornecedor["nome"],
                     cnpj=fornecedor["cnpj"],
-                    ocorrencias=fornecedor["ocorrencias"],
                     diario=diario_obj
                 ))
     
