@@ -37,22 +37,24 @@ nav:
   - Materiais de Estudo: materiais-estudo.md
   - Sprints:
     - Sprint 0:
-      - Planejamento: "Atas de Reunião/Sprint-0/ata(28-10-2024).md"
-      - Conhecimento: "Atas de Reunião/Sprint-0/ata(01-11-2024 ).md"
+      - Planejamento: "Atas_de_Reuniao/Sprint-0/ata(28-10-2024).md"
+      - Conhecimento: "Atas_de_Reuniao/Sprint-0/ata(01-11-2024 ).md"
     - Sprint 1:
-      - Retrospectiva: "Atas de Reunião/Sprint-1/ata(03-11-2024 ).md"
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-1/ata(03-11-2024 ).md"
     - Sprint 2:
-      - Retrospectiva: "Atas de Reunião/Sprint-2/ata(10-11-2024 ).md"
-      - Planejamento: "Atas de Reunião/Sprint-2/ata(15-11-2024 ).md"
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-2/ata(10-11-2024 ).md"
+      - Planejamento: "Atas_de_Reuniao/Sprint-2/ata(15-11-2024 ).md"
     - Sprint 3:
-      - Retrospectiva: "Atas de Reunião/Sprint-3/ata(18-11-2024 ).md"
-      - Planejamento: "Atas de Reunião/Sprint-3/ata(22-11-2024 ).md"
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-3/ata(18-11-2024 ).md"
+      - Planejamento: "Atas_de_Reuniao/Sprint-3/ata(22-11-2024 ).md"
     - Sprint 4:
-      - Retrospectiva: "Atas de Reunião/Sprint-4/ata(25-11-2024 ).md"
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-4/ata(25-11-2024 ).md"
     - Sprint 5:
-      - Retrospectiva: "Atas de Reunião/Sprint-5/ata(02-12-2024 ).md"
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-5/ata(02-12-2024 ).md"
     - Sprint 6:
-      - Planejamento: "Atas de Reunião/Sprint-6/ata(06-01-2025 ).md"
+      - Planejamento: "Atas_de_Reuniao/Sprint-6/ata(06-01-2025 ).md"
+    - Sprint 7:
+      - Retrospectiva: "Atas_de_Reuniao/Sprint-7/ata(13-01-2025 ).md"
 
 
   - MVP: mvp.md
