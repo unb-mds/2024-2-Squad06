@@ -1,25 +1,23 @@
 import React from 'react';
-import './Footer.css';
-
 function Footer() {
-return (
-  <footer className="App-footer">
-    <div className="linha"></div>
-    <div className="logo-container">
-        <img src="/assets/logo.png" className="App-logo" alt="logo" />
-        <div id="title_footer">Gastos Públicos</div>
-    </div>
-    <ul className="navigation__footer">
-        <li><a className="navigation__footerLink" href="/Gastos" target="_blank" rel="noopener noreferrer">Gastos</a></li>
-        <li><a className="navigation__footerLink" href="" target="_blank" rel="noopener noreferrer">Monitoramento</a></li>
-        <li><a className="navigation__footerLink" href="/SobreProjeto" target="_blank" rel="noopener noreferrer">Sobre o projeto</a></li>
-        <li><a className="navigation__footerLink" href="/SobreNos" target="_blank" rel="noopener noreferrer">Sobre nós</a></li>
-      </ul>
-    <div>
-      <img src="/assets/logoUnb.png" className="Unb-logo" alt="Logo UnB" />
-    </div>
-  </footer>
-);
-}
-
-export default Footer;
+  return (
+    <footer className="flex flex-col justify-center items-center bg-[#112632] text-white text-center p-[1.25rem_0] relative bottom-0 w-full pt-[2rem] 860:flex-row 860:gap-[6.5rem]">
+      <div className="w-full border-b-[0.1875rem] border-white absolute top-[1.25rem] z-10"></div>
+      <div className="flex justify-center items-center mb-0">
+          <img src="/assets/logo.png" className=" mb-0 max-w-[5.625rem]" alt="logo" />
+          <div >Gastos Públicos</div>
+      </div>
+      <ul className="flex flex-col items-center gap-[1rem] list-none text-white p-0 m-0 860:flex-row 860:gap-[3rem]">
+          <li><a className="text-white no-underline" href="/Gastos" target="_blank" rel="noopener noreferrer">Gastos</a></li>
+          <li><a className="text-white no-underline" href="" target="_blank" rel="noopener noreferrer">Monitoramento</a></li>
+          <li><a className="text-white no-underline" href="/SobreProjeto" target="_blank" rel="noopener noreferrer">Sobre o projeto</a></li>
+          <li><a className="text-white no-underline" href="/SobreNos" target="_blank" rel="noopener noreferrer">Sobre nós</a></li>
+        </ul>
+      <div>
+        <img src="/assets/logoUnb.png" className="max-w-[5rem] self-center pt-[1.0rem] 860:max-w-[5.625rem] 860:pt-0" alt="Logo UnB" />
+      </div>
+    </footer>
+  );
+ }
+  
+  export default Footer;
