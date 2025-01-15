@@ -1,9 +1,10 @@
 import unittest
 from unittest.mock import patch, Mock
-from .services import processar_diarios, extrair_fornecedores, extrair_valores
+from apps.diarios.services import processar_diarios, extrair_fornecedores, extrair_valores
 
 class TestDiarioServices(unittest.TestCase):
-    @patch("apps.diarios.services.requests.get")
+
+    @patch("apps.diarios.services.requests.get")  # Patching requests.get
     def test_processar_diarios(self, mock_get):
         """Testa o processamento de diários sem fazer requisições reais."""
         # Mock da resposta do requests.get
@@ -21,10 +22,12 @@ class TestDiarioServices(unittest.TestCase):
             "excerpts": "",
         }]
 
+        # Chama a função que deve processar os diários
         resultados = processar_diarios(diarios_mock)
 
         # Testa se ao menos um diário foi processado
         self.assertGreater(len(resultados), 0)
+        # Você pode adicionar mais asserts dependendo do comportamento esperado em 'resultados'
 
     def test_extrair_fornecedores(self):
         """Testa a extração básica de fornecedores."""
