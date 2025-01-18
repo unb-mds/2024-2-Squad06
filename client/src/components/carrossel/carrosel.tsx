@@ -11,17 +11,17 @@ export default function Carrossel() {
     },
     { 
       src: '/assets/gastos.png', alt: 'gastos', 
-      texto: 'Texto sobre a imagem', corpo:"texto de explicação", 
+      texto: 'Gastos Públicos', corpo:"Gastos públicos são os recursos que o governo usa para financiar serviços essenciais, infraestrutura, projetos sociais e o pagamento de dívidas, sendo financiados pela arrecadação de impostos e contribuições, visando garantir o funcionamento do Estado e o bem-estar da sociedade.", 
       transcicao:"" 
     },
     { 
       src: '/assets/monitoramento.png', alt: 'monitoramento', 
-      texto: 'Texto sobre a imagem', corpo:"texto de explicação",
+      texto: 'Monitoramento', corpo:"texto de explicação",
       transcicao:""  
     },
     { 
       src: '/assets/grupo.png', alt: 'grupo', 
-      texto: 'Texto sobre a imagem', corpo:"texto de explicação",
+      texto: 'Sobre o Projeto', corpo:"O Monitoramento de Gastos Públicos é uma plataforma que facilita a visualização e compreensão das finanças municipais em Alagoas, permitindo identificar padrões de gastos, fornecedores recorrentes e irregularidades, promovendo a cidadania ativa e o controle social.",
       transcicao:"" 
     },
   ];
@@ -44,11 +44,11 @@ export default function Carrossel() {
                   background: 'linear-gradient(to top, rgba(255, 255, 255, 1) 0%, rgba(255, 255, 255, 0) 100%)'
                 }}
               ></div>
-              <div className="absolute bottom-[15%] left-0 p-[2.5%] w-full ">
-                <div className="text-2xl font-bold text-black">
+              <div className="absolute bottom-[15%] left-0 p-[2.5%] w-full">
+                <div className="text-2xl font-bold text-black ">
                   {imagem.texto}
                 </div>
-                <div className="mt-2 text-m">
+                <div className="mt-2 text-m overflow-y-auto max-h-[10rem]">
                   {imagem.corpo}
                 </div>
               </div>

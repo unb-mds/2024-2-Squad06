@@ -1,5 +1,4 @@
 import React from 'react';
-import './SobreNos.css';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 
@@ -20,7 +19,7 @@ function SobreNos() {
                 Acreditamos que, com o uso estratégico da tecnologia, é possível impactar positivamente o desempenho organizacional, seja em pequenas empresas ou grandes corporações.
             </p>
 
-            <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[50rem] w-full">
+            <p className="text-[1.2rem] leading-[1.6] mb-[1.5rem] max-w-[50rem] w-full">
                 Nosso time é formado por estudantes dedicados, 
                 apaixonados por tecnologia e em busca de desafios que contribuam para o aprimoramento do ambiente corporativo e acadêmico.
             </p>
