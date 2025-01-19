@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import BarraPesquisa from '../../components/home/BarraPesquisa/BarraPesquisa';
@@ -12,16 +12,15 @@ function Filtragem() {
             <div className="mt-5">
                 <BarraPesquisa />
             </div>
-            <div className="mt-5 flex">
-                {/* Barra de Filtragem */}
-                <div className="w-64 top-24 left-4">
+            <div className="sm:mt-5 mt-0 ml-2 flex flex-col md:flex-row y">
+                <div className="md:h-screen mt-0 flex flex-col items-center justify-start p-4">
                     <BarraFiltragem />
                 </div>
-                {/* Cards de Gastos à direita da Barra de Filtragem */}
-                <div className="ml-20 w-[600rem] flex flex-col gap-4">
-                    <CardGasto />
-                    <CardGasto />
-                    <CardGasto />
+                
+                <div className="flex flex-col gap-4 items-center justify-center ">
+                    <CardGasto className=" mt-5 transition-all duration-700 md:max-w-[75%]" />
+                    <CardGasto className=" mt-0 transition-all duration-700 md:max-w-[75%]" />
+                    <CardGasto className=" mt-0 transition-all duration-700 md:max-w-[75%]" />
                 </div>
             </div>
             <Footer />
