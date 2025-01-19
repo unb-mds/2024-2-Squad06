@@ -11,18 +11,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='fornecedor',
-            name='anual_valor',
-        ),
-        migrations.RemoveField(
-            model_name='fornecedor',
-            name='mensal_valor',
-        ),
-        migrations.RemoveField(
-            model_name='fornecedor',
-            name='vigencia',
-        ),
         migrations.CreateModel(
             name='Contratacao',
             fields=[

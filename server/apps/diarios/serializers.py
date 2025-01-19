@@ -8,6 +8,7 @@ class ContratacaoSerializer(serializers.ModelSerializer):
             'valor_mensal',
             'valor_anual',
             'vigencia',
+            'fornecedor'
         ]
 
 class FornecedorSerializer(serializers.ModelSerializer):

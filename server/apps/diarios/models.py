@@ -39,6 +39,7 @@ class Contratacao(models.Model):
     valor_anual = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     vigencia = models.CharField(max_length=100, null=True, blank=True)
     diario = models.ForeignKey(Diario, related_name='contratacoes', on_delete=models.CASCADE)
+    fornecedor = models.ForeignKey(Fornecedor, related_name='fornecedor',on_delete=models.CASCADE, null=True, blank=True)
 
     def __str__(self):
         return f"Contratação de {self.fornecedor.nome} (Vigência: {self.vigencia})"
