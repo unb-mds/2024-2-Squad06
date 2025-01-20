@@ -11,10 +11,9 @@ function CardGastos({ className = '' }) {
         <div className={`bg-[#112632] rounded-lg shadow-md p-[1.25rem] text-center my-[1.25rem] ${className}`}>
             <h2 className="text-xl mb-2.5 text-white">Título</h2>
             <div className="flex justify-between items-center gap-2">
-                <p className="text-base text-white mb-[0.9375rem] truncate">Status: Regular</p>
                 <p className="text-base text-white mb-[0.9375rem] truncate">Data: dd/mm/aaaa</p>
+                <p className="text-base text-white mb-[0.9375rem] truncate">Valor: R$0.000,00</p>
             </div>
-            <p className="text-base text-white mb-[0.9375rem] truncate text-left">Valor: R$0.000,00</p>
             <div className="w-full h-[0.0625rem] bg-[#dcdcdc] mb-4"></div>
             <p className={`text-sm text-white mb-4 text-justify ${expandido ? 'hidden' : ''}`}>
                 Informações sobre os gastos -- Informações sobre os gastos -- Informações sobre os gastos -- Informações sobre os gastos -- Informações sobre os gastos
@@ -30,7 +29,6 @@ function CardGastos({ className = '' }) {
                     <div className="flex flex-col gap-4">
                         <h2 className="text-xl text-white">Título (Expandido)</h2>
                         <div className="flex justify-between items-center gap-2 text-white">
-                            <p className="text-base">Status: Regular</p>
                             <p className="text-base">Data: dd/mm/aaaa</p>
                             <p className="text-base">Valor: R$0.000,00</p>
                         </div>
