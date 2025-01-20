@@ -1,211 +1,169 @@
 import os
 import re
-import json
 import requests
+from collections import defaultdict
 from .models import Diario, Fornecedor, Contratacao
-import logging
 
-# Configurando o logger para identificar erros
-logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-ch = logging.StreamHandler()
-ch.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s')
-ch.setFormatter(formatter)
-logger.addHandler(ch)
+URL_BASE = "https://queridodiario.ok.org.br/api"
+DIRETORIO_DOWNLOAD = "diarios_download"
+os.makedirs(DIRETORIO_DOWNLOAD, exist_ok=True)
 
 class Controladores:
     def __init__(self):
-        self._url_base = "https://queridodiario.ok.org.br/api"
-        self._diretorio_download = "diarios_download"
-        self._caminho_completo = os.path.join(os.getcwd(), self._diretorio_download)
-        os.makedirs(self._diretorio_download, exist_ok=True)
+        self.diarios = []
 
-    def buscar_diarios_maceio(self, termo_busca, data_inicio, data_fim):
-        id_territorio_maceio = "2704302"
+    @staticmethod
+    def buscar_diarios_maceio(querystring, published_since, published_until):
+        territory_id_maceio = "2704302"
         params = {
-            "territory_ids": id_territorio_maceio,
-            "querystring": termo_busca,
-            "published_since": data_inicio,
-            "published_until": data_fim,
+            "territory_ids": territory_id_maceio,
+            "querystring": querystring,
+            "published_since": published_since,
+            "published_until": published_until,
             "page_size": 50
         }
-        
-        response = requests.get(f"{self._url_base}/gazettes", params=params)
+        response = requests.get(f"{URL_BASE}/gazettes", params=params)
         if response.status_code == 200:
             return response.json().get("gazettes", [])
         else:
             raise Exception(f"Erro ao buscar diários: {response.status_code} {response.text}")
 
-    def baixar_diario(self, url, nome_arquivo):
+    @staticmethod
+    def baixar_arquivo(url, nome_arquivo):
         resposta = requests.get(url, stream=True)
-        if resposta.status_code == 200:
-            caminho_arquivo = os.path.join(self._caminho_completo, nome_arquivo)
-            with open(caminho_arquivo, "wb") as arquivo:
-                for parte in resposta.iter_content(chunk_size=8192):
-                    arquivo.write(parte)
-            return caminho_arquivo
-        raise Exception(f"Erro ao baixar arquivo: {resposta.status_code} {resposta.text}")
+        resposta.raise_for_status()
+        caminho_arquivo = os.path.join(DIRETORIO_DOWNLOAD, nome_arquivo)
+        with open(caminho_arquivo, "wb") as arquivo:
+            for chunk in resposta.iter_content(chunk_size=8192):
+                arquivo.write(chunk)
+        return caminho_arquivo
 
-    def converter_valor(self, texto):
-        try:
-            valor_limpo = re.sub(r'[^0-9,]', '', texto)
-            if not valor_limpo:
-                return None
-            valor_limpo = valor_limpo.replace(",", ".").strip()
-            if re.match(r'^\d+(\.\d+)?$', valor_limpo):
-                return float(valor_limpo)
-            else:
-                logger.warning(f"Formato de valor inesperado: {texto}")
-                return None
-        except Exception as e:
-            logger.warning(f"Erro ao converter valor: {texto}. Erro: {e}")
-            return None
+    def associar_valores_a_contratos(texto):
+        padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
+        valores = re.findall(padrao_valores, texto)
+        contratos = ["Contrato 1", "Contrato 2", "Contrato 3"]
+        fornecedores = ["Fornecedor A", "Fornecedor B", "Fornecedor C", "Fornecedor D"]
+        associacoes = []
+        contrato_idx = 0
+        fornecedor_idx = 0
+        for i in range(0, len(valores), 2):
+            if contrato_idx >= len(contratos):
+                break
+            contrato = contratos[contrato_idx] if contrato_idx < len(contratos) else None
+            fornecedor = fornecedores[fornecedor_idx]
+            associacoes.append({
+                "contrato": contrato,
+                "fornecedor": fornecedor,
+                "valores": valores[i:i + 2]
+            })
+            fornecedor_idx += 1
+            if fornecedor_idx >= len(fornecedores):
+                break
+            if fornecedor_idx % len(fornecedores) == 0:
+                contrato_idx += 1
+        return associacoes
 
-    def extrair_valores_detalhados(self, texto):
-        padrao_valor = re.compile(
-            r"[Vv]alor\s*(mensal|total|anual)?[^\d]*(?:de|:)?\s*(R\$)?\s?(\d{1,3}(?:\.\d{3})*,\d{2})", 
-            re.IGNORECASE
-        )
-        valores = {"mensal": None, "total": None}
+    def converter_valor(self, valor):
+        valor = valor.replace('.', '').replace(',', '.')
+        return float(valor)
 
-        for match in padrao_valor.finditer(texto):
-            tipo = match.group(1).lower() if match.group(1) else None
-            valor = self.converter_valor(match.group(3))
-            if tipo == "mensal":
-                valores["mensal"] = valor
-            elif tipo in ["total", "anual"]:
-                valores["total"] = valor
+    @staticmethod
+    def extrair_info_contratos(texto):
+        contratos = []
+        for match in re.finditer(r"(Vig[ê|e]ncia|Per[í|i]odo):?\s*(.*)\n", texto):
+            contratos.append(match.group(2).strip())
+        return contratos
 
-        return valores
-        
-    def extrair_nomes_empresas(self, texto):
-        padrao_nome = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
-        return [match.group(1).strip() for match in padrao_nome.finditer(texto)]
-    
-    def extrair_cnpjs(self, texto):
-        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b')
-        return [match.group(0) for match in padrao_cnpj.finditer(texto)]
-    
-    def extrair_vigencia_contrato(self, texto):
-        padrao_vigencia = re.compile(
-            r'(vigência.*?(?:\d{1,2}/\d{1,2}/\d{4}|\d{1,2}-\d{1,2}-\d{4})|prazo contratual.*?\d+\s*(meses|anos))',
-            re.IGNORECASE,
-        )
-        return [match.group(0) for match in padrao_vigencia.finditer(texto)]
-
-    def criar_fornecedores_contratacao(self, diario, publicacao):
-        valores_detalhados = self.extrair_valores_detalhados(publicacao)
-        fornecedores = self.extrair_fornecedores(publicacao)
-        vigencia = self.extrair_vigencia_contrato(publicacao)
-
-        for fornecedor_data in fornecedores:
-            fornecedor_obj, created = Fornecedor.objects.get_or_create(
-                nome=fornecedor_data["nome"], 
-                cnpj=fornecedor_data["cnpj"]
-            )
-            fornecedor_obj.save()
-
-            contratacao = Contratacao.objects.create(
-                valor_mensal=valores_detalhados.get("mensal"),
-                valor_total=valores_detalhados.get("total"),
-                vigencia=vigencia[0] if vigencia else None,
-            )
-
-            diario.contratacoes.add(contratacao)
-            diario.fornecedores.add(fornecedor_obj)
-
-        diario.save()
-   
-    def extrair_fornecedores(self, texto):
-        nomes = self.extrair_nomes_empresas(texto)
-        cnpjs = self.extrair_cnpjs(texto)
-
-        fornecedores = []
-        for i in range(max(len(nomes), len(cnpjs))):
-            nome = nomes[i] if i < len(nomes) else "Nome desconhecido"
-            cnpj = cnpjs[i] if i < len(cnpjs) else "CNPJ desconhecido"
-            fornecedores.append({"nome": nome, "cnpj": cnpj})
-        
+    @staticmethod
+    def extrair_fornecedores(texto):
+        padrao_fornecedor = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
+        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
+        linhas = texto.split('\n')
+        for i, linha in enumerate(linhas):
+            match_fornecedor = padrao_fornecedor.search(linha)
+            if match_fornecedor:
+                nome = match_fornecedor.group(1).strip()
+                cnpj = None
+                for j in range(i + 1, min(i + 5, len(linhas))):
+                    match_cnpj = padrao_cnpj.search(linhas[j])
+                    if match_cnpj:
+                        cnpj = match_cnpj.group(0).strip()
+                        break
+                cnpj = cnpj or "/"
+                fornecedores[cnpj]['nome'] = nome
+                fornecedores[cnpj]['cnpj'] = cnpj
         return fornecedores
-    
-    def ler_arquivo(self, caminho):
-        with open(caminho, "r", encoding="utf-8") as arquivo:
-            return arquivo.read()
-        
-    def separar_publicacoes(self, texto):
-        padrao = re.compile(r'(PORTARIA|RESOLVE|CONTRATAÇÃO|OBJETO|CONSELHO|PROCURADORIA|AGÊNCIA)\s*[^\n]+', re.IGNORECASE)
-        publicacoes = padrao.split(texto)
-        return [pub.strip() for pub in publicacoes if pub.strip()]
 
-    def filtrar_publicacoes_validas(self, publicacoes):
-        palavras_chave_contratacao = re.compile(
-            r'(contrato|fornecedor|valor total|valor mensal|contratação)', re.IGNORECASE
-        )
-        return [
-            pub for pub in publicacoes 
-            if palavras_chave_contratacao.search(pub) and self.extrair_valores_detalhados(pub)["mensal"] is not None
-        ]
+    @staticmethod
+    def converter_para_float(valor):
+        return float(valor.replace("R$", "").replace(".", "").replace(",", ".").strip())
+    
+    def extrair_valores(self, texto):
+        padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
+        return re.findall(padrao_valores, texto)
 
     def processar_diarios(self, diarios):
         resultados = []
-
         for diario in diarios:
             try:
-                caminho = self.baixar_diario(diario["txt_url"], f"{diario['date']}.txt")
-                conteudo = self.ler_arquivo(caminho)
-
-                publicacoes = self.separar_publicacoes(conteudo)
-                publicacoes_validas = self.filtrar_publicacoes_validas(publicacoes)
-
-                diario_obj = Diario(
-                    date=diario["date"],
-                    url=diario["url"],
-                    edition=diario["edition"],
-                    is_extra_edition=diario.get("is_extra_edition", False),
-                    txt_url=diario["txt_url"],
-                )
-
-                for publicacao in publicacoes_validas:
-                    self.criar_fornecedores_contratacao(diario_obj, publicacao)
-
-                diario_obj.save()
-
-                resultados.append({
-                    "diario_obj": diario_obj,
-                    "publicacoes_processadas": len(publicacoes_validas),
-                })
-
-            except Exception as erro:
-                logger.error(f"Erro ao processar diário {diario['txt_url']}: {erro}")
-                raise Exception(f"Erro ao processar diário {diario['txt_url']}: {erro}")
-
+                caminho_arquivo = self.baixar_arquivo(diario["txt_url"], f"{diario['date']}.txt")
+                with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
+                    conteudo = arquivo.read()
+                    valores = self.extrair_valores(conteudo)
+                    fornecedores = self.extrair_fornecedores(conteudo)
+                    contratos = self.extrair_info_contratos(conteudo)
+                    diario_obj = Diario(
+                        date=diario["date"],
+                        url=diario["url"],
+                        excerpts=diario.get("excerpts", ""),
+                        txt_url=diario["txt_url"],
+                    )
+                    resultado = {
+                        "date": diario["date"],
+                        "url": diario["url"],
+                        "txt_url": diario["txt_url"],
+                        "fornecedores": list(fornecedores.values()),
+                        "contratos": contratos
+                    }
+                    resultados.append(resultado)
+            except Exception as e:
+                print(f"Erro ao processar diário {diario['date']}: {e}")
+        self.limpar_diretorio(DIRETORIO_DOWNLOAD)
         return resultados
 
-    def limpar_diretorio(self):
-        for arquivo in os.listdir(self._caminho_completo):
-            caminho_arquivo = os.path.join(self._caminho_completo, arquivo)
-            try:
-                if os.path.isfile(caminho_arquivo):
-                    os.remove(caminho_arquivo)
-            except Exception as erro:
-                print(f"Erro ao apagar arquivo {caminho_arquivo}: {erro}")
+    @staticmethod
+    def limpar_diretorio(diretorio):
+        for arquivo in os.listdir(diretorio):
+            caminho_arquivo = os.path.join(diretorio, arquivo)
+            if os.path.isfile(caminho_arquivo):
+                os.remove(caminho_arquivo)
 
-    def salvar_resultados(self, resultados):
-        caminho_arquivo = os.path.join(self._caminho_completo, "resultados.json")
-        with open(caminho_arquivo, "w", encoding="utf-8") as arquivo:
-            json.dump(resultados, arquivo, ensure_ascii=False, indent=4)
+    def salvar_no_banco_de_dados(self, resultados):
+        diarios_para_criar = []
+        fornecedores_para_criar = []
+        contratos_para_criar = []
+        for resultado in resultados:
+            if not Diario.objects.filter(txt_url=resultado["txt_url"]).exists():
+                diario_obj = Diario(
+                    date=resultado["date"],
+                    url=resultado["url"],
+                    excerpts=resultado.get("excerpts"),
+                    txt_url=resultado["txt_url"],
+                    valor_final=resultado["valor_final"],
+                )
+                diarios_para_criar.append(diario_obj)
+                for fornecedor in resultado["fornecedores"]:
+                    fornecedores_para_criar.append(Fornecedor(
+                        nome=fornecedor["nome"],
+                        cnpj=fornecedor["cnpj"],
+                        diario=diario_obj
+                    ))
+        Diario.objects.bulk_create(diarios_para_criar)
+        Fornecedor.objects.bulk_create(fornecedores_para_criar)
+        Contratacao.objects.bulk_create(contratos_para_criar)
 
-    def salvar_banco_dados(self, diarios):
-        resultados = self.processar_diarios(diarios)
-        try:
-            for resultado in resultados:
-                diario_obj = Diario.objects.get(id=resultado["diario_id"])
-                diario_obj.save()
-
-            logger.info(f"Resultados salvos no banco de dados com sucesso: {len(resultados)} diários processados.")
-            return resultados
-
-        except Exception as erro:
-            logger.error(f"Erro ao salvar resultados no banco de dados: {erro}")
-            raise Exception(f"Erro ao salvar resultados no banco de dados: {erro}")
+    def obter_dados_salvos(self):
+        return list(Diario.objects.values(
+            "date", "url", "txt_url", "valor_final"
+        ))

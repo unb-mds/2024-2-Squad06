@@ -15,17 +15,15 @@ class BuscarDiariosAPIView(APIView):
         self.controlador = Controladores()
 
     def get(self, request):
-        query = request.GET.get("query", "licitação,contratação")
+        query = request.GET.get("query", "contratação")
         data_inicial = request.GET.get("data_inicial", "2024-01-01")
         data_final = request.GET.get("data_final", datetime.today().strftime("%Y-%m-%d"))
 
         try:
-            # Conversão das datas
             data_inicial = datetime.strptime(data_inicial, "%Y-%m-%d")
             data_final = datetime.strptime(data_final, "%Y-%m-%d")
             resultados = []
 
-            # Busca iterando entre intervalos de 15 dias
             while data_inicial <= data_final:
                 diarios = self.controlador.buscar_diarios_maceio(
                     query,
