@@ -13,7 +13,7 @@ function SobreProjeto() {
             Seu objetivo é oferecer uma interface acessível e fácil de usar, permitindo que cidadãos, estudantes e profissionais possam visualizar de forma clara e detalhada os padrões de gastos públicos, 
             identificar fornecedores recorrentes e detectar possíveis irregularidades nas contas dos municípios do estado de Alagoas.
             </p>
-            <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[50rem] w-full">
+            <p className="text-[1.2rem] leading-[1.6] mb-[1.5rem] max-w-[50rem] w-full">
             Através dessa ferramenta, buscamos promover a cidadania ativa e o controle social, garantindo maior visibilidade e compreensão sobre a alocação dos recursos públicos.
             </p>
         
