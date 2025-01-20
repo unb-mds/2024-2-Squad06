@@ -70,16 +70,11 @@ class Controladores:
     @staticmethod
     def extrair_info_contratos(texto):
         contratos = []
-        # Padrão para encontrar "VIGÊNCIA DA ARP: <valor>"
-        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA\s+(?:DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
-        
-        # Buscar a primeira ocorrência da vigência no texto
+        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
         match = padrao_vigencia.search(texto)
-        
         if match:
             vigencia = match.group(1).strip()
-            contratos.append(f"{vigencia} meses")  # Opcional: Adicionar unidade de tempo
-        
+            contratos.append(f"{vigencia} meses")
         return contratos
 
     @staticmethod
@@ -105,7 +100,6 @@ class Controladores:
 
         return fornecedores
 
-
     @staticmethod
     def converter_para_float(valor):
         return float(valor.replace("R$", "").replace(".", "").replace(",", ".").strip())
@@ -116,59 +110,40 @@ class Controladores:
     
     @staticmethod
     def filtrar_publicacoes(texto):
-        # Filtrar por "contrato" ou "contratação" e outras palavras-chave
         blocos_contratos = []
-        
-        # Padrão para identificar seções relevantes, incluindo "contrato", "contratação", etc.
         padrao_secao = r"(AGÊNCIA DE LICITAÇÕES|SECRETARIA MUNICIPAL [^\n]+|CONTRATO|CONTRATAÇÃO)"
-        
-        # Dividir o texto em seções baseadas nas palavras-chave
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
-
-        # Filtrando as seções que realmente contém a palavra "contrato" ou "contratação"
         bloco_atual = []
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
                 if bloco_atual:
-                    blocos_contratos.append("".join(bloco_atual))  # Adiciona o bloco anterior
-                bloco_atual = [secoes[i], secoes[i + 1]]  # Inicia um novo bloco
+                    blocos_contratos.append("".join(bloco_atual))  
+                bloco_atual = [secoes[i], secoes[i + 1]] 
             else:
-                bloco_atual.append(secoes[i] + secoes[i + 1])  # Continua o bloco atual
-        
+                bloco_atual.append(secoes[i] + secoes[i + 1]) 
         if bloco_atual:
-            blocos_contratos.append("".join(bloco_atual))  # Adiciona o último bloco
-
-        # Retorna a lista de blocos filtrados
+            blocos_contratos.append("".join(bloco_atual))  
         return blocos_contratos
-
 
     def processar_diarios(self, diarios):
         resultados = []
         for diario in diarios:
             try:
-                # Baixar o arquivo do diário
                 caminho_arquivo = self.baixar_arquivo(diario["txt_url"], f"{diario['date']}.txt")
                 with open(caminho_arquivo, "r", encoding="utf-8") as arquivo:
                     conteudo = arquivo.read()
-
-                    # Filtrar publicações relevantes e dividir em blocos
                     blocos_contratos = self.filtrar_publicacoes(conteudo)
-
+                    contratacoes = []
                     if blocos_contratos:
-                        contratacoes = []
                         for bloco in blocos_contratos:
-                            # Agora podemos processar cada bloco individualmente
-                            valores = self.extrair_valores(bloco)  # Extrair valores do bloco
-                            fornecedores = self.extrair_fornecedores(bloco)  # Extrair fornecedores do bloco
-                            contratos = self.extrair_info_contratos(bloco)  # Extrair vigência do bloco
-
-                            for fornecedor_cnpj, fornecedor_data in fornecedores.items():
-                                # Garantir que haja valores suficientes para cada fornecedor
-                                if valores:
-                                    mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
-                                    anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
-
-                                    # Criar a contratação com as informações do fornecedor, valores e vigência
+                            valores = self.extrair_valores(bloco)  
+                            fornecedores = self.extrair_fornecedores(bloco)  
+                            contratos = self.extrair_info_contratos(bloco)  
+                            vigencia = contratos[0] if contratos else None  
+                            if valores:
+                                mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
+                                anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
+                                for fornecedor_data in fornecedores.values():
                                     contratacao = {
                                         "fornecedor": {
                                             "nome": fornecedor_data['nome'],
@@ -178,24 +153,20 @@ class Controladores:
                                             "mensal": mensal,
                                             "anual": anual
                                         },
-                                        "vigencia": contratos
+                                        "vigencia": contratos[0] if contratos else None
                                     }
                                     contratacoes.append(contratacao)
-
-                        resultados.append({
-                            "date": diario["date"],
-                            "url": diario["url"],
-                            "txt_url": diario["txt_url"],
-                            "excerpts": diario.get("excerpts", ""),
-                            "contratacoes": contratacoes
-                        })
-
+                    resultados.append({
+                        "date": diario["date"],
+                        "url": diario["url"],
+                        "txt_url": diario["txt_url"],
+                        "excerpts": diario.get("excerpts", ""),
+                        "contratacoes": contratacoes
+                    })
             except Exception as e:
                 print(f"Erro ao processar diário {diario['date']}: {e}")
         self.limpar_diretorio(DIRETORIO_DOWNLOAD)
         return resultados
-
-
 
     @staticmethod
     def limpar_diretorio(diretorio):
