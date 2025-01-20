@@ -17,7 +17,9 @@ function BarraPesquisa() {
             value="Buscar"
           />
         </form>
-        <img className="w-[2.1rem] h-[2.1rem] ml-4" src="/assets/filtro.png" alt="Filtrar" />
+        <a href="/Filtragem">
+          <img className="w-[2.1rem] h-[2.1rem] ml-4" src="/assets/filtro.png" alt="Filtrar" />
+        </a>
       </div>
   );
 }
