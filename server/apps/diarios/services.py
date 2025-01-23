@@ -111,19 +111,36 @@ class Controladores:
     @staticmethod
     def filtrar_publicacoes(texto):
         blocos_contratos = []
-        padrao_secao = r"(AGÊNCIA DE LICITAÇÕES|SECRETARIA MUNICIPAL [^\n]+|CONTRATO|CONTRATAÇÃO)"
+        padrao_secao = r"(AGÊNCIA DE LICITAÇÕES|SECRETARIA MUNICIPAL [^\n]+|CONTRATO|CONTRATAÇÃO|INSTITUTO DE [^\n]+|FUNDAÇÃO [^\n]+|PROCURADORIA [^\n]+)"
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
+
         bloco_atual = []
+        palavras_proibidas = r"(inexigibilidade|processo administrativo)"
+
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
                 if bloco_atual:
-                    blocos_contratos.append("".join(bloco_atual))  
-                bloco_atual = [secoes[i], secoes[i + 1]] 
+                    bloco_completo = "".join(bloco_atual)
+                    if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                        blocos_contratos.append(bloco_completo)
+                bloco_atual = [secoes[i], secoes[i + 1]]
+            elif re.search(r"(INSTITUTO DE|FUNDAÇÃO|PROCURADORIA)", secoes[i], flags=re.IGNORECASE):
+                if bloco_atual:
+                    bloco_completo = "".join(bloco_atual)
+                    if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                        blocos_contratos.append(bloco_completo)
+                bloco_atual = []
             else:
-                bloco_atual.append(secoes[i] + secoes[i + 1]) 
+                bloco_atual.append(secoes[i] + secoes[i + 1])
+                
         if bloco_atual:
-            blocos_contratos.append("".join(bloco_atual))  
+            bloco_completo = "".join(bloco_atual)
+            if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                blocos_contratos.append(bloco_completo)
+
         return blocos_contratos
+
+
 
     def processar_diarios(self, diarios):
         resultados = []
@@ -170,10 +187,13 @@ class Controladores:
 
     @staticmethod
     def limpar_diretorio(diretorio):
-        for arquivo in os.listdir(diretorio):
-            caminho_arquivo = os.path.join(diretorio, arquivo)
-            if os.path.isfile(caminho_arquivo):
-                os.remove(caminho_arquivo)
+        try:
+            for arquivo in os.listdir(diretorio):
+                caminho_arquivo = os.path.join(diretorio, arquivo)
+                if os.path.isfile(caminho_arquivo):
+                    os.remove(caminho_arquivo)
+        except Exception as e:
+            print(f"Erro ao limpar diretório {diretorio}: {e}")
 
     def salvar_no_banco_de_dados(self, resultados):
         diarios_para_criar = []
