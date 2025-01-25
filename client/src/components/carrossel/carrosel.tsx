@@ -16,7 +16,7 @@ export default function Carrossel() {
     },
     { 
       src: '/assets/monitoramento.png', alt: 'monitoramento', 
-      texto: 'Monitoramento', corpo:"texto de explicação",
+      texto: 'Monitoramento', corpo:"O monitoramento dos gastos públicos foi feito por meio da análise da API do Querido Diário, que forneceu dados essenciais sobre contratos, fornecedores e transações. Foram avaliados pontos como nome do fornecedor, datas de assinatura, vigência dos contratos, CNPJ e valores, com foco na transparência e legalidade das transações.",
       transcicao:""  
     },
     { 

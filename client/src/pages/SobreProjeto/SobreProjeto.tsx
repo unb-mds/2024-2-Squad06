@@ -17,13 +17,13 @@ function SobreProjeto() {
             Através dessa ferramenta, buscamos promover a cidadania ativa e o controle social, garantindo maior visibilidade e compreensão sobre a alocação dos recursos públicos.
             </p>
         
-            <h1 className="text-[2.5rem] mb-[1.25rem]">Alagoas</h1>
+            <h1 className="text-[2.5rem] mb-[1.25rem]">Maceió</h1>
             <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[50rem] w-full">
-                A escolha do estado de Alagoas para a realização deste projeto se dá pela relevância de promover maior transparência na gestão dos recursos públicos em nível municipal. 
-                Alagoas, como muitos outros estados brasileiros, enfrenta desafios em relação à fiscalização das finanças públicas, o que dificulta o acompanhamento da população e de profissionais que buscam entender e monitorar os gastos do governo.
+            A escolha da cidade de Maceió para a realização deste projeto se dá pela relevância de promover maior transparência na gestão dos recursos públicos em nível municipal. Maceió, como muitas outras cidades brasileiras, 
+            enfrenta desafios em relação à fiscalização das finanças públicas, o que dificulta o acompanhamento da população e de profissionais que buscam entender e monitorar os gastos do governo.
             </p>
             <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[50rem] w-full">
-                Nosso objetivo é contribuir para o fortalecimento da cidadania ativa e do controle social, proporcionando maior transparência e compreensão sobre a alocação dos recursos públicos no estado de Alagoas.
+                Nosso objetivo é contribuir para o fortalecimento da cidadania ativa e do controle social, proporcionando maior transparência e compreensão sobre a alocação dos recursos públicos no município de Maceió.
             </p>
             <img src='/assets/BandAlagoas.png' className='p-[1.25rem]' alt='Bandeira Alagoas' />
         </div>
