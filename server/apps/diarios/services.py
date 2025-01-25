@@ -79,12 +79,13 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
-        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s([^\n\r]+(?:[^\n\r]))', re.IGNORECASE| re.DOTALL)
+        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s*([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
+        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+        padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
 
-        padrao_cnpj = re.compile(r'\b\d{2}.\d{3}.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
-        palavras_ignoradas = ["supracitada", "acima","especializada", "foram previamente escolhido","(es) foram","é equivalente"]
+        palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente"]
 
-        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
+        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura':''})
         linhas = texto.split('\n')
 
         for i, linha in enumerate(linhas):
@@ -103,16 +104,26 @@ class Controladores:
 
                 if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
                     continue
-
+                
                 cnpj = None
-                for j in range(i + 1, min(i + 5, len(linhas))):
+                data_assinatura = None
+                for j in range(i + 1, len(linhas)):
                     match_cnpj = padrao_cnpj.search(linhas[j])
                     if match_cnpj:
                         cnpj = match_cnpj.group(0).strip()
+                    match_data = padrao_data.search(linhas[j])
+                    if match_data:
+                        dia = match_data.group(1)
+                        mes = match_data.group(2).lower() 
+                        ano = match_data.group(3)
+                        data_assinatura = f"{dia} de {mes} de {ano}"
                         break
+                    
                 cnpj = cnpj or "/"
+                data_assinatura = data_assinatura or "/"
                 fornecedores[cnpj]['nome'] = nome
                 fornecedores[cnpj]['cnpj'] = cnpj
+                fornecedores[cnpj]['data_assinatura'] = data_assinatura
 
         return fornecedores
 
@@ -177,7 +188,7 @@ class Controladores:
                                 mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
                                 anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
 
-                                if vigencia:  # Verificando se a vigência é diferente de None ou 0
+                                if vigencia:  
                                     anual *= 12
                                     anual = round(anual, 2)
 
@@ -185,7 +196,8 @@ class Controladores:
                                     contratacao = {
                                         "fornecedor": {
                                             "nome": fornecedor_data['nome'],
-                                            "cnpj": fornecedor_data['cnpj']
+                                            "cnpj": fornecedor_data['cnpj'],
+                                            "data de assinatura":fornecedor_data["data_assinatura"]
                                         },
                                         "valores": {
                                             "mensal": mensal,
