@@ -4,7 +4,7 @@ function BarraPesquisa() {
   return (
     <div className="flex flex-row justify-center items-center my-4 1300:max-w-[100rem] 1300:mx-auto 1300:my-5">
         <img className="hidden 580:block 580:w-[1.5rem] 580:h-[1.5rem] 580:mr-[1rem] " src="/assets/lupa.png" alt="Lupa" />
-        <form action="/" method="GET">
+        <form action="/filtragem/" method="GET">
           <input
             type="text"
             className="w-[60vw] py-[0.625rem] text-base border-b-[0.125rem] border-[#363636] bg-transparent outline-none mr-5 1300:w-[48.875rem]"
