@@ -79,6 +79,7 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
+<<<<<<< HEAD
         padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s*([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
         padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
@@ -86,12 +87,18 @@ class Controladores:
         palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente"]
 
         fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura':''})
+=======
+        padrao_fornecedor = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
+        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
+>>>>>>> parent of 36985f5 (Adicionando correção dos nomes, do cnpj e do valor anual)
         linhas = texto.split('\n')
 
         for i, linha in enumerate(linhas):
             match_fornecedor = padrao_fornecedor.search(linha)
             if match_fornecedor:
                 nome = match_fornecedor.group(1).strip()
+<<<<<<< HEAD
 
                 while i + 1 < len(linhas) and not padrao_cnpj.search(linhas[i + 1]):
                     if not nome.endswith(" "):
@@ -105,6 +112,8 @@ class Controladores:
                 if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
                     continue
                 
+=======
+>>>>>>> parent of 36985f5 (Adicionando correção dos nomes, do cnpj e do valor anual)
                 cnpj = None
                 data_assinatura = None
                 for j in range(i + 1, len(linhas)):
@@ -142,7 +151,7 @@ class Controladores:
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
 
         bloco_atual = []
-        palavras_proibidas = r"(inexigibilidade|processo administrativo|multa)"
+        palavras_proibidas = r"(inexigibilidade|processo administrativo)"
 
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
@@ -187,11 +196,14 @@ class Controladores:
                             if valores:
                                 mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
                                 anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
+<<<<<<< HEAD
 
                                 if vigencia:  
                                     anual *= 12
                                     anual = round(anual, 2)
 
+=======
+>>>>>>> parent of 36985f5 (Adicionando correção dos nomes, do cnpj e do valor anual)
                                 for fornecedor_data in fornecedores.values():
                                     contratacao = {
                                         "fornecedor": {
