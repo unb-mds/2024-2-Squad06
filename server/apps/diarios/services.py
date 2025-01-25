@@ -79,8 +79,11 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
-        padrao_fornecedor = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
-        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s([^\n\r]+(?:[^\n\r]))', re.IGNORECASE| re.DOTALL)
+
+        padrao_cnpj = re.compile(r'\b\d{2}.\d{3}.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
+        palavras_ignoradas = ["supracitada", "acima","especializada", "foram previamente escolhido","(es) foram","é equivalente"]
+
         fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
         linhas = texto.split('\n')
 
@@ -88,6 +91,19 @@ class Controladores:
             match_fornecedor = padrao_fornecedor.search(linha)
             if match_fornecedor:
                 nome = match_fornecedor.group(1).strip()
+
+                while i + 1 < len(linhas) and not padrao_cnpj.search(linhas[i + 1]):
+                    if not nome.endswith(" "):
+                        nome += " "
+
+                    nome += linhas[i + 1].strip()
+                    i += 1
+
+                nome = re.split('[,.:;]', nome)[0].strip()
+
+                if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
+                    continue
+
                 cnpj = None
                 for j in range(i + 1, min(i + 5, len(linhas))):
                     match_cnpj = padrao_cnpj.search(linhas[j])
@@ -115,7 +131,7 @@ class Controladores:
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
 
         bloco_atual = []
-        palavras_proibidas = r"(inexigibilidade|processo administrativo)"
+        palavras_proibidas = r"(inexigibilidade|processo administrativo|multa)"
 
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
@@ -160,6 +176,11 @@ class Controladores:
                             if valores:
                                 mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
                                 anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
+
+                                if vigencia:  # Verificando se a vigência é diferente de None ou 0
+                                    anual *= 12
+                                    anual = round(anual, 2)
+
                                 for fornecedor_data in fornecedores.values():
                                     contratacao = {
                                         "fornecedor": {
