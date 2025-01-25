@@ -79,25 +79,19 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
-
         padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s*([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
         padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
 
         palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente"]
 
-        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura':''})
-
-        padrao_fornecedor = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
-        padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
-        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
+        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura': ''})
         linhas = texto.split('\n')
 
         for i, linha in enumerate(linhas):
             match_fornecedor = padrao_fornecedor.search(linha)
             if match_fornecedor:
                 nome = match_fornecedor.group(1).strip()
-
 
                 while i + 1 < len(linhas) and not padrao_cnpj.search(linhas[i + 1]):
                     if not nome.endswith(" "):
@@ -111,7 +105,6 @@ class Controladores:
                 if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
                     continue
                 
-
                 cnpj = None
                 data_assinatura = None
                 for j in range(i + 1, len(linhas)):
