@@ -83,7 +83,7 @@ class Controladores:
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
         padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
 
-        palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente"]
+        palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente","(e"]
 
         fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura': ''})
         linhas = texto.split('\n')
@@ -100,7 +100,7 @@ class Controladores:
                     nome += linhas[i + 1].strip()
                     i += 1
 
-                nome = re.split('[,.:;]', nome)[0].strip()
+                nome = re.split('[,.:;inscrita]', nome)[0].strip()
 
                 if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
                     continue
@@ -132,8 +132,25 @@ class Controladores:
         return float(valor.replace("R$", "").replace(".", "").replace(",", ".").strip())
     
     def extrair_valores(self, texto):
-        padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
-        return re.findall(padrao_valores, texto)
+        padrao_valores_unitarios = r"valor\s*[\n*]unitário\s*[\s\S]*?\s*R\$\s*\d{1,3}(?:\.\d{3})*,\d{2}|\d{1,3}(?:\.\d{3})*,\d{2}"
+        valores_unitarios = re.findall(padrao_valores_unitarios, texto)
+
+        if not valores_unitarios:
+            padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
+            valor_numerico = re.findall(padrao_valores, texto)
+            for valor in valor_numerico:
+                valor_numerico = self.converter_para_float(valor)
+            return valor_numerico
+
+        soma_valores_unitarios = 0.00
+        valores_unitarios_unicos = set(valores_unitarios)
+        for valor in valores_unitarios_unicos:
+            valor = re.sub(r'[\n\s]+', '', valor)
+            valor_formatado = valor.replace("valorunitário", "").strip()
+            valor_numerico_unitario = self.converter_para_float(valor_formatado)
+            soma_valores_unitarios += valor_numerico_unitario
+
+        return soma_valores_unitarios
     
     @staticmethod
     def filtrar_publicacoes(texto):
@@ -142,7 +159,7 @@ class Controladores:
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
 
         bloco_atual = []
-        palavras_proibidas = r"(inexigibilidade|processo administrativo)"
+        palavras_proibidas = r"(inexigibilidade|processo administrativo|MULTA)"
 
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
@@ -185,8 +202,8 @@ class Controladores:
                             contratos = self.extrair_info_contratos(bloco)  
                             vigencia = contratos[0] if contratos else None  
                             if valores:
-                                mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
-                                anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
+                                mensal = round(valores, 2)
+                                anual = valores
 
                                 if vigencia:  
                                     anual *= 12
