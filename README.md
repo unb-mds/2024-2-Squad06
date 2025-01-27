@@ -27,6 +27,7 @@ Esta seção será atualizada com uma lista das principais funcionalidades do pr
 - **React e TailwindCSS**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
 - **Python**: Linguagem de programação utilizada para o desenvolvimento do backend e automações.
 - **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
+- **Docker**: Plataforma de containerização utilizada para criar, gerenciar e implantar os serviços da aplicação de forma isolada, garantindo portabilidade, escalabilidade e consistência no ambiente de desenvolvimento e produção.
 - **React com Typescript**: Biblioteca JavaScript, com suporte a typescript, utilizada para o desenvolvimento do frontend, oferecendo uma interface dinâmica e responsiva.
 - **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de Maceió, AL, facilitando o acesso a informações sobre gastos públicos municipais.
 
@@ -118,21 +119,22 @@ root/
 
 ### Back end
 
-1. Navegue para a pasta `server/`, usando o comando:
-   ```
-        cd server/
-   ```
-2. Crie um arquivo `.env` na pasta `server/`, com os seguintes valores:
+1. Altere a parte do arquivo docker-compose.yml para suas variáveis de ambiente:
 
-   ```.env
-       DB_NAME=nome_do_banco
-       DB_USER=usuario
-       DB_PASSWORD=senha
-       DB_HOST=localhost
-       DB_PORT=3306
+   ```
+    - DB_NAME=YOUR_DB_NAME
+    - DB_USER=YOUR_DB_USER
+    - DB_PASSWORD=YOUR_DB_PASSWORD
+    - DB_HOST=YOUR_DB_HOST
    ```
 
-3. Siga o passo a passo do [README](/server/README.md) do back
+2. Execute o comando no seu terminal:
+
+   ```
+       docker-compose up --build -d
+   ```
+
+3. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`
 
 ## 📚 Documentação
 
