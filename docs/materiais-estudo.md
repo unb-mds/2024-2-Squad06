@@ -10,9 +10,10 @@ hide:
 ## Front-End
 1. [Curso de HTML](https://youtube.com/playlist?list=PL2Fdisxwzt_cajoGVWTx44wM6Ht09QJ3A&si=GhmkgyT99QAi__km) - Curso em vídeo gratuito sobre HTML.
 2. [Curso de CSS](https://youtube.com/playlist?list=PL2Fdisxwzt_f5C7Mv0kg1EAHhy2VJLf1c&si=xqj0w2P-a4qcUJaA) - Curso em vídeo gratuito sobre CSS.
+3. [Documentação Tailwind](https://tailwindcss.com/docs/responsive-design) - Fundamentos do Tailwind CSS para design responsivo.
 
 ### React
-1. [Documentação React](https://pt-br.react.dev/learn) - Fundamentos da linguagem Python para iniciantes.
+1. [Documentação React](https://pt-br.react.dev/learn) - Fundamentos do React para iniciantes.
 2. [Curso de React](https://youtube.com/playlist?list=PLnDvRpP8BneyVA0SZ2okm-QBojomniQVO&si=fMzt0edclLWWPHyY) - Curso em vídeo gratuito sobre react.
 3. [Aulão de React](https://youtu.be/hd2B7XQAFls?si=qdNZy0CTbsVy7x9a) - Aulão gratuito sobre react para iniciantes.
 
