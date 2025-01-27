@@ -70,7 +70,7 @@ class Controladores:
     @staticmethod
     def extrair_info_contratos(texto):
         contratos = []
-        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
+        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA:?\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
         match = padrao_vigencia.search(texto)
         if match:
             vigencia = match.group(1).strip()
@@ -79,7 +79,7 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
-        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s*([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
+        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s+([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
         padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
 
