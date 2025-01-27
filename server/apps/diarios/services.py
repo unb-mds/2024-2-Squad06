@@ -70,7 +70,7 @@ class Controladores:
     @staticmethod
     def extrair_info_contratos(texto):
         contratos = []
-        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
+        padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA:?\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
         match = padrao_vigencia.search(texto)
         if match:
             vigencia = match.group(1).strip()
@@ -79,24 +79,51 @@ class Controladores:
 
     @staticmethod
     def extrair_fornecedores(texto):
-        padrao_fornecedor = re.compile(r'(?:Fornecedor|Empresa|Contratado):?\s*([^\n]+)', re.IGNORECASE)
+        padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s+([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
-        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': ''})
+        padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
+
+        palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente","(e"]
+
+        fornecedores = defaultdict(lambda: {'nome': '', 'cnpj': '','data de assinatura': ''})
         linhas = texto.split('\n')
 
         for i, linha in enumerate(linhas):
             match_fornecedor = padrao_fornecedor.search(linha)
             if match_fornecedor:
                 nome = match_fornecedor.group(1).strip()
+
+                while i + 1 < len(linhas) and not padrao_cnpj.search(linhas[i + 1]):
+                    if not nome.endswith(" "):
+                        nome += " "
+
+                    nome += linhas[i + 1].strip()
+                    i += 1
+
+                nome = re.split('[,.:;inscrita]', nome)[0].strip()
+
+                if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
+                    continue
+                
                 cnpj = None
-                for j in range(i + 1, min(i + 5, len(linhas))):
+                data_assinatura = None
+                for j in range(i + 1, len(linhas)):
                     match_cnpj = padrao_cnpj.search(linhas[j])
                     if match_cnpj:
                         cnpj = match_cnpj.group(0).strip()
+                    match_data = padrao_data.search(linhas[j])
+                    if match_data:
+                        dia = match_data.group(1)
+                        mes = match_data.group(2).lower() 
+                        ano = match_data.group(3)
+                        data_assinatura = f"{dia} de {mes} de {ano}"
                         break
+                    
                 cnpj = cnpj or "/"
+                data_assinatura = data_assinatura or "/"
                 fornecedores[cnpj]['nome'] = nome
                 fornecedores[cnpj]['cnpj'] = cnpj
+                fornecedores[cnpj]['data_assinatura'] = data_assinatura
 
         return fornecedores
 
@@ -105,25 +132,59 @@ class Controladores:
         return float(valor.replace("R$", "").replace(".", "").replace(",", ".").strip())
     
     def extrair_valores(self, texto):
-        padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
-        return re.findall(padrao_valores, texto)
+        padrao_valores_unitarios = r"valor\s*[\n*]unitário\s*[\s\S]*?\s*R\$\s*\d{1,3}(?:\.\d{3})*,\d{2}|\d{1,3}(?:\.\d{3})*,\d{2}"
+        valores_unitarios = re.findall(padrao_valores_unitarios, texto)
+
+        if not valores_unitarios:
+            padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
+            valor_numerico = re.findall(padrao_valores, texto)
+            for valor in valor_numerico:
+                valor_numerico = self.converter_para_float(valor)
+            return valor_numerico
+
+        soma_valores_unitarios = 0.00
+        valores_unitarios_unicos = set(valores_unitarios)
+        for valor in valores_unitarios_unicos:
+            valor = re.sub(r'[\n\s]+', '', valor)
+            valor_formatado = valor.replace("valorunitário", "").strip()
+            valor_numerico_unitario = self.converter_para_float(valor_formatado)
+            soma_valores_unitarios += valor_numerico_unitario
+
+        return soma_valores_unitarios
     
     @staticmethod
     def filtrar_publicacoes(texto):
         blocos_contratos = []
-        padrao_secao = r"(AGÊNCIA DE LICITAÇÕES|SECRETARIA MUNICIPAL [^\n]+|CONTRATO|CONTRATAÇÃO)"
+        padrao_secao = r"(AGÊNCIA DE LICITAÇÕES|SECRETARIA MUNICIPAL [^\n]+|CONTRATO|CONTRATAÇÃO|INSTITUTO DE [^\n]+|FUNDAÇÃO [^\n]+|PROCURADORIA [^\n]+)"
         secoes = re.split(padrao_secao, texto, flags=re.IGNORECASE)
+
         bloco_atual = []
+        palavras_proibidas = r"(inexigibilidade|processo administrativo|MULTA)"
+
         for i in range(len(secoes) - 1):
             if re.search(r"(CONTRATO|CONTRATAÇÃO)", secoes[i], flags=re.IGNORECASE):
                 if bloco_atual:
-                    blocos_contratos.append("".join(bloco_atual))  
-                bloco_atual = [secoes[i], secoes[i + 1]] 
+                    bloco_completo = "".join(bloco_atual)
+                    if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                        blocos_contratos.append(bloco_completo)
+                bloco_atual = [secoes[i], secoes[i + 1]]
+            elif re.search(r"(INSTITUTO DE|FUNDAÇÃO|PROCURADORIA)", secoes[i], flags=re.IGNORECASE):
+                if bloco_atual:
+                    bloco_completo = "".join(bloco_atual)
+                    if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                        blocos_contratos.append(bloco_completo)
+                bloco_atual = []
             else:
-                bloco_atual.append(secoes[i] + secoes[i + 1]) 
+                bloco_atual.append(secoes[i] + secoes[i + 1])
+                
         if bloco_atual:
-            blocos_contratos.append("".join(bloco_atual))  
+            bloco_completo = "".join(bloco_atual)
+            if not re.search(palavras_proibidas, bloco_completo, flags=re.IGNORECASE):
+                blocos_contratos.append(bloco_completo)
+
         return blocos_contratos
+
+
 
     def processar_diarios(self, diarios):
         resultados = []
@@ -141,13 +202,19 @@ class Controladores:
                             contratos = self.extrair_info_contratos(bloco)  
                             vigencia = contratos[0] if contratos else None  
                             if valores:
-                                mensal = self.converter_para_float(valores[0]) if len(valores) >= 1 else None
-                                anual = self.converter_para_float(valores[1]) if len(valores) >= 2 else None
+                                mensal = round(valores, 2)
+                                anual = valores
+
+                                if vigencia:  
+                                    anual *= 12
+                                    anual = round(anual, 2)
+
                                 for fornecedor_data in fornecedores.values():
                                     contratacao = {
                                         "fornecedor": {
                                             "nome": fornecedor_data['nome'],
-                                            "cnpj": fornecedor_data['cnpj']
+                                            "cnpj": fornecedor_data['cnpj'],
+                                            "data de assinatura":fornecedor_data["data_assinatura"]
                                         },
                                         "valores": {
                                             "mensal": mensal,
@@ -170,10 +237,13 @@ class Controladores:
 
     @staticmethod
     def limpar_diretorio(diretorio):
-        for arquivo in os.listdir(diretorio):
-            caminho_arquivo = os.path.join(diretorio, arquivo)
-            if os.path.isfile(caminho_arquivo):
-                os.remove(caminho_arquivo)
+        try:
+            for arquivo in os.listdir(diretorio):
+                caminho_arquivo = os.path.join(diretorio, arquivo)
+                if os.path.isfile(caminho_arquivo):
+                    os.remove(caminho_arquivo)
+        except Exception as e:
+            print(f"Erro ao limpar diretório {diretorio}: {e}")
 
     def salvar_no_banco_de_dados(self, resultados):
         diarios_para_criar = []
