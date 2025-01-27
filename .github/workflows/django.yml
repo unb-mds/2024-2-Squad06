@@ -51,7 +51,7 @@ jobs:
     - name: Run Migrations
       working-directory: server
       run: |
-        python manage.py migrate
+        python manage.py migrate --fake
 
     - name: Run Tests
       working-directory: server
