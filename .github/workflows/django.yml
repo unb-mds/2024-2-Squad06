@@ -23,11 +23,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
 
     - name: Install Dependencies
+      working-directory: server
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
     - name: Create .env file
+      working-directory: server
       run: |
         echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
         echo "DB_USER=${{ secrets.DB_USER }}" >> .env
@@ -36,13 +38,16 @@ jobs:
         echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
 
     - name: Makemigrations
+      working-directory: server
       run: |
         python manage.py makemigrations
 
     - name: Run Migrations
+      working-directory: server
       run: |
         python manage.py migrate
 
     - name: Run Tests
+      working-directory: server
       run: |
         python manage.py test
