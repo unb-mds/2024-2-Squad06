@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: server/Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./server:/app
+    environment:
+      - DB_NAME=unb_gastos
+      - DB_USER=unb_gastos
+      - DB_PASSWORD=Kaua@123
+      - DB_HOST=unb_gastos.mysql.dbaas.com.br
+      - DB_PORT=3306
