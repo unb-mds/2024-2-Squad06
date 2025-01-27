@@ -12,7 +12,7 @@ function Filtragem() {
             <div className="mt-5">
                 <BarraPesquisa />
             </div>
-            <div className="sm:mt-5 mt-0 ml-2 flex flex-col md:flex-row y">
+            <div className="sm:mt-5 mt-0 ml-2 flex flex-col md:flex-row md:justify-center">
                 <div className="md:h-screen mt-0 flex flex-col items-center justify-start p-4">
                     <BarraFiltragem />
                 </div>
