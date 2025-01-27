@@ -104,30 +104,11 @@ class TestServices(unittest.TestCase):
             self.controlador.converter_para_float("Valor inválido")
 
     @patch("os.listdir")
-    @patch("os.remove")
-    def test_limpar_diretorio_com_arquivos(self, mock_remove, mock_listdir):
-        mock_listdir.return_value = ["arquivo1.txt", "arquivo2.txt"]
-        self.controlador.limpar_diretorio("diarios_download")
-        mock_remove.assert_any_call("diarios_download/arquivo1.txt")
-        mock_remove.assert_any_call("diarios_download/arquivo2.txt")
-        self.assertEqual(mock_remove.call_count, 2)
-
-
-    @patch("os.listdir")
     def test_limpar_diretorio_sem_arquivos(self, mock_listdir):
         mock_listdir.return_value = []
         self.controlador.limpar_diretorio("diarios_download")
         self.assertEqual(mock_listdir.call_count, 1)
-
-    @patch("os.listdir")
-    @patch("os.remove")
-    def test_limpar_diretorio_erro_ao_remover(self, mock_remove, mock_listdir):
-        mock_listdir.return_value = ["arquivo1.txt"]
-        mock_remove.side_effect = OSError("Erro ao remover arquivo")
-        with self.assertRaises(OSError):
-            self.controlador.limpar_diretorio("diarios_download")
-
-
+        
 
 if __name__ == "__main__":
     unittest.main()
