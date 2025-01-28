@@ -1,0 +1,17 @@
+# Ignora a pasta node_modules
+node_modules/
+
+# Ignora arquivos de log
+*.log
+
+# Ignora arquivos de ambiente
+.env
+
+# Ignora a pasta .git (para repositórios git)
+.git/
+
+# Ignora o diretório de cache do npm
+npm-cache/
+
+# Ignora arquivos temporários do sistema
+.DS_Store

@@ -1,15 +1,12 @@
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: server/Dockerfile
-    ports:
-      - "8000:8000"
-    volumes:
-      - ./server:/app
-    environment:
-      - DB_NAME=YOUR_DB_NAME
-      - DB_USER=YOUR_DB_USER
-      - DB_PASSWORD=YOUR_DB_PASSWORD
-      - DB_HOST=YOUR_DB_HOST
-      - DB_PORT=3306
+    frontend:
+      build:
+        context: .
+        dockerfile: client/Dockerfile
+      ports:
+        - "3000:3000"
+      volumes:
+        - ./client:/app
+        - /app/node_modules
+      environment:
+        - CHOKIDAR_USEPOLLING=true
