@@ -136,6 +136,18 @@ root/
 
 3. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`
 
+## Uso do docker
+   1. Na pasta client roda:
+ ```
+ sudo docker build -t frontend-app.
+ ```
+  - Ele vai buildar a imagem 
+ 2.
+```
+sudo docker run -p 3000:3000 frontend-app
+```
+- Vai colocar no ar a imagem que buildou antes
+
 ## 📚 Documentação
 
 A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).
