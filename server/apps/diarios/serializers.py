@@ -1,14 +1,38 @@
 from rest_framework import serializers
-from .models import Diario, Fornecedor
+from .models import Diario, Fornecedor, Contratacao
+
 
 class FornecedorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Fornecedor
-        fields = ['nome', 'cnpj']
+        fields = [
+            'nome',
+            'cnpj',
+        ]
+
+
+class ContratacaoSerializer(serializers.ModelSerializer):
+    fornecedor = FornecedorSerializer(read_only=True)
+
+    class Meta:
+        model = Contratacao
+        fields = [
+            'valor_mensal',
+            'valor_anual',
+            'vigencia',
+            'fornecedor',
+        ]
+
 
 class DiarioSerializer(serializers.ModelSerializer):
-    fornecedores = FornecedorSerializer(many=True, read_only=True)
+    contratacao = ContratacaoSerializer(many= True, read_only=True)
 
     class Meta:
         model = Diario
-        fields = ['date', 'url', 'excerpts', 'edition', 'is_extra_edition', 'txt_url', 'valor_final', 'fornecedores']
+        fields = [
+            'date',
+            'url',
+            'excerpts',
+            'txt_url',
+            'contratacao',
+        ]
