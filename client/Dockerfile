@@ -1,20 +1,40 @@
-# Usa uma imagem oficial do Node.js como base
-FROM node:18-alpine
+# Build Stage
+FROM node:latest as build-stage
 
-# Define o diretório de trabalho dentro do container
 WORKDIR /app
 
-# Copia os arquivos do projeto para o container
-COPY package.json package-lock.json ./
+# Copy package.json and package-lock.json to the working directory
+COPY package*.json ./
 
-# Instala as dependências
+# Install dependencies
 RUN npm install
 
-# Copia o restante do código do projeto
+# Copy the rest of the application files to the working directory
 COPY . .
 
-# Expõe a porta padrão do React
-EXPOSE 3000
+# Build the React application
+RUN npm run build
 
-# Comando para iniciar a aplicação
-CMD ["npm", "start"]
+# Production Stage
+FROM nginx:latest
+
+# Copy the NGINX configuration file
+COPY nginx/nginx.conf /etc/nginx/conf.d/default.conf
+
+COPY --from=build-stage /app/build/ /usr/share/nginx/html
+
+# We need to make sure not to run the container as a non root user
+# for better security
+WORKDIR /app
+RUN chown -R nginx:nginx /app && chmod -R 755 /app && \
+        chown -R nginx:nginx /var/cache/nginx && \
+        chown -R nginx:nginx /var/log/nginx && \
+        chown -R nginx:nginx /etc/nginx/conf.d
+RUN touch /var/run/nginx.pid && \
+        chown -R nginx:nginx /var/run/nginx.pid
+
+USER nginx
+
+EXPOSE 80
+
+CMD ["nginx", "-g", "daemon off;"]
