@@ -99,26 +99,6 @@ root/
 
 ## 🚀 Como Executar o Projeto
 
-### Front end:
-
-1. Navegue para a pasta `client/`, usando o comando:
-   ```
-   cd client/
-   ```
-2. Instale as depências usando o comando:
-   ```
-   npm install
-   ```
-3. Inicialize o front usando o comando:
-   ```
-   npm start #ou npm run start
-   ```
-4. Acesse o site no link: `http://localhost:3000/`
-
----
-
-### Back end
-
 1. Altere a parte do arquivo docker-compose.yml para suas variáveis de ambiente:
 
    ```
@@ -134,19 +114,9 @@ root/
        docker-compose up --build -d
    ```
 
-3. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`
+3. Quando terminar o processo acesse o frontend no link `http://localhost:3000/`;
 
-## Uso do docker
-   1. Na pasta client roda:
- ```
- sudo docker build -t frontend-app.
- ```
-  - Ele vai buildar a imagem 
- 2.
-```
-sudo docker run -p 3000:3000 frontend-app
-```
-- Vai colocar no ar a imagem que buildou antes
+4. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`.
 
 ## 📚 Documentação
 
