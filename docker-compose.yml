@@ -13,3 +13,13 @@ services:
       - DB_PASSWORD=YOUR_DB_PASSWORD
       - DB_HOST=YOUR_DB_HOST
       - DB_PORT=3306
+
+  frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
