@@ -20,6 +20,7 @@ class ContratacaoSerializer(serializers.ModelSerializer):
             'valor_mensal',
             'valor_anual',
             'vigencia',
+            'data_assinatura',
             'fornecedor',
         ]
 

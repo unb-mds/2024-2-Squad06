@@ -3,6 +3,7 @@ import re
 import requests
 from collections import defaultdict
 from .models import Diario, Fornecedor, Contratacao
+from datetime import timedelta, datetime
 
 URL_BASE = "https://queridodiario.ok.org.br/api"
 DIRETORIO_DOWNLOAD = "diarios_download"
@@ -71,17 +72,40 @@ class Controladores:
     def extrair_info_contratos(texto):
         contratos = []
         padrao_vigencia = re.compile(r"VIG[Ê|E]NCIA:?\s+(?:DE\s+|DA\s+ARP)?:?\s*(\d+)", re.IGNORECASE)
-        match = padrao_vigencia.search(texto)
-        if match:
-            vigencia = match.group(1).strip()
-            contratos.append(f"{vigencia} meses")
+        padrao_data = re.compile(r'(\d{1,2})\s*de\s*(janeiro|fevereiro|março|abril|maio|junho|julho|agosto|setembro|outubro|novembro|dezembro)\s*de\s*(\d{4})', re.IGNORECASE)
+
+        match_vigencia = padrao_vigencia.search(texto)
+        vigencia = match_vigencia.group(1).strip() if match_vigencia else None
+
+        data_assinatura = None
+        linhas = texto.split("\n")
+
+        for linha in linhas:
+            match_data = padrao_data.search(linha)
+            if match_data:
+                dia = match_data.group(1)
+                mes_extenso = match_data.group(2).lower()
+                ano = match_data.group(3)
+
+                meses = {
+                    "janeiro": "01", "fevereiro": "02", "março": "03", "abril": "04",
+                    "maio": "05", "junho": "06", "julho": "07", "agosto": "08",
+                    "setembro": "09", "outubro": "10", "novembro": "11", "dezembro": "12"
+                }
+                mes = meses.get(mes_extenso, "00")
+                data_assinatura = f"{ano}-{mes}-{dia}"
+                break
+
+        contratos.append({
+            "vigencia": f"{vigencia} meses" if vigencia else None,
+            "data_assinatura": data_assinatura
+        })
         return contratos
 
     @staticmethod
     def extrair_fornecedores(texto):
         padrao_fornecedor = re.compile(r'(?:fornecedor registrado: empresa|fornecedor registrado|Fornecedor|Empresa|Contratado):?\s+([^\n\r]+(?:[^\n\r]*))', re.IGNORECASE| re.DOTALL)
         padrao_cnpj = re.compile(r'\b\d{2}\.\d{3}\.\d{3}/\d{4}-\d{2}\b', re.IGNORECASE)
-        padrao_data = re.compile(r'(\d{1,2})\s*de\s*(\w+)\s*de\s*(\d{4})', re.IGNORECASE)
 
         palavras_ignoradas = ["especializada", "foram previamente escolhido","(es) foram","é equivalente","(e"]
 
@@ -106,24 +130,14 @@ class Controladores:
                     continue
                 
                 cnpj = None
-                data_assinatura = None
                 for j in range(i + 1, len(linhas)):
                     match_cnpj = padrao_cnpj.search(linhas[j])
                     if match_cnpj:
                         cnpj = match_cnpj.group(0).strip()
-                    match_data = padrao_data.search(linhas[j])
-                    if match_data:
-                        dia = match_data.group(1)
-                        mes = match_data.group(2).lower() 
-                        ano = match_data.group(3)
-                        data_assinatura = f"{dia} de {mes} de {ano}"
-                        break
                     
                 cnpj = cnpj or "/"
-                data_assinatura = data_assinatura or "/"
                 fornecedores[cnpj]['nome'] = nome
                 fornecedores[cnpj]['cnpj'] = cnpj
-                fornecedores[cnpj]['data_assinatura'] = data_assinatura
 
         return fornecedores
 
@@ -184,8 +198,6 @@ class Controladores:
 
         return blocos_contratos
 
-
-
     def processar_diarios(self, diarios):
         resultados = []
         for diario in diarios:
@@ -199,8 +211,10 @@ class Controladores:
                         for bloco in blocos_contratos:
                             valores = self.extrair_valores(bloco)  
                             fornecedores = self.extrair_fornecedores(bloco)  
-                            contratos = self.extrair_info_contratos(bloco)  
-                            vigencia = contratos[0] if contratos else None  
+                            contratos = self.extrair_info_contratos(bloco) 
+                             
+                            vigencia = contratos[0]["vigencia"] if contratos else None 
+                            data_assinatura = contratos[0]["data_assinatura"] if contratos else "/"    
                             if valores:
                                 mensal = round(valores, 2)
                                 anual = valores
@@ -214,13 +228,13 @@ class Controladores:
                                         "fornecedor": {
                                             "nome": fornecedor_data['nome'],
                                             "cnpj": fornecedor_data['cnpj'],
-                                            "data de assinatura":fornecedor_data["data_assinatura"]
                                         },
                                         "valores": {
                                             "mensal": mensal,
                                             "anual": anual
                                         },
-                                        "vigencia": contratos[0] if contratos else None
+                                        "data_assinatura": data_assinatura,
+                                        "vigencia": vigencia,
                                     }
                                     contratacoes.append(contratacao)
                     resultados.append({
@@ -232,6 +246,9 @@ class Controladores:
                     })
             except Exception as e:
                 print(f"Erro ao processar diário {diario['date']}: {e}")
+                
+        for dados in resultados:
+            self.salvar_banco_de_dados(dados)
         self.limpar_diretorio(DIRETORIO_DOWNLOAD)
         return resultados
 
@@ -245,31 +262,63 @@ class Controladores:
         except Exception as e:
             print(f"Erro ao limpar diretório {diretorio}: {e}")
 
-    def salvar_no_banco_de_dados(self, resultados):
-        diarios_para_criar = []
-        fornecedores_para_criar = []
-        contratos_para_criar = []
-        for resultado in resultados:
-            if not Diario.objects.filter(txt_url=resultado["txt_url"]).exists():
-                diario_obj = Diario(
-                    date=resultado["date"],
-                    url=resultado["url"],
-                    excerpts=resultado.get("excerpts"),
-                    txt_url=resultado["txt_url"],
-                    valor_final=resultado["valor_final"],
-                )
-                diarios_para_criar.append(diario_obj)
-                for fornecedor in resultado["fornecedores"]:
-                    fornecedores_para_criar.append(Fornecedor(
-                        nome=fornecedor["nome"],
-                        cnpj=fornecedor["cnpj"],
-                        diario=diario_obj
-                    ))
-        Diario.objects.bulk_create(diarios_para_criar)
-        Fornecedor.objects.bulk_create(fornecedores_para_criar)
-        Contratacao.objects.bulk_create(contratos_para_criar)
+    def salvar_banco_de_dados(self, dados):
+        url_str = dados.get("url")
+        date_str = dados.get("date")
+        if not url_str:
+            raise ValueError("O url não pode ser None")
+        
+        diario = Diario.objects.filter(url=url_str).first()
+        if not diario:
+            diario = Diario.objects.create(
+                date=datetime.strptime(date_str, "%Y-%m-%d").date(),
+                url=dados["url"],
+                txt_url=dados["txt_url"],
+                excerpts=dados.get("excerpts", "")
+            )
+            for contrato in dados.get("contratacoes", []):
+                fornecedor = Fornecedor.objects.filter(cnpj=contrato["fornecedor"]["cnpj"]).first()
+                if not fornecedor:
+                    fornecedor = Fornecedor.objects.create(
+                        cnpj=contrato["fornecedor"]["cnpj"],
+                        nome=contrato["fornecedor"]["nome"]
+                    )
+                else:
+                    pass
+                data_assinatura_str = contrato.get("data_assinatura")
+                if not data_assinatura_str:
+                    data_assinatura = diario.date
+                else:
+                    data_assinatura = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
 
-    def obter_dados_salvos(self):
-        return list(Diario.objects.values(
-            "date", "url", "txt_url", "valor_final"
-        ))
+                contratacao = Contratacao.objects.create(
+                    fornecedor=fornecedor,
+                    valor_mensal=contrato["valores"]["mensal"],
+                    valor_anual=contrato["valores"]["anual"],
+                    vigencia=contrato["vigencia"],
+                    data_assinatura=data_assinatura
+                )
+                diario.contratacoes.add(contratacao)
+
+    def carregar_dados_semanais(self):
+        hoje = datetime.today().date()
+        ultimo_diario = Diario.objects.order_by('-date').first()
+        if ultimo_diario:
+            published_since = ultimo_diario.date
+        else:
+            published_since = hoje - timedelta(days=7)
+        try:
+            diarios = self.buscar_diarios_maceio(
+                querystring="",
+                published_since=published_since.strftime('%Y-%m-%d'),
+                published_until=hoje.strftime('%Y-%m-%d')
+            )
+            diarios_nao_processados = [
+                diario for diario in diarios
+                if not Diario.objects.filter(txt_url=diario["txt_url"]).exists()
+            ]
+            resultados = self.processar_diarios(diarios_nao_processados)
+
+            print(f"Carregamento semanal concluído com sucesso: {len(resultados)} diários processados.")
+        except Exception as e:
+            print(f"Erro ao carregar dados semanais: {str(e)}")
