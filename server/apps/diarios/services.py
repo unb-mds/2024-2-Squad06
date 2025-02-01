@@ -263,10 +263,12 @@ class Controladores:
             print(f"Erro ao limpar diretório {diretorio}: {e}")
 
     def salvar_banco_de_dados(self, dados):
+        url_str = dados.get("url")
         date_str = dados.get("date")
-        if not date_str:
-            raise ValueError("A data não pode ser None")
-        diario = Diario.objects.filter(date=datetime.strptime(date_str, "%Y-%m-%d").date()).first()
+        if not url_str:
+            raise ValueError("O url não pode ser None")
+        
+        diario = Diario.objects.filter(url=url_str).first()
         if not diario:
             diario = Diario.objects.create(
                 date=datetime.strptime(date_str, "%Y-%m-%d").date(),
@@ -274,29 +276,29 @@ class Controladores:
                 txt_url=dados["txt_url"],
                 excerpts=dados.get("excerpts", "")
             )
-        for contrato in dados.get("contratacoes", []):
-            fornecedor = Fornecedor.objects.filter(cnpj=contrato["fornecedor"]["cnpj"]).first()
-            if not fornecedor:
-                fornecedor = Fornecedor.objects.create(
-                    cnpj=contrato["fornecedor"]["cnpj"],
-                    nome=contrato["fornecedor"]["nome"]
-                )
-            else:
-                pass
-            data_assinatura_str = contrato.get("data_assinatura")
-            if not data_assinatura_str:
-                data_assinatura = diario.date
-            else:
-                data_assinatura = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
+            for contrato in dados.get("contratacoes", []):
+                fornecedor = Fornecedor.objects.filter(cnpj=contrato["fornecedor"]["cnpj"]).first()
+                if not fornecedor:
+                    fornecedor = Fornecedor.objects.create(
+                        cnpj=contrato["fornecedor"]["cnpj"],
+                        nome=contrato["fornecedor"]["nome"]
+                    )
+                else:
+                    pass
+                data_assinatura_str = contrato.get("data_assinatura")
+                if not data_assinatura_str:
+                    data_assinatura = diario.date
+                else:
+                    data_assinatura = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
 
-            contratacao = Contratacao.objects.create(
-                fornecedor=fornecedor,
-                valor_mensal=contrato["valores"]["mensal"],
-                valor_anual=contrato["valores"]["anual"],
-                vigencia=contrato["vigencia"],
-                data_assinatura=data_assinatura
-            )
-            diario.contratacoes.add(contratacao)
+                contratacao = Contratacao.objects.create(
+                    fornecedor=fornecedor,
+                    valor_mensal=contrato["valores"]["mensal"],
+                    valor_anual=contrato["valores"]["anual"],
+                    vigencia=contrato["vigencia"],
+                    data_assinatura=data_assinatura
+                )
+                diario.contratacoes.add(contratacao)
 
     def carregar_dados_semanais(self):
         hoje = datetime.today().date()
@@ -316,8 +318,6 @@ class Controladores:
                 if not Diario.objects.filter(txt_url=diario["txt_url"]).exists()
             ]
             resultados = self.processar_diarios(diarios_nao_processados)
-            for dados in resultados:
-                self.salvar_banco_de_dados(dados)
 
             print(f"Carregamento semanal concluído com sucesso: {len(resultados)} diários processados.")
         except Exception as e:
