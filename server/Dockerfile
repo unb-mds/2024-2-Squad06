@@ -13,7 +13,7 @@ COPY requirements.txt /app/
 
 RUN pip install -r requirements.txt
 
-COPY server/ /app/
+COPY . /app/
 
 EXPOSE 8000
 
