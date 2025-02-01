@@ -8,7 +8,7 @@ from .services import Controladores
 from rest_framework.generics import ListAPIView
 
 
-class BuscarDiariosAPIView(APIView):
+class RequisicaoAPIView(APIView):
 
     def __init__(self):
         super().__init__()
@@ -30,9 +30,7 @@ class BuscarDiariosAPIView(APIView):
                     data_inicial.strftime("%Y-%m-%d"),
                     (data_inicial + timedelta(days=15)).strftime("%Y-%m-%d"),
                 )
-                # Processar os diários encontrados
                 resultados.extend(self.controlador.processar_diarios(diarios))
-                # Avançar para o próximo intervalo de 15 dias
                 data_inicial += timedelta(days=15)
 
             return Response({"diarios": resultados}, status=status.HTTP_200_OK)
@@ -42,8 +40,12 @@ class BuscarDiariosAPIView(APIView):
 
         except Exception as e:
             return Response({"erro": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+        
+        #/diarios/filtragem
+        #/diarios/buscar
 
 
-class GetGazettesAPIView(ListAPIView):
-    queryset = Diario.objects.all()
-    serializer_class = DiarioSerializer
+# filtragem: data, valores - mensal,
+# pesquisar fornecedores
+# cnpj
