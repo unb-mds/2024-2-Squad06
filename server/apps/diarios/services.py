@@ -247,8 +247,8 @@ class Controladores:
             except Exception as e:
                 print(f"Erro ao processar diário {diario['date']}: {e}")
                 
-        # for dados in resultados:
-        #     self.salvar_banco_de_dados(dados)
+        for dados in resultados:
+            self.salvar_banco_de_dados(dados)
         self.limpar_diretorio(DIRETORIO_DOWNLOAD)
         return resultados
 
@@ -263,36 +263,40 @@ class Controladores:
             print(f"Erro ao limpar diretório {diretorio}: {e}")
 
     def salvar_banco_de_dados(self, dados):
-        diario, created = Diario.objects.get_or_create(
-            date=datetime.strptime(dados["date"], "%Y-%m-%d").date(),
-            defaults={
-                "url": dados["url"],
-                "txt_url": dados["txt_url"],
-                "excerpts": dados.get("excerpts", "")
-            }
-        )
-        for contrato in dados.get("contratacoes", []):
-            fornecedor, fornecedor_created = Fornecedor.objects.get_or_create(
-                cnpj=contrato["fornecedor"]["cnpj"],
-                defaults={"nome": contrato["fornecedor"]["nome"]}
+        date_str = dados.get("date")
+        if not date_str:
+            raise ValueError("A data não pode ser None")
+        diario = Diario.objects.filter(date=datetime.strptime(date_str, "%Y-%m-%d").date()).first()
+        if not diario:
+            diario = Diario.objects.create(
+                date=datetime.strptime(date_str, "%Y-%m-%d").date(),
+                url=dados["url"],
+                txt_url=dados["txt_url"],
+                excerpts=dados.get("excerpts", "")
             )
-            if not fornecedor_created and fornecedor.nome != contrato["fornecedor"]["nome"]:
-                fornecedor.nome = contrato["fornecedor"]["nome"]
-                fornecedor.save()
-            contratacao_exists = Contratacao.objects.filter(
-                diario=diario,  # Agora o campo `diario` existe
-                fornecedor=fornecedor,
-                data_assinatura=datetime.strptime(contrato["data_assinatura"], "%Y-%m-%d").date()
-            ).exists()
-            if not contratacao_exists:
-                Contratacao.objects.create(
-                    fornecedor=fornecedor,
-                    diario=diario,
-                    valor_mensal=contrato["valores"]["mensal"],
-                    valor_anual=contrato["valores"]["anual"],
-                    data_assinatura=datetime.strptime(contrato["data_assinatura"], "%Y-%m-%d").date(),
-                    vigencia=contrato["vigencia"]
+        for contrato in dados.get("contratacoes", []):
+            fornecedor = Fornecedor.objects.filter(cnpj=contrato["fornecedor"]["cnpj"]).first()
+            if not fornecedor:
+                fornecedor = Fornecedor.objects.create(
+                    cnpj=contrato["fornecedor"]["cnpj"],
+                    nome=contrato["fornecedor"]["nome"]
                 )
+            else:
+                pass
+            data_assinatura_str = contrato.get("data_assinatura")
+            if not data_assinatura_str:
+                data_assinatura = diario.date
+            else:
+                data_assinatura = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
+
+            contratacao = Contratacao.objects.create(
+                fornecedor=fornecedor,
+                valor_mensal=contrato["valores"]["mensal"],
+                valor_anual=contrato["valores"]["anual"],
+                vigencia=contrato["vigencia"],
+                data_assinatura=data_assinatura
+            )
+            diario.contratacoes.add(contratacao)
 
     def carregar_dados_semanais(self):
         hoje = datetime.today().date()
