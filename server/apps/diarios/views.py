@@ -5,6 +5,7 @@ from datetime import datetime, timedelta
 from .models import Diario
 from .services import Controladores
 from django.http import JsonResponse
+from .models import Fornecedor, Diario
 
 
 class RequisicaoAPIView(APIView):
@@ -108,3 +109,44 @@ class FiltragemView(APIView):
 
         return JsonResponse(resultado, safe=False, status=200)
 
+class DiariosPorFornecedorAPIView(APIView):
+    def post(self, request):
+        # Obtém o nome do fornecedor enviado no body da requisição
+        fornecedor_nome = request.data.get('nome')
+        if not fornecedor_nome:
+            return Response({"error": "Nome do fornecedor não fornecido."}, status=status.HTTP_400_BAD_REQUEST)
+        
+        try:
+            # Busca o fornecedor pelo nome
+            fornecedor = Fornecedor.objects.get(nome=fornecedor_nome)
+        except Fornecedor.DoesNotExist:
+            return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        
+        # Filtra os Diários que possuam alguma contratação com esse fornecedor
+        diarios = Diario.objects.filter(contratacoes__fornecedor=fornecedor).distinct()
+
+        # Monta a resposta com as informações dos diários encontrados
+        resultado = []
+        for diario in diarios:
+            diario_data = {
+                'id': diario.id,
+                'data_publicacao': diario.date.strftime('%Y-%m-%d') if diario.date else None,
+                'url': diario.url,
+                'txt_url': diario.txt_url,
+                'excerpts': diario.excerpts,
+                'contratacoes': []
+            }
+            # Filtra as contratações deste diário que correspondem ao fornecedor buscado
+            contratacoes = diario.contratacoes.filter(fornecedor=fornecedor)
+            for contratacao in contratacoes:
+                contrato_data = {
+                    'id': contratacao.id,
+                    'valor_mensal': contratacao.valor_mensal,
+                    'valor_anual': contratacao.valor_anual,
+                    'data_assinatura': contratacao.data_assinatura.strftime('%Y-%m-%d') if contratacao.data_assinatura else None,
+                    'vigencia': contratacao.vigencia,
+                }
+                diario_data['contratacoes'].append(contrato_data)
+            resultado.append(diario_data)
+        
+        return Response(resultado, status=status.HTTP_200_OK)

@@ -8,10 +8,10 @@ services:
     volumes:
       - ./server:/app
     environment:
-      - DB_NAME=YOUR_DB_NAME
-      - DB_USER=YOUR_DB_USER
-      - DB_PASSWORD=YOUR_DB_PASSWORD
-      - DB_HOST=YOUR_DB_HOST
+      - DB_NAME=unb_gastos
+      - DB_USER=unb_gastos
+      - DB_PASSWORD=Kaua@123
+      - DB_HOST=unb_gastos.mysql.dbaas.com.br
       - DB_PORT=3306
 
   frontend:
