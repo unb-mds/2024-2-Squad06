@@ -36,7 +36,7 @@ function CardGastos({ className = '' }) {
                         <div className="w-full h-[0.0625rem] bg-[#dcdcdc] mb-4"></div>
                         <p className="text-sm text-white mb-4 text-justify">
                         O fornecedor [Nome do Fornecedor] (CNPJ: [CNPJ do Fornecedor]) possui vigência de contrato de [Período de Vigência], 
-                        com valor mensal de R$ [Valor Mensal] e valor anual de R$ [Valor Anual]. 
+                        com valor mensal de R$ [Valor Mensal] e valor anual de R$ [Valor Anual]. <br />
                         A assinatura ocorreu em [Data de Assinatura] e a publicação foi realizada em [Data de Publicação].
                         </p>
                         <button

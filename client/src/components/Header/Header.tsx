@@ -15,7 +15,7 @@ function Header() {
           <div className="flex flex-row items-center">
             <img src="/assets/logo.png" className="h-28 w-28" alt="Logo do App" />
             <div id="title" className="ml-2 1125:ml-0 text-4xl font-bold">
-              <a href="/" className="text-white hover:text-gray-300 no-underline">Gastos Públicos</a>
+              <a href="/" className="text-white hover:underline no-underline">Gastos Públicos</a>
             </div>
           </div>
 

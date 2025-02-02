@@ -18,9 +18,9 @@ function Filtragem() {
                 </div>
                 
                 <div className="flex flex-col gap-4 items-center justify-center ">
-                    <CardGasto className=" mt-5 transition-all duration-700 md:max-w-[75%]" />
-                    <CardGasto className=" mt-0 transition-all duration-700 md:max-w-[75%]" />
-                    <CardGasto className=" mt-0 transition-all duration-700 md:max-w-[75%]" />
+                    <CardGasto className=" mt-5 transition-all duration-700 max-w-[90%] md:max-w-[75%]" />
+                    <CardGasto className=" mt-0 transition-all duration-700 max-w-[90%] md:max-w-[75%]" />
+                    <CardGasto className=" mt-0 transition-all duration-700 max-w-[90%] md:max-w-[75%]" />
                 </div>
             </div>
             <Footer />

@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 const BarraFiltragem: React.FC = () => {
     const [expandido, setExpandido] = useState(false);
     const [valorMensal, setValorMensal] = useState<number>(0);
-    const [valorAnual, setValorAnual] = useState<number>(0);
+    const [comparacaoValor, setComparacaoValor] = useState<'maior' | 'menor' | 'igual' | null>(null);
     const [dataPublicacao, setDataPublicacao] = useState<string>(''); 
     const [dataAssinatura, setDataAssinatura] = useState<string>('');
     const [usoInput, setUsoInput] = useState<boolean>(false);
@@ -21,15 +21,21 @@ const BarraFiltragem: React.FC = () => {
     };
 
     const handleValorMensalChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const valor = parseFloat(e.target.value);
-        setValorMensal(valor);
-        setValorAnual(valor * 12); // Atualiza o valor anual com base no valor mensal
+        const valor = parseInt(e.target.value, 10);
+        if (valor >= 0) {
+            setValorMensal(valor);
+        }
     };
 
-    const handleValorAnualChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const valor = parseFloat(e.target.value);
-        setValorAnual(valor);
-        setValorMensal(valor / 12); // Atualiza o valor mensal com base no valor anual
+    const handleComparacaoValorChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        setComparacaoValor(e.target.value as 'maior' | 'menor' | 'igual' | null);
+    };
+
+    const handleLimparFiltros = () => {
+        setValorMensal(0);
+        setComparacaoValor(null);
+        setDataPublicacao('');
+        setDataAssinatura('');
     };
 
     const formatarValor = (valor: number) => {
@@ -56,7 +62,6 @@ const BarraFiltragem: React.FC = () => {
                     <label className="block text-sm font-medium">Valor Mensal:</label>
                     <input
                         type="number"
-                        step="0.01"
                         value={valorMensal}
                         onChange={handleValorMensalChange}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
@@ -64,14 +69,17 @@ const BarraFiltragem: React.FC = () => {
                 </div>
 
                 <div className="mb-4">
-                    <label className="block text-sm font-medium">Valor Anual:</label>
-                    <input
-                        type="number"
-                        step="0.01"
-                        value={valorAnual}
-                        onChange={handleValorAnualChange}
+                    <label className="block text-sm font-medium">Comparação de Valor:</label>
+                    <select
+                        value={comparacaoValor ?? ''}
+                        onChange={handleComparacaoValorChange}
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
-                    />
+                    >
+                        <option value="">Selecione</option>
+                        <option value="maior">Maior</option>
+                        <option value="menor">Menor</option>
+                        <option value="igual">Igual</option>
+                    </select>
                 </div>
 
                 <div className="mb-4">
@@ -93,8 +101,16 @@ const BarraFiltragem: React.FC = () => {
                         className="w-full mt-1 p-2 border border-gray-300 rounded-lg"
                     />
                 </div>
+
                 <button
-                    className="w-full py-2 bg-[#116FBB] text-white rounded-lg mt-0 hover:bg-[#112632] transition-colors duration-500"
+                    className="w-full py-2 bg-red-500 text-white rounded-lg mt-0 hover:bg-red-800 transition-colors duration-500"
+                    onClick={handleLimparFiltros}
+                >
+                    Limpar Filtros
+                </button>
+
+                <button
+                    className="w-full py-2 bg-[#116FBB] text-white rounded-lg mt-2 hover:bg-[#112632] transition-colors duration-500"
                     onClick={() => {
                         alert('Filtros aplicados');
                         handleClick();
