@@ -1540,7 +1540,7 @@
 
 <h1 id="arquitetura">Arquitetura</h1>
 <h2 id="introducao">Introdução</h2>
-<p>O projeto de <strong>Monitoramento de Gastos Públicos</strong> tem como objetivo coletar dados da API do “Querido Diário” sobre os gastos dos municípios do estado de Alagoas e organizá-los de maneira que o usuário possa filtrar as informações conforme o município de interesse. Além disso, o sistema permitirá a visualização dos setores envolvidos, dos fornecedores e das possíveis irregularidades.</p>
+<p>O projeto de <strong>Monitoramento de Gastos Públicos</strong> tem como objetivo coletar dados da API do 'Querido Diário' sobre os gastos do município de Maceió e organizá-los de forma que o usuário possa filtrar as informações conforme seu interesse. Além disso, o sistema permitirá a visualização dos dados dos fornecedores, dos valores, da vigência, da data de assinatura e da data de publicação.</p>
 <h2 id="diagrama-da-arquitetura">Diagrama da Arquitetura</h2>
 <p><img alt="Diagrama de Aquitetura" src="../arquitetura.png" /></p>
 <h2 id="visao-geral">Visão Geral</h2>
@@ -1549,10 +1549,10 @@
 <p>O backend é responsável por fornecer uma API REST, que oferece as seguintes funcionalidades:</p>
 <ul>
 <li>
-<p><strong>Web Scraping</strong>: Responsável pela coleta de dados da API do “Querido Diário”. O scraping acessa a página web, extrai informações relevantes e as armazena no banco de dados.</p>
+<p><strong>Coleta de Dados</strong>: Responsável por coletar as informações relevantes sobre os gastos públicos, fornecedores e datas e armazená-las no banco de dados.</p>
 </li>
 <li>
-<p><strong>Cronbot</strong>: Responsável por automatizar a execução do processo de scraping em intervalos programados, de forma que não se tenha a necessidade de intervenção manual.</p>
+<p><strong>Cronbot</strong>: Responsável por automatizar a execução do processo de coleta de dados em intervalos programados, garantindo atualizações periódicas sem a necessidade de intervenção manual.</p>
 </li>
 <li>
 <p><strong>Banco de Dados</strong>: O banco de dados é responsável por armazenar os dados coletados e processados pelo sistema. Ele garante que as informações sobre os gastos públicos, fornecedores e municípios sejam armazenadas de forma segura, organizada e eficiente, permitindo acessos rápidos para consultas futuras.</p>
@@ -1561,10 +1561,10 @@
 <h3 id="frontend">Frontend</h3>
 <p>O frontend é responsável por consumir os dados disponibilizados pelo banco de dados e apresentar as informações para o usuário. O fluxo da aplicação se dá da seguinte forma:</p>
 <ol>
-<li><strong>Acesso ao site</strong>: Ao acessar o site do Monitoramento de Gastos Públicos, o usuário é apresentado com a opção de login e uma funcionalidade de pesquisa de gastos públicos.</li>
-<li><strong>Busca por município</strong>: O usuário pode realizar a busca pelo município desejado, inserindo seu nome na barra de pesquisa.</li>
-<li><strong>Filtragem de dados</strong>: Após localizar o município, o usuário pode refinar os resultados, filtrando os gastos por setor e fornecedor.</li>
-<li><strong>Visualização dos gastos</strong>: Após aplicar os filtros, o usuário poderá visualizar os dados detalhados sobre os gastos e verificar a legalidade ou possíveis infrações associadas a cada gasto.</li>
+<li><strong>Acesso ao site</strong>: Ao acessar o site do Monitoramento de Gastos Públicos, o usuário é apresentado com uma funcionalidade de pesquisa de gastos públicos.</li>
+<li><strong>Busca por fornecedor</strong>: O usuário pode realizar a busca pelo fornecedor desejado, inserindo o nome na barra de pesquisa.</li>
+<li><strong>Filtragem de dados</strong>: O usuário pode filtrar os gastos por valor mensal, data de assinatura e data de publicação.</li>
+<li><strong>Visualização dos gastos</strong>: Após aplicar os filtros, o usuário poderá visualizar os dados detalhados sobre os gastos.</li>
 </ol>
 <h2 id="fluxo-de-trabalho">Fluxo de Trabalho</h2>
 <p>O fluxo de trabalho do projeto pode ser representado da seguinte maneira:</p>
@@ -1572,8 +1572,7 @@
 <li><strong>Coleta de Dados</strong>: O CronBot realiza a raspagem de dados diretamente da API do “Querido Diário”, extraindo as informações relevantes sobre os gastos públicos.</li>
 <li><strong>Processamento e Organização</strong>: Os dados coletados são processados e organizados de forma que se tornem acessíveis e estruturados, permitindo a consulta por município, setor ou fornecedor.</li>
 <li><strong>Armazenamento</strong>: Os dados processados e organizados são armazenados de maneira eficiente e segura no banco de dados, garantindo acessos rápidos e ordenados.</li>
-<li><strong>Verificação</strong>: Após o armazenamento, os dados passam por uma verificação para avaliar a legalidade dos gastos, identificando possíveis irregularidades ou infrações.</li>
-<li><strong>Visualização</strong>: Os dados organizados e verificados serão disponibilizados em nosso site.</li>
+<li><strong>Visualização</strong>: Os dados organizados serão disponibilizados em nosso site.</li>
 </ol>
 <h2 id="tecnologias-utilizadas">Tecnologias Utilizadas</h2>
 <table>
@@ -1585,28 +1584,24 @@
 </thead>
 <tbody>
 <tr>
-<td>Python</td>
-<td>3.x</td>
-</tr>
-<tr>
 <td>Django</td>
-<td>4.x</td>
+<td>4.1.13</td>
 </tr>
 <tr>
-<td>HTML</td>
-<td>HTML5</td>
+<td>Docker</td>
+<td>27.4.0</td>
 </tr>
 <tr>
-<td>CSS</td>
-<td>CSS3</td>
+<td>Python</td>
+<td>3.12.8</td>
 </tr>
 <tr>
 <td>React</td>
-<td>18.x</td>
+<td>18.2.0</td>
 </tr>
 <tr>
-<td>TypeScript</td>
-<td>4.x</td>
+<td>Tailwind</td>
+<td>3.4.16</td>
 </tr>
 </tbody>
 </table>
