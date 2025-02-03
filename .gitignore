@@ -29,6 +29,7 @@ venv/
 
 # Environment variables
 server/.env
+server/.coverage
 
 # Compiled Python files
 server/**/*.pyc
