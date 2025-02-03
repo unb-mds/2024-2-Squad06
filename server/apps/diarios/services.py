@@ -100,7 +100,9 @@ class Controladores:
                     nome += linhas[i + 1].strip()
                     i += 1
 
-                nome = re.split('[,.:;inscrita]', nome)[0].strip()
+                nome = nome.replace("inscrita", "").strip()
+                nome = re.split('[,.:;]', nome)[0].strip()
+
 
                 if any(palavra.lower() in nome.lower() for palavra in palavras_ignoradas):
                     continue
