@@ -13,7 +13,7 @@ hide:
 
   .role {
     font-size: 14px;
-    margin-top: 1px; /* Ajuste para dar um pequeno espaço entre o nome e o cargo */
+    margin-top: 1px;
   }
 
   .team-member {
