@@ -62,6 +62,6 @@ nav:
     - Sprint 10:
       - Retrospectiva: "Atas_de_Reuniao/Sprint-10/ata(03-02-2025 ).md"
 
-
   - MVP: mvp.md
   - Arquitetura: "Arquitetura/arquitetura.md"
+  - Método Ágil: "agil.md"
