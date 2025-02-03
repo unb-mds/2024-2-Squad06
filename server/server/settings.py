@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.gastos_publicos',
     'apps.diarios',
     'rest_framework',
 ]
@@ -50,7 +49,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.gastos_publicos.middlewares.ExampleMiddleware'
 ]
 
 ROOT_URLCONF = 'server.urls'
@@ -88,6 +86,10 @@ DATABASES = {
     }
 }
 
+DATABASES['default']['TEST'] = {
+    'ENGINE': 'django.db.backends.mysql',
+    'NAME': 'test_' + config('DB_NAME'),
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
