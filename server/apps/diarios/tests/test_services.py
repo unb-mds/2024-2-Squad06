@@ -1,6 +1,6 @@
 import pytest
 import os
-import re
+# import re
 from apps.diarios.services import Controladores, DIRETORIO_DOWNLOAD
 from collections import defaultdict
 
@@ -77,3 +77,85 @@ def test_baixar_arquivo(monkeypatch, controlador):
         conteudo = f.read()
         assert conteudo == b"Conteudo Fake"
     os.remove(caminho)  # Limpeza do arquivo gerado
+
+
+def test_extrair_valores_happy(controlador):
+    texto = """
+    valor unitário R$ 1.234,56
+    valor unitário R$ 2.345,67
+    """
+    resultado = controlador.extrair_valores(texto)
+    assert resultado == 3579.23  # Soma dos valores unitários
+
+def test_extrair_valores_sem_unitarios(controlador):
+    texto = """
+    Outro texto qualquer
+    R$ 123,45
+    """
+    resultado = controlador.extrair_valores(texto)
+    assert resultado == [123.45]  # Lista com o valor encontrado
+
+def test_extrair_valores_vazio(controlador):
+    texto = """
+    Sem valores no texto
+    """
+    resultado = controlador.extrair_valores(texto)
+    assert resultado == []
+
+def test_converter_valor_happy(controlador):
+    valor = "1.234,56"
+    resultado = controlador.converter_valor(valor)
+    assert resultado == 1234.56
+
+def test_converter_valor_ponto(controlador):
+    valor = "1234.56"
+    resultado = controlador.converter_valor(valor)
+    assert resultado == 123456.0
+
+def test_converter_valor_virgula(controlador):
+    valor = "1.234.567,89"
+    resultado = controlador.converter_valor(valor)
+    assert resultado == 1234567.89
+
+def test_converter_valor_zero(controlador):
+    valor = "0,00"
+    resultado = controlador.converter_valor(valor)
+    assert resultado == 0.0
+
+def test_converter_valor_invalido(controlador):
+    valor = "valor inválido"
+    with pytest.raises(ValueError):
+        controlador.converter_valor(valor)
+
+def test_buscar_diarios_maceio_happy():
+    querystring = "saúde"
+    published_since = "2023-01-01"
+    published_until = "2023-12-31"
+    
+    expected_response = {
+        "gazettes": [
+            {"title": "Diário 1", "date": "2023-01-15"},
+            {"title": "Diário 2", "date": "2023-06-20"}
+        ]
+    }
+    
+    with patch('apps.diarios.services.requests.get') as mock_get:
+        mock_get.return_value.status_code = 200
+        mock_get.return_value.json.return_value = expected_response
+        
+        response = buscar_diarios_maceio(querystring, published_since, published_until)
+        assert response == expected_response["gazettes"]
+
+def test_buscar_diarios_maceio_erro():
+    querystring = "saúde"
+    published_since = "2023-01-01"
+    published_until = "2023-12-31"
+    
+    with patch('apps.diarios.services.requests.get') as mock_get:
+        mock_get.return_value.status_code = 404
+        mock_get.return_value.text = "Not Found"
+        
+        with pytest.raises(Exception) as exc_info:
+            buscar_diarios_maceio(querystring, published_since, published_until)
+        
+        assert str(exc_info.value) == "Erro ao buscar diários: 404 Not Found"
