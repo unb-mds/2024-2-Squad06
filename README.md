@@ -2,6 +2,21 @@
 
 Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de Software na Universidade de Brasília (UnB) durante o segundo semestre de 2024
 
+![django](https://github.com/unb-mds/2024-2-Squad06/actions/workflows/django.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/unb-mds/2024-2-Squad06)](https://img.shields.io/github/issues/unb-mds/2024-2-Squad06)
+[![GitHub contributors](https://img.shields.io/github/contributors/unb-mds/2024-2-Squad06)](https://img.shields.io/github/contributors/unb-mds/2024-2-Squad06)
+[![GitHub stars](https://img.shields.io/github/stars/unb-mds/2024-2-Squad06)](https://img.shields.io/github/stars/unb-mds/MOSP-G8)
+</br>
+[![Python version](https://img.shields.io/badge/python-3.12.8-blue)](https://www.python.org/downloads/release/python-3128/)
+[![tailwind](https://img.shields.io/badge/tailwind-3.4.16-blue)](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.16)
+[![React version](https://img.shields.io/badge/react-18.2.0-blue)](https://reactjs.org/)
+[![Django version](https://img.shields.io/badge/django-4.1.13-blue)](https://www.djangoproject.com/download/)
+[![Docker version](https://img.shields.io/badge/docker-27.4.0-blue)](https://docs.docker.com/get-docker/)
+[![TypeScript version](https://img.shields.io/badge/typescript-3.4.5-blue)](https://www.typescriptlang.org/)
+
+
+
 ## 🗂️ Sumário
 
 - [📜 Descrição do Projeto](#-descrição-do-projeto)
@@ -16,7 +31,7 @@ Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de S
 
 ## 📜 Descrição do Projeto
 
-_Monitoramento de Gastos Públicos_ é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas do município de Maceió
+_Monitoramento de Gastos Públicos_ é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar gastos e fornecedores nas contas do município de Maceió
 
 ## ✔️ Funcionalidades
 
@@ -53,6 +68,7 @@ root/
 │   │   ├── index.tsx
 │   │   ├── setupTests.ts
 │   │   └── react-app-env.d.ts
+│   ├── Dockerfile
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
 │   ├── package.json
@@ -88,12 +104,18 @@ root/
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   ├── wsgi.py
-│   ├── .env
+│   ├── Dockerfile
 │   ├── manage.py
-│   ├── README.md
 │   └── requirements.txt
 ├── .gitignore
-└── README.md
+├── .dockerignore
+├── .prettierrc
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docker-compose.yml
+├── LICENSE
+├── README.md
+└── SECURITY.md
 
 ```
 
@@ -120,7 +142,10 @@ root/
 
 ## 📚 Documentação
 
-A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).
+A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).\
+A documentação sobre o guia de contribuição pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/blob/main/CONTRIBUTING.md).\
+A documentação sobre a licença pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/blob/main/LICENSE).\
+Link para vercel usado para a documentação de deploy pode ser acessada [neste link](https://vercel.com/docs/deployments/git/vercel-for-github).
 
 ## 🤝 Como Contribuir
 
