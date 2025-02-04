@@ -51,3 +51,4 @@ O fluxo de trabalho do projeto pode ser representado da seguinte maneira:
 | Python        | 3.12.8   |
 | React         | 18.2.0   |
 | Tailwind      | 3.4.16   |
+| Typescript    | 3.4.5    |
