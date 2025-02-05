@@ -141,15 +141,12 @@ class DiariosPorFornecedorByIdAPIView(APIView):
         except Fornecedor.DoesNotExist:
             return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        # Opcional: se o body enviar "nome", pode-se validar se bate com o fornecedor encontrado.
         nome_body = request.data.get('nome')
         if nome_body and nome_body != fornecedor.nome:
             return Response(
                 {"error": "O nome fornecido não corresponde ao fornecedor com o id informado."},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        # Filtra os diários que possuem pelo menos uma contratação com o fornecedor informado.
         diarios = Diario.objects.filter(contratacoes__fornecedor=fornecedor).distinct()
         
         resultado = []
@@ -160,10 +157,8 @@ class DiariosPorFornecedorByIdAPIView(APIView):
                 'url': diario.url,
                 'txt_url': diario.txt_url,
                 'excerpts': diario.excerpts,
-                # Aqui vamos retornar todas as contratações deste diário, sem filtrar pelo fornecedor.
                 'contratacoes': []
             }
-            # Obtem todas as contratações associadas a este diário.
             contratacoes = diario.contratacoes.all()
             for contratacao in contratacoes:
                 contrato_data = {
