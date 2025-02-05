@@ -2,10 +2,13 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from datetime import datetime, timedelta
+
+from .serializers import FornecedorSerializer
 from .models import Diario
 from .services import Controladores
 from django.http import JsonResponse
 from .models import Fornecedor, Diario
+from django.db.models.functions import Length
 
 
 class RequisicaoAPIView(APIView):
@@ -109,23 +112,46 @@ class FiltragemView(APIView):
 
         return JsonResponse(resultado, safe=False, status=200)
 
-class DiariosPorFornecedorAPIView(APIView):
+
+class FornecedoresListAPIView(APIView):
+    def get(self, request):
+        fornecedores = Fornecedor.objects.annotate(nome_length=Length('nome')).filter(nome_length__gt=5)
+        serializer = FornecedorSerializer(fornecedores, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+
+class FornecedorByNameAPIView(APIView):
     def post(self, request):
-        # Obtém o nome do fornecedor enviado no body da requisição
         fornecedor_nome = request.data.get('nome')
         if not fornecedor_nome:
             return Response({"error": "Nome do fornecedor não fornecido."}, status=status.HTTP_400_BAD_REQUEST)
-        
         try:
-            # Busca o fornecedor pelo nome
             fornecedor = Fornecedor.objects.get(nome=fornecedor_nome)
+            return Response({"id": fornecedor.id}, status=status.HTTP_200_OK)
+        except Fornecedor.DoesNotExist:
+            return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+        except Fornecedor.MultipleObjectsReturned:
+            fornecedores = Fornecedor.objects.filter(nome=fornecedor_nome)
+            ids = list(fornecedores.values_list('id', flat=True))
+            return Response({"ids": ids}, status=status.HTTP_200_OK)
+
+class DiariosPorFornecedorByIdAPIView(APIView):
+    def post(self, request, id):
+        try:
+            fornecedor = Fornecedor.objects.get(id=id)
         except Fornecedor.DoesNotExist:
             return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        # Filtra os Diários que possuam alguma contratação com esse fornecedor
+        # Opcional: se o body enviar "nome", pode-se validar se bate com o fornecedor encontrado.
+        nome_body = request.data.get('nome')
+        if nome_body and nome_body != fornecedor.nome:
+            return Response(
+                {"error": "O nome fornecido não corresponde ao fornecedor com o id informado."},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
+        # Filtra os diários que possuem pelo menos uma contratação com o fornecedor informado.
         diarios = Diario.objects.filter(contratacoes__fornecedor=fornecedor).distinct()
-
-        # Monta a resposta com as informações dos diários encontrados
+        
         resultado = []
         for diario in diarios:
             diario_data = {
@@ -134,10 +160,11 @@ class DiariosPorFornecedorAPIView(APIView):
                 'url': diario.url,
                 'txt_url': diario.txt_url,
                 'excerpts': diario.excerpts,
+                # Aqui vamos retornar todas as contratações deste diário, sem filtrar pelo fornecedor.
                 'contratacoes': []
             }
-            # Filtra as contratações deste diário que correspondem ao fornecedor buscado
-            contratacoes = diario.contratacoes.filter(fornecedor=fornecedor)
+            # Obtem todas as contratações associadas a este diário.
+            contratacoes = diario.contratacoes.all()
             for contratacao in contratacoes:
                 contrato_data = {
                     'id': contratacao.id,
@@ -145,6 +172,11 @@ class DiariosPorFornecedorAPIView(APIView):
                     'valor_anual': contratacao.valor_anual,
                     'data_assinatura': contratacao.data_assinatura.strftime('%Y-%m-%d') if contratacao.data_assinatura else None,
                     'vigencia': contratacao.vigencia,
+                    'fornecedor': {
+                        'id': contratacao.fornecedor.id if contratacao.fornecedor else None,
+                        'nome': contratacao.fornecedor.nome if contratacao.fornecedor else None,
+                        'cnpj': contratacao.fornecedor.cnpj if contratacao.fornecedor else None,
+                    }
                 }
                 diario_data['contratacoes'].append(contrato_data)
             resultado.append(diario_data)
