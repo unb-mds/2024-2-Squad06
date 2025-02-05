@@ -39,12 +39,11 @@ O **backend do Monitoramento de Gastos Públicos** é responsável por interagir
 
 3. crie um arquivo .env e insira as seguintes linhas de código no arquivo :
 
-    ```bash
-    DB_NAME=<nome_do_banco>
-    DB_USER=<usuario>
-    DB_PASSWORD=<senha>
-    DB_HOST=<endereco_do_servidor>
-    DB_PORT=<porta>
+    ```
+    - DB_NAME=YOUR_DB_NAME
+    - DB_USER=YOUR_DB_USER
+    - DB_PASSWORD=YOUR_DB_PASSWORD
+    - DB_HOST=YOUR_DB_HOST
     ```
 
 4. Crie as migrações do banco de dados::

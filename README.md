@@ -106,6 +106,7 @@ root/
 │   │   ├── wsgi.py
 │   ├── Dockerfile
 │   ├── manage.py
+│   ├── .env
 │   └── requirements.txt
 ├── .gitignore
 ├── .dockerignore
