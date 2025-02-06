@@ -12,7 +12,8 @@ services:
       - DB_USER=YOUR_DB_USER
       - DB_PASSWORD=YOUR_DB_PASSWORD
       - DB_HOST=YOUR_DB_HOST
-      - DB_PORT=3307
+      - DB_PORT=YOUR_DB_PORT
+      - FRONTEND_URL=YOUR_FRONTEND_URL
 
   frontend:
     build:
