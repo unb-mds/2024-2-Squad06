@@ -1,3 +1,5 @@
+import { Fornecedor } from "./Fornecedor";
+
 export interface Contratacao {
   id: number;
   nome: string;
@@ -6,4 +8,5 @@ export interface Contratacao {
   valor_anual: string;
   data_assinatura: string;
   vigencia: string | null;
+  fornecedor: Fornecedor;
 }
