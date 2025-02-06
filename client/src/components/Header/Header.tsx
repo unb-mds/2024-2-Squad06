@@ -66,6 +66,14 @@ function Header() {
                 Sobre nós
               </a>
             </li>
+            <li>
+              <a
+                className="text-white font-bold text-sm uppercase hover:underline no-underline"
+                href="/Filtragem"
+              >
+                Área de Busca
+              </a>
+            </li>
           </ul>
           <button
             className="absolute top-4 left-4 text-white text-2xl 1125:hidden"
