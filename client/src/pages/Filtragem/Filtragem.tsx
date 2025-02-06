@@ -1,195 +1,125 @@
+// src/pages/Filtragem/Filtragem.tsx
 import React, { useState, useEffect } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import BarraPesquisa from '../../components/home/BarraPesquisa/BarraPesquisa';
-import BarraFiltragem from '../../components/home/BarraFiltragem/BarraFiltragem';
-import CardGasto from '../../components/CardGastos/CardGasto';
-
-interface FornecedorData {
-    fornecedor: {
-        nome: string;
-        cnpj: string;
-    };
-    valores: {
-        mensal: number;
-        anual: number;
-    };
-    data_assinatura: string;
-    vigencia: string;
-}
-
-interface ContratacoesData {
-    date: string;
-    contratacoes: FornecedorData[];
-}
-
-
-interface Filtros {
-    valorMensal: number | null;
-    dataPublicacao: string | null;
-    dataAssinatura: string | null;
-    comparacaoValor: 'maior' | 'menor' | 'igual' | null;
-}
+import { fetchSuppliers, fetchFornecedorByName, fetchDiariosPorFornecedor } from '../../service/api';
+import { Fornecedor } from '../../models/Fornecedor';
+import { Diario } from '../../models/Diario';
+import CardGastos from '../../components/CardGastos/CardGastos';
 
 function Filtragem() {
-    const [fornecedores, setFornecedores] = useState<FornecedorData[]>([]);
-    const [dataPublicacao, setDataPublicacao] = useState<string>('');  
-    const [currentPage, setCurrentPage] = useState(1); 
-    const [itemsPerPage] = useState(3); 
+  const [suppliers, setSuppliers] = useState<Fornecedor[]>([]);
+  const [selectedSupplier, setSelectedSupplier] = useState<Fornecedor | null>(null);
+  const [diarios, setDiarios] = useState<Diario[]>([]);
+  const [loadingSuppliers, setLoadingSuppliers] = useState<boolean>(false);
+  const [loadingDiarios, setLoadingDiarios] = useState<boolean>(false);
 
-    
-    const [filtros, setFiltros] = useState<Filtros>({
-        valorMensal: null,
-        dataPublicacao: null,
-        dataAssinatura: null,
-        comparacaoValor: null
-    });
+  useEffect(() => {
+    setLoadingSuppliers(true);
+    fetchSuppliers()
+      .then((data) => {
+        setSuppliers(data);
+        setLoadingSuppliers(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar fornecedores:", error);
+        setLoadingSuppliers(false);
+      });
+  }, []);
 
+  const handleSupplierChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const supplierNome = e.target.value;
+    const supplier = suppliers.find(s => s.nome === supplierNome) || null;
+    setSelectedSupplier(supplier);
+  };
 
-    const [filtrosTemporarios, setFiltrosTemporarios] = useState<Filtros>(filtros);
-
-    const [loading, setLoading] = useState(false);
-
-    useEffect(() => {
-        setLoading(true);  
-        fetch('/teste.json')
-            .then((response) => response.json())
-            .then((data: ContratacoesData) => {
-                setDataPublicacao(data.date);
-                const contratacoes = data.contratacoes.sort((a, b) => {
-                    return new Date(b.data_assinatura).getTime() - new Date(a.data_assinatura).getTime();
-                });
-                setFornecedores(contratacoes);
-                setLoading(false); 
-            })
-            .catch((error) => {
-                console.error('Erro ao carregar os dados:', error);
-                setLoading(false);  
-            });
-    }, []);
-
-    const aplicarFiltros = (fornecedores: FornecedorData[]) => {
-        return fornecedores.filter((fornecedor) => {
-            const { valorMensal, dataPublicacao, dataAssinatura, comparacaoValor } = filtros;
-    
-            
-            const filtroValorMensal = valorMensal != null ? (
-                comparacaoValor === 'maior' ? fornecedor.valores.mensal > valorMensal :
-                comparacaoValor === 'menor' ? fornecedor.valores.mensal < valorMensal :
-                comparacaoValor === 'igual' ? fornecedor.valores.mensal === valorMensal :
-                true
-            ) : true;
-    
-            
-            const filtroDataPublicacao = dataPublicacao ? new Date(fornecedor.data_assinatura) >= new Date(dataPublicacao) : true;
-    
-            
-            const filtroDataAssinatura = dataAssinatura ? new Date(fornecedor.data_assinatura) >= new Date(dataAssinatura) : true;
-    
-            return filtroValorMensal && filtroDataPublicacao && filtroDataAssinatura;
-        });
-    };
-
-    const fornecedoresFiltrados = aplicarFiltros(fornecedores);
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentItems = fornecedoresFiltrados.slice(indexOfFirstItem, indexOfLastItem);
-
-    const paginate = (pageNumber: number) => setCurrentPage(pageNumber);
-    const pageNumbers = [];
-    for (let i = 1; i <= Math.ceil(fornecedoresFiltrados.length / itemsPerPage); i++) {
-        pageNumbers.push(i);
+  const handleFiltrarDiarios = async () => {
+    setLoadingDiarios(true);
+    if (!selectedSupplier) {
+        try {
+            const diariosData = await fetchDiariosPorFornecedor(0, "");
+            setDiarios(diariosData);
+            console.log("Diários filtrados:", diariosData);
+          } catch (error) {
+            console.error("Erro ao filtrar diários:", error);
+          } finally {
+            setLoadingDiarios(false);
+          }
+      return;
     }
+    setLoadingDiarios(true);
+    try {
+      const { id } = await fetchFornecedorByName(selectedSupplier.nome);
+      const diariosData = await fetchDiariosPorFornecedor(id, selectedSupplier.nome);
+      setDiarios(diariosData);
+      console.log("Diários filtrados:", diariosData);
+    } catch (error) {
+      console.error("Erro ao filtrar diários:", error);
+    } finally {
+      setLoadingDiarios(false);
+    }
+  };
 
-    const handleAplicarFiltros = () => {
-        setLoading(true);  
-        setFiltros(filtrosTemporarios); 
-        setTimeout(() => {  
-            setLoading(false);  
-        }, 1200);
-    };
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Header />
+      
+      <div className="max-w-4xl mx-auto p-6 bg-[#112632] rounded-lg shadow-md my-6">
+        <h2 className="text-2xl font-bold text-white mb-4">Fornecedores frequentes</h2>
+        {loadingSuppliers ? (
+          <p className="text-white">Carregando fornecedores...</p>
+        ) : (
+          <div className="space-y-2">
+            {suppliers.map((supplier, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <input
+                  type="radio"
+                  name="supplier"
+                  value={supplier.nome}
+                  checked={selectedSupplier?.nome === supplier.nome}
+                  onChange={handleSupplierChange}
+                  className="h-5 w-5"
+                />
+                <span className="text-white">
+                  {supplier.nome} (Contratações: {supplier.contract_count})
+                </span>
+              </div>
+            ))}
+          </div>
+        )}
+        <button
+          onClick={handleFiltrarDiarios}
+          className="mt-4 bg-blue-500 text-white py-2 px-6 rounded hover:bg-blue-600 transition-all"
+          disabled={loadingDiarios}
+        >
+          {loadingDiarios ? "Filtrando diários..." : "Filtrar Diários"}
+        </button>
+      </div>
 
-    const handleResetFiltros = () => {
-        setFiltros({
-            valorMensal: null,
-            dataPublicacao: null,
-            dataAssinatura: null,
-            comparacaoValor: null
-        });
-        setFiltrosTemporarios({
-            valorMensal: null,
-            dataPublicacao: null,
-            dataAssinatura: null,
-            comparacaoValor: null
-        }); 
-        setLoading(true); 
-        setTimeout(() => {  
-            setLoading(false);  
-        }, 1200);
-    };
-
-    return (
-        <div>
-            <Header />
-            <div className="mt-5">
-                <BarraPesquisa />
-            </div>
-            <div className="sm:mt-5 mt-0 ml-2 flex flex-col md:flex-row md:justify-center">
-                <div className="md:h-screen mt-0 flex flex-col items-center justify-start p-4">
-                    {!loading && (
-                        <BarraFiltragem 
-                            filtros={filtrosTemporarios} 
-                            setFiltros={setFiltrosTemporarios} 
-                            aplicarFiltros={handleAplicarFiltros}
-                            resetarFiltros={handleResetFiltros}
-                        />
-                    )}
-                </div>
-                <div className="flex flex-col gap-4 items-center justify-center">
-                    {loading ? (
-                        <div className="flex justify-center items-center space-x-2">
-                            <div className="w-8 h-8 border-4 border-t-4 border-blue-500 border-solid rounded-full animate-pulse scale-110"></div>
-                            <span className="text-lg text-blue-500 ">Carregando...</span>
-                        </div>
-                    ) : fornecedoresFiltrados.length === 0 ? (
-                        <p className="mr-1 text-xl text-red-500">Nenhum fornecedor encontrado com os filtros aplicados.</p>
-                    ) : (
-                        currentItems.map((fornecedorData, index) => (
-                            <CardGasto
-                                key={index}
-                                className="mt-0 transition-all duration-700 max-w-[95%] md:max-w-[75%]"
-                                nomeFornecedor={fornecedorData.fornecedor.nome}
-                                cnpjFornecedor={fornecedorData.fornecedor.cnpj}
-                                valorMensal={fornecedorData.valores.mensal}
-                                valorAnual={fornecedorData.valores.anual}
-                                dataAssinatura={fornecedorData.data_assinatura}
-                                periodoVigencia={fornecedorData.vigencia}
-                                dataPublicacao={dataPublicacao}
-                            />
-                        ))
-                    )}
-                    
-                    {fornecedoresFiltrados.length > itemsPerPage && !loading && (
-                        <div className="flex justify-center mt-0 mb-2 pl-0">
-                            <ul className="flex gap-2 pl-0">
-                                {pageNumbers.map((number) => (
-                                    <li key={number}>
-                                        <button
-                                            className={`px-4 py-2 border rounded ${currentPage === number ? 'bg-blue-500 text-white' : 'bg-white text-blue-500'}`}
-                                            onClick={() => paginate(number)}
-                                        >
-                                            {number}
-                                        </button>
-                                    </li>
-                                ))}
-                            </ul>
-                        </div>
-                    )}
-                </div>
-            </div>
-            <Footer />
-        </div>
-    );
+      <div className="max-w-6xl mx-auto p-4">
+        {diarios.length > 0 ? (
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {diarios.map((diario) => (
+              <CardGastos
+                key={diario.id}
+                id={diario.id}
+                dataPublicacao={diario.data_publicacao}
+                excerpts={diario.excerpts}
+                contratacoes={diario.contratacoes}
+                url={diario.url}
+                className="w-full"
+              />
+            ))}
+          </div>
+        ) : (
+          (!loadingDiarios && selectedSupplier) && <p className="text-center text-gray-700">Nenhum diário encontrado para o fornecedor selecionado.</p>
+        )}
+        {(!loadingDiarios && !selectedSupplier) && <p className="text-center text-gray-700">Escolha um fornecedor ou apenas busque para ter todos diários</p>}
+      </div>
+      <Footer />
+    </div>
+  );
 }
 
 export default Filtragem;
