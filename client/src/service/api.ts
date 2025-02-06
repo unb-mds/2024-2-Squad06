@@ -25,10 +25,16 @@ export const fetchFornecedorByName = async (
 
 export const fetchDiariosPorFornecedor = async (
   id: number,
-  nome: string
+  filters: {
+    nome?: string;
+    data_publicacao?: string;
+    data_assinatura?: string;
+    page: number;
+  }
 ): Promise<Diario[]> => {
-  const response = await api.post<Diario[]>(`/diarios-fornecedor/${id}/`, {
-    nome,
-  });
+  const response = await api.post<Diario[]>(
+    `/diarios-fornecedor/${id}/`,
+    filters
+  );
   return response.data;
 };
