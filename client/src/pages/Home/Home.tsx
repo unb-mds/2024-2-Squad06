@@ -40,7 +40,7 @@ function Home() {
           </div>
         </div>
       )}
-
+      <h1 className="text-center text-3xl text-black mt-10">Últimos Diários Publicados</h1>
       <div className="flex flex-col justify-center items-center m-[1rem_0] 
                       1008:justify-between 1008:items-start 1008:gap-[2vw] 1008:flex-row 1008:flex-wrap 1008:m-[1vw_9vw]
                       1300:justify-center 1300:items-center 1300:gap-[1rem] 1300:m-[2rem_auto] 1300:w-[70rem] 1300:flex-row 1300:flex-wrap">
