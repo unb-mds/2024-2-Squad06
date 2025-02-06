@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.gastos_publicos',
     'apps.diarios',
     'rest_framework',
     'corsheaders',
@@ -52,7 +51,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'apps.gastos_publicos.middlewares.ExampleMiddleware'
 ]
 
 CORS_ALLOWED_ORIGINS = [
