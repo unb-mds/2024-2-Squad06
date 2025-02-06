@@ -1,64 +1,82 @@
+// src/components/CardGastos/CardGastos.tsx
 import React, { useState } from 'react';
+import { Contratacao } from '../../models/Contratacao';
 
-function CardGastos({ 
-    className = '', 
-    nomeFornecedor = '', 
-    cnpjFornecedor = '', 
-    periodoVigencia = '', 
-    valorMensal = 0, 
-    valorAnual = 0, 
-    dataAssinatura = '', 
-    dataPublicacao = '' 
-}) {
-    const [expandido, setExpandido] = useState(false);
+interface CardGastosProps {
+  id?: number;
+  dataPublicacao?: string;
+  excerpts?: string;
+  contratacoes?: Contratacao[];
+  url?: string; // Link para baixar o diário
+  className?: string;
+}
 
-    const handleClick = () => {
-        setExpandido(!expandido);
-    };
+function CardGastos({ id, dataPublicacao, excerpts, contratacoes, url, className = '' }: CardGastosProps) {
+  const [expandido, setExpandido] = useState(false);
 
-    return (
-        <div className={`bg-[#112632] rounded-lg shadow-md p-[1.25rem] text-center my-[1.25rem] ${className}`}>
-            <h2 className="text-xl mb-2.5 text-white">{nomeFornecedor}</h2>
-            <div className="flex justify-between items-center gap-2">
-                <p className="text-base text-white mb-[0.9375rem] truncate">Publicação: {dataPublicacao}</p>
-                <p className="text-base text-white mb-[0.9375rem] truncate">Valor Anual: R${valorAnual}</p>
+  const handleOpen = () => setExpandido(true);
+  const handleClose = () => setExpandido(false);
+
+  return (
+    <div className={`bg-[#112632] rounded-lg shadow-md p-5 text-center my-5 ${className}`}>
+      <h2 className="text-xl text-white">
+        Diário {id} - {dataPublicacao}
+      </h2>
+      <p className="text-white truncate">{excerpts}</p>
+      <button 
+        onClick={handleOpen} 
+        className="bg-[#EFEFEF] text-black rounded-full py-2 px-6 mt-3"
+      >
+        Ver Mais
+      </button>
+
+      {expandido && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-[#112632] rounded-lg shadow-lg p-6 w-[80vw] max-w-4xl max-h-[80vh] overflow-auto relative">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-2xl text-white">Detalhes do Diário {id}</h2>
+              <button 
+                onClick={handleClose} 
+                className="bg-[#EFEFEF] text-black rounded-full px-4 py-2"
+              >
+                Fechar
+              </button>
             </div>
-            <div className="w-full h-[0.0625rem] bg-[#dcdcdc] mb-4"></div>
-            <p className={`text-sm text-white mb-4 text-justify ${expandido ? 'hidden' : ''}`}>
-                O fornecedor {nomeFornecedor} (CNPJ: {cnpjFornecedor}) possui vigência de contrato de {periodoVigencia}, 
-                com valor mensal de R$ {valorMensal} e valor anual de R$ {valorAnual}.
-            </p>
-            <button
-                className="bg-[#EFEFEF] text-black text-base border-none rounded-full py-[0.3125rem] px-[4.375rem] cursor-pointer hover:underline"
-                onClick={handleClick}
-            >
-                Ver {expandido ? 'Menos' : 'Mais'}
-            </button>
-            {expandido && (
-                <div className="fixed top-0 left-0 right-0 bottom-0 bg-[#112632] p-6 z-30 overflow-y-auto">
-                    <div className="flex flex-col gap-4">
-                        <h2 className="text-xl text-white">{nomeFornecedor}</h2>
-                        <div className="flex justify-between items-center gap-2 text-white">
-                            <p className="text-base">Data de Publicação: {dataPublicacao}</p>
-                            <p className="text-base">Valor Anual: R$ {valorAnual}</p>
-                        </div>
-                        <div className="w-full h-[0.0625rem] bg-[#dcdcdc] mb-4"></div>
-                        <p className="text-sm text-white mb-4 text-justify">
-                            O fornecedor {nomeFornecedor} (CNPJ: {cnpjFornecedor}) possui vigência de contrato de {periodoVigencia}, 
-                            com valor mensal de R$ {valorMensal} e valor anual de R$ {valorAnual}.<br /> 
-                            A assinatura ocorreu em {dataAssinatura} e a publicação foi realizada em {dataPublicacao}.
-                        </p>
-                        <button
-                            className="bg-[#EFEFEF] text-black text-base border-none rounded-full py-[0.3125rem] px-[4.375rem] cursor-pointer hover:underline"
-                            onClick={handleClick}
-                        >
-                            Ver {expandido ? 'Menos' : 'Mais'}
-                        </button>
-                    </div>
+            <p className="text-white mb-4">Data de Publicação: {dataPublicacao}</p>
+            {contratacoes && contratacoes.length > 0 ? (
+              contratacoes.map((contratacao) => (
+                <div key={contratacao.id} className="mb-4 border-b border-gray-500 pb-2">
+                  <p className="text-white">
+                    Contratação {contratacao.id}: R$ {contratacao.valor_mensal} / R$ {contratacao.valor_anual}
+                  </p>
+                  <p className="text-white">
+                    Data de Assinatura: {contratacao.data_assinatura}
+                  </p>
+                  {contratacao.vigencia && (
+                    <p className="text-white">Vigência: {contratacao.vigencia}</p>
+                  )}
                 </div>
+              ))
+            ) : (
+              <p className="text-white">Sem contratações relevantes</p>
             )}
+            {url && (
+              <div className="mt-4">
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-[#EFEFEF] text-black rounded-full py-2 px-6 inline-block"
+                >
+                  Baixar Diário
+                </a>
+              </div>
+            )}
+          </div>
         </div>
-    );
+      )}
+    </div>
+  );
 }
 
 export default CardGastos;
