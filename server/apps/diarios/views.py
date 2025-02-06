@@ -84,7 +84,7 @@ class DiariosView(APIView):
                 return JsonResponse({"error": "Valor anual inválido."}, status=400)
         
         qs = qs.distinct().order_by('-date')
-        qs = qs[:3]
+        qs = qs[:9]
         
         resultado = []
         for diario in qs:
@@ -100,12 +100,14 @@ class DiariosView(APIView):
                 if (len(contratacao.fornecedor.nome) > 6):
                     contrato_data = {
                         'id': contratacao.id,
-                        'nome': contratacao.fornecedor.nome,
-                        'cnpj': contratacao.fornecedor.cnpj,
                         'valor_mensal': contratacao.valor_mensal,
                         'valor_anual': contratacao.valor_anual,
                         'data_assinatura': contratacao.data_assinatura.strftime('%Y-%m-%d') if contratacao.data_assinatura else None,
                         'vigencia': contratacao.vigencia,
+                        'fornecedor': {
+                            'nome': contratacao.fornecedor.nome,
+                            'cnpj': contratacao.fornecedor.cnpj,
+                        }
                     }
                     diario_data['contratacoes'].append(contrato_data)
             resultado.append(diario_data)
@@ -140,14 +142,64 @@ class FornecedorByNameAPIView(APIView):
         
 class DiariosPorFornecedorByIdAPIView(APIView):
     def post(self, request, id):
+        
+        nome_body = request.data.get('nome')
+        data_assinatura_str = request.data.get('data_assinatura')
+        data_publicacao_str = request.data.get('data_publicacao')
+        
+        if id == 0:
+            qs = Diario.objects.all()
+        
+            if data_publicacao_str:
+                try:
+                    pub_date = datetime.strptime(data_publicacao_str, "%Y-%m-%d").date()
+                    qs = qs.filter(date=pub_date)
+                except ValueError:
+                    return JsonResponse({"error": "Data de publicação inválida. Use o formato YYYY-MM-DD."}, status=400)
+            
+            if data_assinatura_str:
+                try:
+                    ass_date = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
+                    qs = qs.filter(contratacoes__data_assinatura=ass_date)
+                except ValueError:
+                    return JsonResponse({"error": "Data de assinatura inválida. Use o formato YYYY-MM-DD."}, status=400)
+            
+            qs = qs.distinct().order_by('-date')
+            qs = qs[:9]
+            
+            resultado = []
+            for diario in qs:
+                diario_data = {
+                    'id': diario.id,
+                    'data_publicacao': diario.date.strftime('%Y-%m-%d') if diario.date else None,
+                    'url': diario.url,
+                    'txt_url': diario.txt_url,
+                    'excerpts': diario.excerpts,
+                    'contratacoes': []
+                }
+                for contratacao in diario.contratacoes.all():
+                    if (len(contratacao.fornecedor.nome) > 6):
+                        contrato_data = {
+                            'id': contratacao.id,
+                            'valor_mensal': contratacao.valor_mensal,
+                            'valor_anual': contratacao.valor_anual,
+                            'data_assinatura': contratacao.data_assinatura.strftime('%Y-%m-%d') if contratacao.data_assinatura else None,
+                            'vigencia': contratacao.vigencia,
+                            'fornecedor': {
+                                'nome': contratacao.fornecedor.nome,
+                                'cnpj': contratacao.fornecedor.cnpj,
+                            }
+                        }
+                        diario_data['contratacoes'].append(contrato_data)
+                resultado.append(diario_data)
+            
+            return JsonResponse(resultado, safe=False, status=200)
+        
         try:
             fornecedor = Fornecedor.objects.get(id=id)
         except Fornecedor.DoesNotExist:
             return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
         
-        nome_body = request.data.get('nome')
-        data_assinatura_str = request.data.get('data_assinatura')
-        data_publicacao_str = request.data.get('data_publicacao')
         
         if nome_body and nome_body != fornecedor.nome:
             return Response(
