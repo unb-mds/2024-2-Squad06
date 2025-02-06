@@ -12,10 +12,10 @@ interface CardGastosProps {
 
 function CardGastos({ id, dataPublicacao, excerpts, contratacoes, url, className = '' }: CardGastosProps) {
   const [expandido, setExpandido] = useState(false);
+  const valores = (contratacoes && contratacoes.length > 0) ? contratacoes.reduce((acc, contratacao) => acc + parseFloat(contratacao.valor_mensal), 0).toFixed(2) : 0.00;
 
   const handleOpen = () => setExpandido(true);
   const handleClose = () => setExpandido(false);
-
   return (
     <div className={`bg-[#112632] rounded-lg shadow-md p-5 text-center my-5 ${className}`}>
       <h2 className="text-xl text-white">
@@ -34,7 +34,8 @@ function CardGastos({ id, dataPublicacao, excerpts, contratacoes, url, className
           <div className="bg-[#112632] rounded-lg shadow-lg p-6 w-[80vw] max-w-4xl max-h-[80vh] overflow-auto relative">
             <div className="flex justify-between items-center mb-4">
               <h2 className="text-2xl text-white">Detalhes do Diário {id}</h2>
-              <button 
+              <p className="text-2xl text-white mt-2">Valor Mensal do Diário: R$ {valores}</p>
+              <button
                 onClick={handleClose} 
                 className="bg-[#EFEFEF] text-black rounded-full px-4 py-2"
               >
@@ -46,8 +47,9 @@ function CardGastos({ id, dataPublicacao, excerpts, contratacoes, url, className
               contratacoes.map((contratacao) => (
                 <div key={contratacao.id} className="mb-4 border-b border-gray-500 pb-2">
                   <p className="text-white">
-                    Contratação {contratacao.id}: R$ {contratacao.valor_mensal} / R$ {contratacao.valor_anual}
+                    Contratação de {contratacao.fornecedor.nome}, CNPJ: {contratacao.fornecedor.cnpj}
                   </p>
+                  <p className="text-white">Valor: R$ {contratacao.valor_mensal} (mensal) / R$ {contratacao.valor_anual} (anual)</p>
                   <p className="text-white">
                     Data de Assinatura: {contratacao.data_assinatura}
                   </p>
