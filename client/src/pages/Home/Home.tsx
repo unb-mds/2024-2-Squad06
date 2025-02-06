@@ -1,12 +1,11 @@
-// src/pages/Home/Home.tsx
 import React, { useEffect, useState } from 'react';
 import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
-import BarraPesquisa from '../../components/home/BarraPesquisa/BarraPesquisa';
 import Carrossel from '../../components/carrossel/carrosel';
 import { fetchDiarios } from '../../service/api';
 import { Diario } from '../../models/Diario';
 import CardGastos from '../../components/CardGastos/CardGastos';
+import LoadingModal from '../../LoadingModal/LoadingModal';
 
 function Home() {
   const [diarios, setDiarios] = useState<Diario[]>([]);
@@ -31,16 +30,9 @@ function Home() {
     <div>
       <Header />
       <Carrossel />
-      <BarraPesquisa />
 
-      {loading && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg shadow-lg p-6">
-            <p className="text-xl font-bold">Carregando Diários...</p>
-          </div>
-        </div>
-      )}
-      <h1 className="text-center text-3xl text-black mt-10">Últimos Diários Publicados</h1>
+      {loading && <LoadingModal message="Buscando diários recentes" />}
+      {!loading && <h1 className="text-center text-3xl text-black mt-10">Últimos Diários Publicados</h1>}
       <div className="flex flex-col justify-center items-center m-[1rem_0] 
                       1008:justify-between 1008:items-start 1008:gap-[2vw] 1008:flex-row 1008:flex-wrap 1008:m-[1vw_9vw]
                       1300:justify-center 1300:items-center 1300:gap-[1rem] 1300:m-[2rem_auto] 1300:w-[70rem] 1300:flex-row 1300:flex-wrap">
