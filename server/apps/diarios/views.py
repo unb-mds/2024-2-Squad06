@@ -45,7 +45,6 @@ class RequisicaoAPIView(APIView):
         
 
 
-# views.py
 class DiariosView(APIView):
     def get(self, request):
         data_publicacao = request.GET.get('data_publicacao')
@@ -142,21 +141,23 @@ class FornecedorByNameAPIView(APIView):
         
 class DiariosPorFornecedorByIdAPIView(APIView):
     def post(self, request, id):
-        
-        nome_body = request.data.get('nome')
-        data_assinatura_str = request.data.get('data_assinatura')
-        data_publicacao_str = request.data.get('data_publicacao')
-        
+        nome_body = request.data.get('nome', '')
+        data_assinatura_str = request.data.get('data_assinatura', '')
+        data_publicacao_str = request.data.get('data_publicacao', '')
+        try:
+            page = int(request.data.get('page', 1))
+        except ValueError:
+            return Response({"error": "Parâmetro 'page' inválido."}, status=status.HTTP_400_BAD_REQUEST)
+        items_per_page = 9
+
         if id == 0:
             qs = Diario.objects.all()
-        
             if data_publicacao_str:
                 try:
                     pub_date = datetime.strptime(data_publicacao_str, "%Y-%m-%d").date()
                     qs = qs.filter(date=pub_date)
                 except ValueError:
                     return JsonResponse({"error": "Data de publicação inválida. Use o formato YYYY-MM-DD."}, status=400)
-            
             if data_assinatura_str:
                 try:
                     ass_date = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
@@ -164,70 +165,40 @@ class DiariosPorFornecedorByIdAPIView(APIView):
                 except ValueError:
                     return JsonResponse({"error": "Data de assinatura inválida. Use o formato YYYY-MM-DD."}, status=400)
             
-            qs = qs.distinct().order_by('-date')
-            qs = qs[:9]
-            
-            resultado = []
-            for diario in qs:
-                diario_data = {
-                    'id': diario.id,
-                    'data_publicacao': diario.date.strftime('%Y-%m-%d') if diario.date else None,
-                    'url': diario.url,
-                    'txt_url': diario.txt_url,
-                    'excerpts': diario.excerpts,
-                    'contratacoes': []
-                }
-                for contratacao in diario.contratacoes.all():
-                    if (len(contratacao.fornecedor.nome) > 6):
-                        contrato_data = {
-                            'id': contratacao.id,
-                            'valor_mensal': contratacao.valor_mensal,
-                            'valor_anual': contratacao.valor_anual,
-                            'data_assinatura': contratacao.data_assinatura.strftime('%Y-%m-%d') if contratacao.data_assinatura else None,
-                            'vigencia': contratacao.vigencia,
-                            'fornecedor': {
-                                'nome': contratacao.fornecedor.nome,
-                                'cnpj': contratacao.fornecedor.cnpj,
-                            }
-                        }
-                        diario_data['contratacoes'].append(contrato_data)
-                resultado.append(diario_data)
-            
-            return JsonResponse(resultado, safe=False, status=200)
-        
-        try:
-            fornecedor = Fornecedor.objects.get(id=id)
-        except Fornecedor.DoesNotExist:
-            return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
-        
-        
-        if nome_body and nome_body != fornecedor.nome:
-            return Response(
-                {"error": "O nome fornecido não corresponde ao fornecedor com o id informado."},
-                status=status.HTTP_400_BAD_REQUEST
-            )
-        
-        diarios = Diario.objects.filter(contratacoes__fornecedor=fornecedor).distinct()
-        
-        if data_assinatura_str:
+        else:
             try:
-                data_assinatura_date = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
-                diarios = diarios.filter(contratacoes__data_assinatura=data_assinatura_date)
-            except ValueError:
-                return Response({"error": "Data de assinatura inválida. Use o formato YYYY-MM-DD."},
-                                status=status.HTTP_400_BAD_REQUEST)
-        
-        if data_publicacao_str:
-            try:
-                data_publicacao_date = datetime.strptime(data_publicacao_str, "%Y-%m-%d").date()
-                diarios = diarios.filter(date=data_publicacao_date)
-            except ValueError:
-                return Response({"error": "Data de publicação inválida. Use o formato YYYY-MM-DD."},
-                                status=status.HTTP_400_BAD_REQUEST)
-        
+                fornecedor = Fornecedor.objects.get(id=id)
+            except Fornecedor.DoesNotExist:
+                return Response({"error": "Fornecedor não encontrado."}, status=status.HTTP_404_NOT_FOUND)
+
+            if nome_body and nome_body != fornecedor.nome:
+                return Response(
+                    {"error": "O nome fornecido não corresponde ao fornecedor com o id informado."},
+                    status=status.HTTP_400_BAD_REQUEST
+                )
+            qs = Diario.objects.filter(contratacoes__fornecedor=fornecedor)
+            if data_assinatura_str:
+                try:
+                    data_assinatura_date = datetime.strptime(data_assinatura_str, "%Y-%m-%d").date()
+                    qs = qs.filter(contratacoes__data_assinatura=data_assinatura_date)
+                except ValueError:
+                    return Response({"error": "Data de assinatura inválida. Use o formato YYYY-MM-DD."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            if data_publicacao_str:
+                try:
+                    data_publicacao_date = datetime.strptime(data_publicacao_str, "%Y-%m-%d").date()
+                    qs = qs.filter(date=data_publicacao_date)
+                except ValueError:
+                    return Response({"error": "Data de publicação inválida. Use o formato YYYY-MM-DD."},
+                                    status=status.HTTP_400_BAD_REQUEST)
+            
+        qs = qs.distinct().order_by('-date')
+        start = (page - 1) * items_per_page
+        end = start + items_per_page
+        qs = qs[start:end]
+
         resultado = []
-        print(len(diarios))
-        for diario in diarios:
+        for diario in qs:
             diario_data = {
                 'id': diario.id,
                 'data_publicacao': diario.date.strftime("%Y-%m-%d") if diario.date else None,
@@ -252,5 +223,5 @@ class DiariosPorFornecedorByIdAPIView(APIView):
                     }
                     diario_data['contratacoes'].append(contrato_data)
             resultado.append(diario_data)
-        
+
         return Response(resultado, status=status.HTTP_200_OK)
