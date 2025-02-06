@@ -1,4 +1,3 @@
-// src/components/CardGastos/CardGastos.tsx
 import React, { useState } from 'react';
 import { Contratacao } from '../../models/Contratacao';
 
@@ -7,7 +6,7 @@ interface CardGastosProps {
   dataPublicacao?: string;
   excerpts?: string;
   contratacoes?: Contratacao[];
-  url?: string; // Link para baixar o diário
+  url?: string;
   className?: string;
 }
 
