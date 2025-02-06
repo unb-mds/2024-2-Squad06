@@ -3,7 +3,7 @@ import Header from '../../components/Header/Header';
 import Footer from '../../components/Footer/Footer';
 import BarraPesquisa from '../../components/home/BarraPesquisa/BarraPesquisa';
 import BarraFiltragem from '../../components/home/BarraFiltragem/BarraFiltragem';
-import CardGasto from '../../components/CardGastos/CardGastos';
+import CardGasto from '../../components/CardGastos/CardGasto';
 
 interface FornecedorData {
     fornecedor: {
