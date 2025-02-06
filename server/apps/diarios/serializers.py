@@ -3,11 +3,13 @@ from .models import Diario, Fornecedor, Contratacao
 
 
 class FornecedorSerializer(serializers.ModelSerializer):
+    contract_count = serializers.IntegerField(read_only=True)
     class Meta:
         model = Fornecedor
         fields = [
             'nome',
             'cnpj',
+            'contract_count'
         ]
 
 
