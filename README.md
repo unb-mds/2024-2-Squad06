@@ -90,10 +90,9 @@ root/
 
 ## 🚀 Como Executar o Projeto
 
-1. Altere a parte do arquivo docker-compose.yml para suas variáveis de ambiente:
+1. Crie na pasta `server/` o seguinte .env:
 
    ```
-   backend:
     - DB_NAME=YOUR_DB_NAME
     - DB_USER=YOUR_DB_USER
     - DB_PASSWORD=YOUR_DB_PASSWORD
@@ -101,7 +100,7 @@ root/
     - FRONTEND_URL=YOUR_FRONTEND_URL
    ```
 
-2. Crie um .env no `client` desse jeito:
+2. Crie um .env na pasta `client/` desse jeito:
 
 ```.env
     REACT_APP_API_BASE_URL=YOUR_REACT_APP_API_BASE_URL
