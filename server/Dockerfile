@@ -9,7 +9,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt /app/
+COPY server/requirements.txt /app/
 
 RUN pip install -r requirements.txt
 

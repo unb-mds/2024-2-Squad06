@@ -1,0 +1,52 @@
+name: Carregar Diário Diariamente
+
+on:
+  schedule:
+    - cron: "0 0 * * *" # Rodar todos os dias à meia-noite
+  workflow_dispatch:  
+
+jobs:
+  load-diario:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout do código
+        uses: actions/checkout@v4
+
+      - name: Configurar Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.8'
+
+      - name: Instalar dependências do sistema
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y gcc libmariadb-dev pkg-config
+          sudo apt-get clean
+
+      - name: Instalar dependências Python
+        working-directory: server
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Criar arquivo .env
+        working-directory: server
+        run: |
+          echo "DB_NAME=${{ secrets.DB_NAME }}" >> .env
+          echo "DB_USER=${{ secrets.DB_USER }}" >> .env
+          echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
+          echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
+          echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
+
+      - name: Makemigrations
+        working-directory: server
+        run: python manage.py makemigrations
+
+      - name: Rodar Migrations
+        working-directory: server
+        run: python manage.py migrate --fake
+
+      - name: Carregar Diários Semanais
+        working-directory: server
+        run: python manage.py carregamento_diarios
