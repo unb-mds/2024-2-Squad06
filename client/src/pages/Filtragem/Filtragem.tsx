@@ -71,6 +71,7 @@ function Filtragem() {
 
   const handleFiltrarDiarios = async () => {
     setPage(1);
+    setDiarios([]);
     await executarFiltragem(1);
   };
 
@@ -104,6 +105,15 @@ function Filtragem() {
                 </span>
               </div>
             ))}
+            <button 
+              onClick={() => {
+                setSelectedSupplier(null);
+                setPage(1);
+              }}
+              className="mt-4 bg-blue-500 text-white py-1 px-3 rounded hover:bg-red-500 transition-all"
+            >
+              Limpar seleção
+            </button>
           </div>
         )}
         <div className="flex flex-wrap gap-4 mt-4">
@@ -193,12 +203,12 @@ function Filtragem() {
                 </button>
               )}
               <span className="text-gray-700 font-medium">Página {page}</span>
-              <button 
+              {diarios.length > 8 && <button 
                 onClick={() => mudarPagina(page + 1)}
                 className="px-4 py-2 bg-blue-500 text-white rounded"
               >
                 Próxima
-              </button>
+              </button>}
             </div>
           </>
         ) : (
