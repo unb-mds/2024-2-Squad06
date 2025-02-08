@@ -75,36 +75,29 @@ root/
 │   └── README.md
 ├──  server/
 │   ├── apps/
-│   │   ├── gastos_publicos/
-│   │   │   ├── controllers/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── example_controller.py
-│   │   │   ├── middlewares/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── example_middleware.py
+│   │   ├── diarios/
 │   │   │   ├── migrations/
 │   │   │   │   ├── __init__.py
-│   │   │   ├── routes/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── example_routes.py
-│   │   │   ├── services/
-│   │   │   │   ├── __init__.py
-│   │   │   │   └── example_service.py
-│   │   │   ├── utils/
-│   │   │   │   ├── __init__.py
-│   │   │   │   ├── admin.py
-│   │   │   │   ├── apps.py
-│   │   │   │   ├── models.py
-│   │   │   │   ├── tests.py
-│   │   │   │   └── views.py
+│   │   │   │   ├── 0001_initial.py
+│   │   │   │   └── 0002_alter_diario_contratacoes.py
+│   │   │   ├── admin.py
+│   │   │   ├── apps.py
+│   │   │   ├── models.py
+│   │   │   ├── serializers.py
+│   │   │   ├── services.py
+│   │   │   ├── tests_controladores.py
+│   │   │   ├── urls.py
+│   │   │   ├── views.py
 │   │   │   └── __init__.py
-│   │   ├── server/
+│   ├── server/
 │   │   ├── __init__.py
 │   │   ├── asgi.py
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   ├── wsgi.py
 │   ├── Dockerfile
+│   │   └── wsgi.py
+│   ├── .env
 │   ├── manage.py
 │   ├── .env
 │   └── requirements.txt
@@ -122,14 +115,21 @@ root/
 
 ## 🚀 Como Executar o Projeto
 
-1. Altere a parte do arquivo docker-compose.yml para suas variáveis de ambiente:
+1. Crie na pasta `server/` o seguinte .env:
 
    ```
     - DB_NAME=YOUR_DB_NAME
     - DB_USER=YOUR_DB_USER
     - DB_PASSWORD=YOUR_DB_PASSWORD
     - DB_HOST=YOUR_DB_HOST
+    - FRONTEND_URL=YOUR_FRONTEND_URL
    ```
+
+2. Crie um .env na pasta `client/` desse jeito:
+
+```.env
+    REACT_APP_API_BASE_URL=YOUR_REACT_APP_API_BASE_URL
+```
 
 2. Execute o comando no seu terminal:
 
@@ -137,7 +137,7 @@ root/
        docker-compose up --build -d
    ```
 
-3. Quando terminar o processo acesse o frontend no link `http://localhost:3000/`;
+3. Quando terminar o processo acesse o frontend no link `http://localhost:3000/`, se possível espere até o backend poder receber conexões em torno de uns 20 segundos;
 
 4. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`.
 
@@ -194,6 +194,12 @@ Se você deseja colaborar com o projeto, siga as etapas abaixo:
 - Inclua uma descrição detalhada no Pull Request, explicando as mudanças realizadas.
 
 Caso tenha dúvidas, entre em contato com a equipe do projeto por meio das [issues](https://github.com/unb-mds/2024-2-Squad06/issues).
+
+## Projeto 
+
+<img src="client/public/assets/home.png"/>
+<br/><br/>
+<img src="client/public/assets/area_pesquisa.png">
 
 ## 👥 Colaboradores
 
