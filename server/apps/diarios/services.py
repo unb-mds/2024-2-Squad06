@@ -39,7 +39,7 @@ class Controladores:
                 arquivo.write(chunk)
         return caminho_arquivo
 
-    def associar_valores_a_contratos(texto):
+    def associar_valores_a_contratos(self, texto):
         padrao_valores = r"R\$ ?\d{1,3}(?:\.\d{3})*,\d{2}"
         valores = re.findall(padrao_valores, texto)
         contratos = ["Contrato 1", "Contrato 2", "Contrato 3"]
