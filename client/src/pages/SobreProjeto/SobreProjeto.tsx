@@ -8,26 +8,26 @@ function SobreProjeto() {
       <Header />
       <div className="flex flex-col justify-start items-center px-[1.25rem] text-left bg-white my-[1.25rem]">
         <h1 className="text-[2.5rem] mb-[1.25rem] text-center">Sobre o Projeto</h1>
-        <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+        <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
           O Monitoramento de Gastos Públicos é uma plataforma desenvolvida para fornecer transparência e facilitar o entendimento sobre as finanças municipais. 
           Seu objetivo é oferecer uma interface acessível e fácil de usar, permitindo que cidadãos, estudantes e profissionais possam visualizar de forma clara e detalhada os padrões de gastos públicos e 
           identificar fornecedores recorrentes nas contas do município de Maceió.
         </p>
-        <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+        <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
           Através dessa ferramenta, buscamos promover a cidadania ativa e o controle social, garantindo maior visibilidade e compreensão sobre a alocação dos recursos públicos.
         </p>
         <div>
           <h1 className="text-[2.5rem] mb-[1.25rem] text-center">O que são Gastos públicos?</h1>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             Gastos públicos referem-se ao dinheiro que o governo utiliza para financiar as suas atividades, como a prestação de serviços públicos (saúde, educação, segurança), infraestrutura, investimentos em projetos sociais e o pagamento de dívidas. 
             Esses gastos são realizados com recursos obtidos por meio da arrecadação de impostos, taxas e contribuições, e são essenciais para garantir o funcionamento do Estado e o bem-estar da sociedade.
           </p>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             Além disso, a gestão eficiente dos gastos públicos é crucial para o desenvolvimento econômico e social, 
             garantindo que os recursos sejam alocados de forma responsável e que as políticas públicas atendam às necessidades da população de maneira justa e eficaz. O controle e a transparência nos gastos públicos são fundamentais para evitar desperdícios, 
             combater a corrupção e assegurar que os recursos sejam utilizados de acordo com o interesse público.
           </p>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             Para garantir o uso responsável e eficiente dos recursos públicos, é fundamental que a população compreenda alguns pontos essenciais. A seguir, destacamos aspectos importantes que envolvem a gestão dos gastos públicos e sua relação com a sociedade.
           </p>
         </div>
@@ -52,12 +52,12 @@ function SobreProjeto() {
         </div>
         <div>
           <h1 className="text-[2.5rem] mb-[1.25rem] text-center">Monitoramento</h1>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             O monitoramento dos gastos públicos foi realizado por meio da análise da API do Querido Diário. 
             Essa ferramenta foi fundamental para obter informações detalhadas sobre os contratos e transações no setor público, 
             permitindo identificar padrões importantes nos dados. Com uma observação cuidadosa, foi possível organizar as informações de forma mais clara e estruturada.
           </p>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             Aqui estão os principais pontos-chave utilizados para o monitoramento:
           </p>
         </div>
@@ -87,11 +87,11 @@ function SobreProjeto() {
         </div>
         <div>
           <h1 className="text-[2.5rem] mb-[1.25rem] text-center">Maceió</h1>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             A escolha da cidade de Maceió para a realização deste projeto se dá pela relevância de promover maior transparência na gestão dos recursos públicos em nível municipal. Maceió, como muitas outras cidades brasileiras, 
             enfrenta desafios em relação à fiscalização das finanças públicas, o que dificulta o acompanhamento da população e de profissionais que buscam entender e monitorar os gastos do governo.
           </p>
-          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full">
+          <p className="text-[1.2rem] leading-[1.6] mb-[0.9375rem] max-w-[55rem] w-full text-black">
             Nosso objetivo é contribuir para o fortalecimento da cidadania ativa e do controle social, proporcionando maior transparência e compreensão sobre a alocação dos recursos públicos no município de Maceió.
           </p>
           <img src='/assets/BandAlagoas.png' className='p-[1.25rem] mx-auto' alt='Bandeira Alagoas' />

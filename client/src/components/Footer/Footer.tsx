@@ -9,7 +9,7 @@ function Footer() {
                 Gastos Públicos
             </div>
       </div>
-      <ul className="flex flex-col items-center gap-[1rem] list-none text-white p-0 m-0 860:flex-row 860:gap-[3rem]">
+      <ul className="flex flex-col items-center gap-[1rem] list-none text-white p-0 m-0 860:flex-row 860:gap-[2rem]">
           <li><a className="text-white no-underline hover:underline " href="/" target="_blank" rel="noopener noreferrer">Home</a></li>
           <li><a className="text-white no-underline hover:underline" href="/Filtragem" target="_blank" rel="noopener noreferrer">Área de Busca</a></li>
           <li><a className="text-white no-underline hover:underline" href="/SobreProjeto" target="_blank" rel="noopener noreferrer">Sobre o projeto</a></li>
