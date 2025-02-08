@@ -72,6 +72,7 @@ root/
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
 │   ├── package.json
+│   ├── .env
 │   └── README.md
 ├──  server/
 │   ├── apps/
@@ -95,9 +96,8 @@ root/
 │   │   ├── settings.py
 │   │   ├── urls.py
 │   │   ├── wsgi.py
-│   ├── Dockerfile
 │   │   └── wsgi.py
-│   ├── .env
+│   ├── Dockerfile
 │   ├── manage.py
 │   ├── .env
 │   └── requirements.txt

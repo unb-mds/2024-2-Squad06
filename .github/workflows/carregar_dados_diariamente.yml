@@ -1,8 +1,8 @@
-name: Carregar Diário Semanal
+name: Carregar Diário Diariamente
 
 on:
   schedule:
-    - cron: "0 0 * * 1"
+    - cron: "0 0 * * *" # Rodar todos os dias à meia-noite
   workflow_dispatch:  
 
 jobs:
@@ -37,6 +37,7 @@ jobs:
           echo "DB_PASSWORD=${{ secrets.DB_PASSWORD }}" >> .env
           echo "DB_HOST=${{ secrets.DB_HOST }}" >> .env
           echo "DB_PORT=${{ secrets.DB_PORT }}" >> .env
+          echo "FRONTEND_URL=${{ secrets.FRONTEND_URL }}" >> .env
 
       - name: Makemigrations
         working-directory: server
@@ -48,4 +49,4 @@ jobs:
 
       - name: Carregar Diários Semanais
         working-directory: server
-        run: python manage.py carregar_dados_semanais
+        run: python manage.py carregamento_diarios
