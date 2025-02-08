@@ -1,24 +1,20 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Gastos from './pages/Gastos/Gastos';
+import { Route, BrowserRouter, Routes } from "react-router-dom";
 import Filtragem from './pages/Filtragem/Filtragem';
 import Home from './pages/Home/Home';
 import SobreNos from './pages/SobreNos/SobreNos';
 import SobreProjeto from './pages/SobreProjeto/SobreProjeto';
-import Monitoramento from './pages/Monitoramento/Moitoramento';
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/Filtragem" element={<Filtragem />} />
-        <Route path="/SobreNos" element={<SobreNos />} />
-        <Route path="/SobreProjeto" element={<SobreProjeto />} />
-        <Route path="/Monitoramento" element={<Monitoramento />} />
-        <Route path="/Gastos" element={<Gastos />} />
+        <Route path="/" Component={Home} />
+        <Route path="/Filtragem" Component={Filtragem} />
+        <Route path="/SobreNos" Component={SobreNos} />
+        <Route path="/SobreProjeto" Component={SobreProjeto} />
       </Routes>
-    </Router>
+    </BrowserRouter>
   );
 }
 
