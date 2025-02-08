@@ -300,18 +300,15 @@ class Controladores:
                 )
                 diario.contratacoes.add(contratacao)
 
-    def carregar_dados_semanais(self):
+    def carregar_dados_diarios(self):
         hoje = datetime.today().date()
-        ultimo_diario = Diario.objects.order_by('-date').first()
-        if ultimo_diario:
-            published_since = ultimo_diario.date
-        else:
-            published_since = hoje - timedelta(days=7)
+        published_since = hoje.strftime('%Y-%m-%d')
+        published_until = published_since
         try:
             diarios = self.buscar_diarios_maceio(
-                querystring="",
-                published_since=published_since.strftime('%Y-%m-%d'),
-                published_until=hoje.strftime('%Y-%m-%d')
+                querystring="licitacao",
+                published_since=published_since,
+                published_until=published_until
             )
             diarios_nao_processados = [
                 diario for diario in diarios
@@ -319,6 +316,7 @@ class Controladores:
             ]
             resultados = self.processar_diarios(diarios_nao_processados)
 
-            print(f"Carregamento semanal concluído com sucesso: {len(resultados)} diários processados.")
+            print(f"Carregamento concluído com sucesso: {len(resultados)} diários processados.")
         except Exception as e:
-            print(f"Erro ao carregar dados semanais: {str(e)}")
+            print(f"Erro ao carregar dados: {str(e)}")
+
