@@ -1,13 +1,20 @@
 import unittest
-from unittest.mock import patch, Mock, mock_open
-from apps.diarios.services import Controladores
+from unittest.mock import patch, Mock, mock_open, MagicMock
 import os
+import sys
+import io
+from datetime import datetime
+from apps.diarios.services import Controladores, DIRETORIO_DOWNLOAD, URL_BASE
+from apps.diarios.models import Diario, Fornecedor, Contratacao
 
 class TestServices(unittest.TestCase):
     
     def setUp(self):
         self.controlador = Controladores()
 
+    # ===============================
+    # Testes já existentes
+    # ===============================
     @patch("apps.diarios.services.requests.get")
     def test_processar_diarios_com_sucesso(self, mock_get):
         mock_response = Mock()
@@ -25,7 +32,10 @@ class TestServices(unittest.TestCase):
         }]
 
         with patch("builtins.open", mock_open(read_data="Conteúdo do diário")):
-            resultados = self.controlador.processar_diarios(diarios_mock)
+            # Evita chamadas reais a salvar e limpar diretório
+            with patch.object(self.controlador, 'salvar_banco_de_dados'), \
+                 patch.object(self.controlador, 'limpar_diretorio'):
+                resultados = self.controlador.processar_diarios(diarios_mock)
 
         self.assertGreater(len(resultados), 0)
         self.assertEqual(resultados[0]["date"], "2024-01-01")
@@ -128,6 +138,128 @@ class TestServices(unittest.TestCase):
         texto_mock = ""
         blocos_contratos = self.controlador.filtrar_publicacoes(texto_mock)
         self.assertEqual(len(blocos_contratos), 0)
+
+    # ===============================
+    # Testes adicionais para aumentar a cobertura
+    # ===============================
+    def test_converter_valor(self):
+        # Testa o método converter_valor, que remove pontos e substitui vírgula por ponto.
+        resultado = self.controlador.converter_valor("1.234,56")
+        self.assertEqual(resultado, 1234.56)
+
+    def test_extrair_valores_com_valor_numerico(self):
+        # Testa o branch do extrair_valores que utiliza a alternativa simples (sem "valor unitário").
+        texto_mock = "O valor total é R$ 1.234,56."
+        resultado = self.controlador.extrair_valores(texto_mock)
+        # Como o loop sobrescreve o valor, o resultado será o float do último valor encontrado.
+        self.assertEqual(resultado, 1234.56)
+
+    def test_extrair_valores_com_valores_unitarios(self):
+        # Testa o branch onde o padrão "valor unitário" é encontrado.
+        texto_mock = "valor unitário R$ 1.000,00"
+        resultado = self.controlador.extrair_valores(texto_mock)
+        self.assertEqual(resultado, 1000.0)
+
+    @patch("apps.diarios.services.Controladores.baixar_arquivo")
+    def test_processar_diarios_com_erro(self, mock_baixar):
+        # Simula uma exceção durante o processamento do diário
+        mock_baixar.side_effect = Exception("Erro de download")
+        diarios_mock = [{
+            "date": "2024-01-02",
+            "url": "https://mock-url.com/diario.pdf",
+            "txt_url": "https://mock-url.com/diario.txt",
+            "edicao": "Normal",
+            "edicao_extra": False,
+            "resumo": "",
+        }]
+        # Captura a saída para evitar que o print polua o output do teste
+        captured_output = io.StringIO()
+        old_stdout = sys.stdout
+        sys.stdout = captured_output
+        with patch.object(self.controlador, 'salvar_banco_de_dados'), \
+            patch.object(self.controlador, 'limpar_diretorio'):
+            resultados = self.controlador.processar_diarios(diarios_mock)
+        sys.stdout = old_stdout  # Restaura o stdout original
+        self.assertEqual(resultados, [])
+
+    def test_processar_diarios_com_contratacoes(self):
+        # Testa o branch onde blocos_contratos não está vazio.
+        diario = {
+            "date": "2024-01-03",
+            "url": "https://mock-url.com/diario.pdf",
+            "txt_url": "fake.txt",
+            "excerpts": "Teste contratacoes"
+        }
+        with patch.object(self.controlador, "baixar_arquivo", return_value="fake.txt"):
+            with patch("builtins.open", mock_open(read_data="dummy content")):
+                # Força os métodos a retornarem valores que garantem a criação de contratacoes.
+                self.controlador.filtrar_publicacoes = lambda txt: ["dummy bloco"]
+                self.controlador.extrair_valores = lambda txt: 100.0
+                self.controlador.extrair_fornecedores = lambda txt: {"dummy": {"nome": "Fornecedor X", "cnpj": "123"}}
+                self.controlador.extrair_info_contratos = lambda txt: [{"vigencia": "2", "data_assinatura": "2024-01-01"}]
+                with patch.object(self.controlador, 'salvar_banco_de_dados'), \
+                     patch.object(self.controlador, 'limpar_diretorio'):
+                    resultados = self.controlador.processar_diarios([diario])
+        self.assertEqual(len(resultados), 1)
+        self.assertTrue(len(resultados[0]["contratacoes"]) > 0)
+
+    @patch("apps.diarios.services.Diario")
+    @patch("apps.diarios.services.Fornecedor")
+    @patch("apps.diarios.services.Contratacao")
+    def test_salvar_banco_de_dados_novo(self, mock_contratacao, mock_fornecedor, mock_diario):
+        # Simula o caso em que o diário não existe e precisa ser criado.
+        dados = {
+            "date": "2024-01-01",
+            "url": "https://mock-url.com/diario.pdf",
+            "txt_url": "https://mock-url.com/diario.txt",
+            "excerpts": "Teste",
+            "contratacoes": [
+                {
+                    "fornecedor": {"nome": "Fornecedor X", "cnpj": "123"},
+                    "valores": {"mensal": 100.0, "anual": 1200.0},
+                    "data_assinatura": "2024-01-01",
+                    "vigencia": "2"
+                }
+            ]
+        }
+        mock_diario.objects.filter.return_value.first.return_value = None
+        mock_fornecedor.objects.filter.return_value.first.return_value = None
+        mock_diario.objects.create.return_value = MagicMock(contratacoes=MagicMock(add=lambda x: None))
+        self.controlador.salvar_banco_de_dados(dados)
+        # Se não lançar exceção, o teste passa.
+
+    def test_salvar_banco_de_dados_url_none(self):
+        # Testa se ValueError é levantado quando o "url" não é fornecido.
+        dados = {
+            "date": "2024-01-01",
+            # "url" ausente
+            "txt_url": "https://mock-url.com/diario.txt",
+            "excerpts": "Teste",
+            "contratacoes": []
+        }
+        with self.assertRaises(ValueError):
+            self.controlador.salvar_banco_de_dados(dados)
+
+    @patch("apps.diarios.services.Controladores.buscar_diarios_maceio")
+    @patch("apps.diarios.services.Diario")
+    def test_carregar_dados_diarios_sucesso(self, mock_diario, mock_buscar):
+        # Simula o sucesso no carregamento dos diários.
+        hoje = datetime.today().date()
+        fake_diario = {"txt_url": "fake_url"}
+        mock_diario.objects.filter.return_value.exists.return_value = False
+        mock_buscar.return_value = [fake_diario]
+        with patch.object(self.controlador, "processar_diarios", return_value=["resultado"]):
+            with patch("builtins.print") as mock_print:
+                self.controlador.carregar_dados_diarios()
+                mock_print.assert_called_with("Carregamento concluído com sucesso: 1 diários processados.")
+
+    @patch("apps.diarios.services.Controladores.buscar_diarios_maceio")
+    def test_carregar_dados_diarios_erro(self, mock_buscar):
+        # Simula erro durante o carregamento dos diários.
+        mock_buscar.side_effect = Exception("Erro de busca")
+        with patch("builtins.print") as mock_print:
+            self.controlador.carregar_dados_diarios()
+            mock_print.assert_called_with("Erro ao carregar dados: Erro de busca")
 
 if __name__ == "__main__":
     unittest.main()
