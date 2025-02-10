@@ -44,6 +44,7 @@ O **backend do Monitoramento de Gastos Públicos** é responsável por interagir
     - DB_USER=YOUR_DB_USER
     - DB_PASSWORD=YOUR_DB_PASSWORD
     - DB_HOST=YOUR_DB_HOST
+    - FRONTEND_URL=YOUR_FRONTEND_URL
     ```
 
 4. Crie as migrações do banco de dados::
