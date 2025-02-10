@@ -40,14 +40,19 @@ O **frontend do Monitoramento de Gastos Públicos** fornece uma interface intera
     ```bash
     cd client
     ```
+3. Crie um .env na pasta `client/` desse jeito:
 
-3. Instale as dependências necessárias utilizando o NPM:
+    ```.env
+    REACT_APP_API_BASE_URL=YOUR_REACT_APP_API_BASE_URL
+    ```
+
+4. Instale as dependências necessárias utilizando o NPM:
 
     ```bash
     npm install
     ```
 
-4. Inicie o servidor de desenvolvimento:
+5. Inicie o servidor de desenvolvimento:
 
     ```bash
     npm start
