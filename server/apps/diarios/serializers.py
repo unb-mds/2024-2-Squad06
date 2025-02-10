@@ -4,13 +4,10 @@ from .models import Diario, Fornecedor, Contratacao
 
 class FornecedorSerializer(serializers.ModelSerializer):
     contract_count = serializers.IntegerField(read_only=True)
+
     class Meta:
         model = Fornecedor
-        fields = [
-            'nome',
-            'cnpj',
-            'contract_count'
-        ]
+        fields = ["nome", "cnpj", "contract_count"]
 
 
 class ContratacaoSerializer(serializers.ModelSerializer):
@@ -19,23 +16,23 @@ class ContratacaoSerializer(serializers.ModelSerializer):
     class Meta:
         model = Contratacao
         fields = [
-            'valor_mensal',
-            'valor_anual',
-            'vigencia',
-            'data_assinatura',
-            'fornecedor',
+            "valor_mensal",
+            "valor_anual",
+            "vigencia",
+            "data_assinatura",
+            "fornecedor",
         ]
 
 
 class DiarioSerializer(serializers.ModelSerializer):
-    contratacao = ContratacaoSerializer(many= True, read_only=True)
+    contratacao = ContratacaoSerializer(many=True, read_only=True)
 
     class Meta:
         model = Diario
         fields = [
-            'date',
-            'url',
-            'excerpts',
-            'txt_url',
-            'contratacao',
+            "date",
+            "url",
+            "excerpts",
+            "txt_url",
+            "contratacao",
         ]

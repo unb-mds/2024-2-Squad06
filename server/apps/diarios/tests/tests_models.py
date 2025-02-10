@@ -3,10 +3,12 @@ from unittest.mock import patch, MagicMock
 from datetime import date
 from apps.diarios.models import Fornecedor, Contratacao, Diario
 
+
 class FornecedorModelTest(SimpleTestCase):
     def test_fornecedor_str(self):
         fornecedor = Fornecedor(nome="Fornecedor Teste", cnpj="00.000.000/0001-00")
         self.assertEqual(str(fornecedor), "Fornecedor Teste")
+
 
 class ContratacaoModelTest(SimpleTestCase):
     def test_contratacao_str(self):
@@ -15,18 +17,23 @@ class ContratacaoModelTest(SimpleTestCase):
         expected_str = f"Contratação de {fornecedor.nome} (Vigência: 2024)"
         self.assertEqual(str(contratacao), expected_str)
 
+
 class DiarioModelTest(SimpleTestCase):
 
-    @patch('apps.diarios.models.Diario.objects')
-    @patch('apps.diarios.models.Contratacao.objects')
-    def test_get_valores_salvos_vazio(self, mock_contratacao_objects, mock_diario_objects):
+    @patch("apps.diarios.models.Diario.objects")
+    @patch("apps.diarios.models.Contratacao.objects")
+    def test_get_valores_salvos_vazio(
+        self, mock_contratacao_objects, mock_diario_objects
+    ):
         mock_diario_objects.all.return_value = []
         resultados = Diario.get_valores_salvos()
         self.assertEqual(resultados, [])
 
-    @patch('apps.diarios.models.Diario.objects')
-    @patch('apps.diarios.models.Contratacao.objects')
-    def test_get_valores_salvos_com_dados(self, mock_contratacao_objects, mock_diario_objects):
+    @patch("apps.diarios.models.Diario.objects")
+    @patch("apps.diarios.models.Contratacao.objects")
+    def test_get_valores_salvos_com_dados(
+        self, mock_contratacao_objects, mock_diario_objects
+    ):
         mock_fornecedor = MagicMock()
         mock_fornecedor.nome = "Fornecedor Teste"
         mock_fornecedor.cnpj = "00.000.000/0001-00"
@@ -38,11 +45,15 @@ class DiarioModelTest(SimpleTestCase):
         mock_contratacao.fornecedor = mock_fornecedor
 
         mock_query = MagicMock()
-        mock_query.values.return_value = [{"valor_mensal": 200.00,
-                                           "valor_anual": 2400.00,
-                                           "vigencia": "2025",
-                                           "fornecedor": mock_fornecedor}]
-        
+        mock_query.values.return_value = [
+            {
+                "valor_mensal": 200.00,
+                "valor_anual": 2400.00,
+                "vigencia": "2025",
+                "fornecedor": mock_fornecedor,
+            }
+        ]
+
         mock_diario = MagicMock()
         mock_diario.date = date(2025, 1, 1)
         mock_diario.url = "https://example.com"
@@ -52,7 +63,9 @@ class DiarioModelTest(SimpleTestCase):
 
         mock_diario_objects.all.return_value = [mock_diario]
 
-        with patch('apps.diarios.models.Contratacao', new=MagicMock()) as FakeContratacao:
+        with patch(
+            "apps.diarios.models.Contratacao", new=MagicMock()
+        ) as FakeContratacao:
             FakeContratacao.__iter__.return_value = iter([mock_contratacao])
             resultados = Diario.get_valores_salvos()
 

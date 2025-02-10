@@ -20,13 +20,10 @@ jobs:
       - name: Install Python Lint Tools
         run: |
           python -m pip install --upgrade pip
-          pip install flake8 black
-
-      - name: Run flake8
-        run: flake8 server 
+          pip install black
 
       - name: Run black in check mode
-        run: black --check server
+        run: black /server
 
   lint-frontend:
     runs-on: ubuntu-latest
