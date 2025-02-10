@@ -36,13 +36,13 @@ O projeto oferece uma série de funcionalidades que tornam o acompanhamento dos 
 
 * **Consulta de Gastos**: Permite que os usuários visualizem os gastos detalhados em diversas áreas da administração pública da cidade, como saúde, educação e infraestrutura.
 * **Pesquisa Avançada**: Oferece filtros para que os usuários possam realizar buscas específicas por período e fornecedores.
-* **Transparência em Tempo Real**: A plataforma mantém os dados atualizados em tempo real, garantindo que as informações sobre os gastos públicos estejam sempre disponíveis e acessíveis.
+* **Transparência diariamente**: A plataforma mantém os dados atualizados diariamente, garantindo que as informações sobre os gastos públicos estejam sempre disponíveis e acessíveis.
 
 ## 🛠️ Ferramentas Utilizadas
 
 - **React e TailwindCSS**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
 - **Python**: Linguagem de programação utilizada para o desenvolvimento do backend e automações.
-- **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
+- **Django_rest**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
 - **Docker**: Plataforma de containerização utilizada para criar, gerenciar e implantar os serviços da aplicação de forma isolada, garantindo portabilidade, escalabilidade e consistência no ambiente de desenvolvimento e produção.
 - **React com Typescript**: Biblioteca JavaScript, com suporte a typescript, utilizada para o desenvolvimento do frontend, oferecendo uma interface dinâmica e responsiva.
 - **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de Maceió, AL, facilitando o acesso a informações sobre gastos públicos municipais.
