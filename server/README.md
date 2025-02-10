@@ -1,64 +1,70 @@
-[![React version](https://img.shields.io/badge/react-18.2.0-blue)](https://reactjs.org/)
-[![tailwind](https://img.shields.io/badge/tailwind-3.4.16-blue)](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.16)
-[![TypeScript version](https://img.shields.io/badge/typescript-3.4.5-blue)](https://www.typescriptlang.org/)
+# 💻 Monitoramento de Gastos Públicos - backend
 
-# 💻 Monitoramento de Gastos Públicos - Frontend
-
-Este repositório contém a parte do frontend do projeto Monitoramento de Gastos Públicos, desenvolvido para a disciplina Métodos de Desenvolvimento de Software na Universidade de Brasília (UnB) durante o segundo semestre de 2024.
+Este repositório contém a parte do backend do projeto Monitoramento de Gastos Públicos, desenvolvido para a disciplina Métodos de Desenvolvimento de Software na Universidade de Brasília (UnB) durante o segundo semestre de 2024.
 
 ## 🗂️ Sumário
 
-- [💻 Monitoramento de Gastos Públicos - Frontend](#-monitoramento-de-gastos-públicos---frontend)
+- [💻 Monitoramento de Gastos Públicos - backend](#-monitoramento-de-gastos-públicos---backend)
   - [🗂️ Sumário](#️-sumário)
-  - [📜 Descrição do Frontend](#-descrição-do-frontend)
+  - [📜 Descrição do backend](#-descrição-do-backend)
   - [🛠️ Ferramentas Utilizadas](#️-ferramentas-utilizadas)
-  - [🚀 Como Executar o Front](#-como-executar-o-front)
+  - [🚀 Como Executar o back](#-como-executar-o-back)
   - [📚 Documentação](#-documentação)
   - [👥 Colaboradores](#-colaboradores)
   - [📍 Licença](#-licença)
 
-## 📜 Descrição do Frontend
+## 📜 Descrição do backend
 
-O **frontend do Monitoramento de Gastos Públicos** fornece uma interface interativa e acessível para exibir os dados do banco de dados de forma clara e eficiente. Ao acessar o site, o usuário pode realizar buscas por fornecedor e aplicar filtros, como valor mensal, data de assinatura e data de publicação. Os resultados filtrados são apresentados com detalhes sobre os gastos.
+O **backend do Monitoramento de Gastos Públicos** é responsável por interagir com a API Querido Diário, extraindo as informações relacionadas aos gastos públicos de Maceió, AL, e processar esses dados.O backend automatiza a coleta e a formatação dos dados, garantindo que o frontend sempre tenha acesso às informações atualizadas para o monitoramento dos gastos.
 
 ## 🛠️ Ferramentas Utilizadas
 
-- **React (v18.2.0)**: Biblioteca JavaScript para a construção da interface do usuário, permitindo a criação de componentes dinâmicos e reativos para uma experiência fluida e interativa.
-- **TailwindCSS (v3.4.16)**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
-- **Typescript (v3.4.5)**: Superset de JavaScript com tipagem estática, utilizado para aumentar a segurança e facilitar a manutenção do código no desenvolvimento frontend.
+- **Python**:  Linguagem de programação utilizada para o desenvolvimento do backend e automações.
+- **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
+- **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de Maceió, AL, facilitando o acesso a informações sobre gastos públicos municipais.
 
-## 🚀 Como Executar o Front
+## 🚀 Como Executar o back
 
-1. Clone o repositório para sua máquina local utilizando o comando:
+1. Execute na pasta raiz do projeto:
 
     ```bash
-    git clone <https://github.com/unb-mds/2024-2-Squad06.git>
+    docker compose up --build -d
     ```
 
-2. Navegue até a pasta client:
+2. Navegue até a pasta server:
    
     ```bash
-    cd client
-    ```
-3. Crie um .env na pasta `client/` desse jeito:
-
-    ```.env
-    REACT_APP_API_BASE_URL=YOUR_REACT_APP_API_BASE_URL
+    cd server
     ```
 
-4. Instale as dependências necessárias utilizando o NPM:
+3. crie um arquivo .env e insira as seguintes linhas de código no arquivo :
+
+    ```
+    - DB_NAME=YOUR_DB_NAME
+    - DB_USER=YOUR_DB_USER
+    - DB_PASSWORD=YOUR_DB_PASSWORD
+    - DB_HOST=YOUR_DB_HOST
+    - FRONTEND_URL=YOUR_FRONTEND_URL
+    ```
+
+4. Crie as migrações do banco de dados::
 
     ```bash
-    npm install
+    python manage.py makemigrations
     ```
 
-5. Inicie o servidor de desenvolvimento:
+5. Aplique as migrações no banco de dados:
 
     ```bash
-    npm start
+    python manage.py migrate
     ```
 
-5. Acesse o servidor no `http://localhost:8000/`.
+
+6. Inicie o servidor de desenvolvimento:
+
+    ```bash
+    python manage.py runserver
+    ```
 
 ## 📚 Documentação
 

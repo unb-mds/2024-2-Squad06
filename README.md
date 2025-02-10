@@ -1,3 +1,15 @@
+![django](https://github.com/unb-mds/2024-2-Squad06/actions/workflows/django.yml/badge.svg)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![GitHub issues](https://img.shields.io/github/issues/unb-mds/2024-2-Squad06)](https://img.shields.io/github/issues/unb-mds/2024-2-Squad06)
+[![GitHub contributors](https://img.shields.io/github/contributors/unb-mds/2024-2-Squad06)](https://img.shields.io/github/contributors/unb-mds/2024-2-Squad06)
+[![GitHub stars](https://img.shields.io/github/stars/unb-mds/2024-2-Squad06)](https://img.shields.io/github/stars/unb-mds/MOSP-G8)
+[![Django Rest Framework version](https://img.shields.io/badge/django%20rest%20framework-3.14.0-green)](https://www.django-rest-framework.org/)
+[![Python version](https://img.shields.io/badge/python-3.12.8-blue)](https://www.python.org/downloads/release/python-3128/)
+[![tailwind](https://img.shields.io/badge/tailwind-3.4.16-blue)](https://github.com/tailwindlabs/tailwindcss/releases/tag/v3.4.16)
+[![React version](https://img.shields.io/badge/react-18.2.0-blue)](https://reactjs.org/)
+[![Docker version](https://img.shields.io/badge/docker-27.4.0-blue)](https://docs.docker.com/get-docker/)
+[![TypeScript version](https://img.shields.io/badge/typescript-3.4.5-blue)](https://www.typescriptlang.org/)
+
 # 📊 Monitoramento de Gastos Públicos
 
 Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de Software na Universidade de Brasília (UnB) durante o segundo semestre de 2024
@@ -16,17 +28,21 @@ Este projeto foi desenvolvido para a disciplina Métodos de Desenvolvimento de S
 
 ## 📜 Descrição do Projeto
 
-_Monitoramento de Gastos Públicos_ é um projeto o qual fornecerá uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas do município de Maceió
+_O Monitoramento de Gastos Públicos_ é um projeto desenvolvido para oferecer uma plataforma acessível e intuitiva, permitindo que cidadãos, estudantes e profissionais visualizem e analisem de forma clara os gastos públicos da cidade de Maceió. Com foco na transparência, o sistema facilita o acompanhamento das finanças públicas, promovendo maior controle e compreensão sobre a gestão dos recursos municipais.
 
 ## ✔️ Funcionalidades
 
-Esta seção será atualizada com uma lista das principais funcionalidades do projeto em breve.
+O projeto oferece uma série de funcionalidades que tornam o acompanhamento dos gastos públicos mais fácil e interativo:
+
+* **Consulta de Gastos**: Permite que os usuários visualizem os gastos detalhados em diversas áreas da administração pública da cidade, como saúde, educação e infraestrutura.
+* **Pesquisa Avançada**: Oferece filtros para que os usuários possam realizar buscas específicas por período e fornecedores.
+* **Transparência diariamente**: A plataforma mantém os dados atualizados diariamente, garantindo que as informações sobre os gastos públicos estejam sempre disponíveis e acessíveis.
 
 ## 🛠️ Ferramentas Utilizadas
 
 - **React e TailwindCSS**: Para a construção da estrutura e estilização das páginas web, garantindo uma interface visual atraente e responsiva.
 - **Python**: Linguagem de programação utilizada para o desenvolvimento do backend e automações.
-- **Django**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
+- **Django_rest**: Framework utilizado para a criação do backend, gerenciamento de banco de dados e APIs REST.
 - **Docker**: Plataforma de containerização utilizada para criar, gerenciar e implantar os serviços da aplicação de forma isolada, garantindo portabilidade, escalabilidade e consistência no ambiente de desenvolvimento e produção.
 - **React com Typescript**: Biblioteca JavaScript, com suporte a typescript, utilizada para o desenvolvimento do frontend, oferecendo uma interface dinâmica e responsiva.
 - **Querido Diário**: Biblioteca utilizada para a extração automatizada de dados dos diários oficiais de Maceió, AL, facilitando o acesso a informações sobre gastos públicos municipais.
@@ -53,9 +69,11 @@ root/
 │   │   ├── index.tsx
 │   │   ├── setupTests.ts
 │   │   └── react-app-env.d.ts
+│   ├── Dockerfile
 │   ├── tailwind.config.js
 │   ├── tsconfig.json
 │   ├── package.json
+│   ├── .env
 │   └── README.md
 ├──  server/
 │   ├── apps/
@@ -78,13 +96,21 @@ root/
 │   │   ├── asgi.py
 │   │   ├── settings.py
 │   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── Dockerfile
 │   │   └── wsgi.py
 │   ├── .env
 │   ├── manage.py
-│   ├── README.md
 │   └── requirements.txt
 ├── .gitignore
-└── README.md
+├── .dockerignore
+├── .prettierrc
+├── CODE_OF_CONDUCT.md
+├── CONTRIBUTING.md
+├── docker-compose.yml
+├── LICENSE
+├── README.md
+└── SECURITY.md
 
 ```
 
@@ -114,11 +140,14 @@ root/
 
 3. Quando terminar o processo acesse o frontend no link `http://localhost:3000/`, se possível espere até o backend poder receber conexões em torno de uns 20 segundos;
 
-4. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/buscar/?query=licitacao&data_inicial=2024-01-01&data_final=2024-01-05`.
+4. Acesse o servidor no `http://localhost:8000/`, teste por exemplo a rota: `http://localhost:8000/diarios/get-diarios/`.
 
 ## 📚 Documentação
 
-A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).
+A documentação completa do projeto pode ser acessada [neste link](https://unb-mds.github.io/2024-2-Squad06/).\
+A documentação sobre o guia de contribuição pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/blob/main/CONTRIBUTING.md).\
+A documentação sobre a licença pode ser acessada [neste link](https://github.com/unb-mds/2024-2-Squad06/blob/main/LICENSE).\
+Link para vercel usado para a documentação de deploy pode ser acessada [neste link](https://vercel.com/docs/deployments/git/vercel-for-github).
 
 ## 🤝 Como Contribuir
 
@@ -166,6 +195,14 @@ Se você deseja colaborar com o projeto, siga as etapas abaixo:
 - Inclua uma descrição detalhada no Pull Request, explicando as mudanças realizadas.
 
 Caso tenha dúvidas, entre em contato com a equipe do projeto por meio das [issues](https://github.com/unb-mds/2024-2-Squad06/issues).
+
+## Projeto 
+
+Imagens de exemplos do projeto, sendo respectivamentes da pagina Home e Pagina Area de busca.
+
+<img src="client/public/assets/home.png"/>
+<br/><br/>
+<img src="client/public/assets/area_pesquisa.png">
 
 ## 👥 Colaboradores
 
