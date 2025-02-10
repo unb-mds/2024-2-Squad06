@@ -22,7 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "format": "prettier --write .",
-    "format-check": "prettier --check ."
+    "format-check": "prettier --check .",
+    "lint": "eslint ."
   },
   "eslintConfig": {
     "extends": [
@@ -46,6 +47,7 @@
     "@types/react": "^19.0.1",
     "@types/react-dom": "^19.0.1",
     "@types/react-router-dom": "^5.3.3",
+    "eslint": "^8.57.1",
     "prettier": "^3.4.2",
     "tailwindcss": "^3.4.16",
     "typescript": "^3.4.5"

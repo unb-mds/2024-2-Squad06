@@ -1,4 +1,4 @@
-name: Django CI
+name: Testes Backend
 
 on:
   push:
@@ -58,3 +58,9 @@ jobs:
       working-directory: server
       run: |
         python manage.py test
+
+    - name: Run Coverage
+      working-directory: server
+      run: |
+        coverage run manage.py test
+        coverage report -m

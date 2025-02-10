@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from apps.diarios.services import Controladores  
+from apps.diarios.services import Controladores
+
 
 class Command(BaseCommand):
     def __init__(self, *args, **kwargs):
@@ -10,6 +11,6 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         try:
             self.controlador.carregar_dados_diarios()
-            print('Dados carregados com sucesso')
+            print("Dados carregados com sucesso")
         except Exception as e:
-            print(f'Erro ao carregar os dados: {str(e)}')
+            print(f"Erro ao carregar os dados: {str(e)}")
