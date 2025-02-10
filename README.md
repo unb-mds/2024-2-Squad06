@@ -34,9 +34,9 @@ _O Monitoramento de Gastos Públicos_ é um projeto desenvolvido para oferecer u
 
 O projeto oferece uma série de funcionalidades que tornam o acompanhamento dos gastos públicos mais fácil e interativo:
 
-* **Consulta de Gastos**: Permite que os usuários visualizem os gastos detalhados em diversas áreas da administração pública da cidade, como saúde, educação e infraestrutura.
-* **Pesquisa Avançada**: Oferece filtros para que os usuários possam realizar buscas específicas por período e fornecedores.
-* **Transparência diariamente**: A plataforma mantém os dados atualizados diariamente, garantindo que as informações sobre os gastos públicos estejam sempre disponíveis e acessíveis.
+- **Consulta de Gastos**: Permite que os usuários visualizem os gastos detalhados em diversas áreas da administração pública da cidade, como saúde, educação e infraestrutura.
+- **Pesquisa Avançada**: Oferece filtros para que os usuários possam realizar buscas específicas por período e fornecedores.
+- **Transparência diariamente**: A plataforma mantém os dados atualizados diariamente, garantindo que as informações sobre os gastos públicos estejam sempre disponíveis e acessíveis.
 
 ## 🛠️ Ferramentas Utilizadas
 
@@ -124,6 +124,7 @@ root/
     - DB_PASSWORD=YOUR_DB_PASSWORD
     - DB_HOST=YOUR_DB_HOST
     - FRONTEND_URL=YOUR_FRONTEND_URL
+    - ALLOWED_HOSTS=LINK_DO_DEPLOY,localhost,127.0.0.1
    ```
 
 2. Crie um .env na pasta `client/` desse jeito:
@@ -196,7 +197,7 @@ Se você deseja colaborar com o projeto, siga as etapas abaixo:
 
 Caso tenha dúvidas, entre em contato com a equipe do projeto por meio das [issues](https://github.com/unb-mds/2024-2-Squad06/issues).
 
-## Projeto 
+## Projeto
 
 Imagens de exemplos do projeto, sendo respectivamentes da pagina Home e Pagina Area de busca.
 
