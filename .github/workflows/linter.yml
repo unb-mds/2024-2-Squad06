@@ -24,7 +24,8 @@ jobs:
           pip install -r requirements.txt
 
       - name: Run black in check mode
-        run: black /server
+        working-directory: server
+        run: black .
 
   lint-frontend:
     runs-on: ubuntu-latest
