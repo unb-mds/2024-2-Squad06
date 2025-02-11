@@ -23,9 +23,10 @@ hide:
 
 # Monitoramento de Gastos Públicos
 
-## Sobre
+## Sobre o Projeto
 
-O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, que visa fornecer uma interface acessível para que cidadãos, estudantes e profissionais possam visualizar e compreender padrões de gastos, fornecedores recorrentes e possíveis irregularidades nas contas do município de Maceió.
+O **Monitoramento de Gastos Públicos** é um projeto da disciplina de Métodos de Desenvolvimento de Software, que tem como objetivo oferecer uma interface acessível e intuitiva para visualizar as contratações publicadas em cada diário oficial. A plataforma permitirá a consulta detalhada de cada contratação, exibindo informações como o nome do fornecedor, o valor mensal ou anual da despesa (caso esteja disponível) e outros detalhes relevantes. Além disso, a interface contará com uma seção específica para destacar os 10 fornecedores mais recorrentes e busca por data da publicação, ou então a data da assinatura do contrato, possibilitando a identificação de padrões e contribuindo para a transparência na gestão dos recursos públicos.
+
 
 ## Equipe
 
