@@ -34,6 +34,7 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Visão do Produto: visao-produto.md
+  - Nosso Produto: NossoProduto/nosso-produto.md
   - Materiais de Estudo: materiais-estudo.md
   - Sprints:
     - Sprint 0:
