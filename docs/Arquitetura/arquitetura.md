@@ -46,7 +46,7 @@ O fluxo de trabalho do projeto pode ser representado da seguinte maneira:
 
 | Tecnologia    | Versão   |
 |---------------|----------|
-| Django        | 4.1.13   |
+| Django  REST      | 4.1.13   |
 | Docker        | 27.4.0   |
 | Python        | 3.12.8   |
 | React         | 18.2.0   |
